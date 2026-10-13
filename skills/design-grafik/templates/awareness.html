@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<!-- AWARENESS SIRI "TANDA" — gaya poster awareness Minda Optima (kartun, latar kuning, belon cakap).
+     Saiz asal 1080x1080 (ig-square). Setiap <section class="slide"> = satu gambar.
+     Render:  python render.py awareness.html tanda.png --size ig-square --slides 6
+     Bilangan --slides MESTI sama dengan bilangan <section class="slide">.
+
+     ILUSTRASI: setiap slide guna gambar latar penuh (ilustrasi-0.png, ilustrasi-1.png, ...).
+     Gambar ilustrasi mesti TANPA TEKS, dengan ruang dinding kosong di 45% atas (lihat references/gaya-awareness.md).
+     Tiada gambar? Latar warna tema dipaparkan dengan kotak "LETAK ILUSTRASI".
+
+     TEMA WARNA: tukar data-tema pada <body> → kuning | biru | hijau | pink | oren | ungu
+     Atau letak data-tema pada satu <section> sahaja untuk slide tertentu. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --u: calc(100vw / 1080);
+    --slide-h: calc(var(--u)*1080);
+    --head: "Fredoka", "Baloo 2", "Poppins", Arial, sans-serif;
+    --body: "Nunito", "Fredoka", Arial, sans-serif;
+    --ink: #0B1F4D;        /* biru gelap teks */
+    --hot: #CF1F1F;        /* merah tajuk */
+    --pill: #0A3D8F;       /* label "Tanda N" */
+    --badge: #0B1A3D;      /* lencana bergerigi */
+    --cream: #FFF9F0;      /* belon cakap */
+    --outline: #14161F;
+  }
+  [data-tema="kuning"] { --bg: #FEC412; --bg-hi: #FFD95A; }
+  [data-tema="biru"]   { --bg: #7CC4F2; --bg-hi: #A9DBFA; }
+  [data-tema="hijau"]  { --bg: #8FD07A; --bg-hi: #B5E4A5; }
+  [data-tema="pink"]   { --bg: #F7A8C4; --bg-hi: #FBC9DB; }
+  [data-tema="oren"]   { --bg: #FFA552; --bg-hi: #FFC48C; }
+  [data-tema="ungu"]   { --bg: #B9A3F0; --bg-hi: #D3C6F7; }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { width: 100vw; font-family: var(--body); color: var(--ink); }
+  .slide { height: var(--slide-h); position: relative; overflow: hidden; background: var(--bg); }
+  /* corak titik halftone di penjuru, macam poster asal */
+  .slide::before { content: ""; position: absolute; inset: 0; pointer-events: none;
+    background-image: radial-gradient(var(--bg-hi) calc(var(--u)*5), transparent calc(var(--u)*5.5));
+    background-size: calc(var(--u)*26) calc(var(--u)*26);
+    -webkit-mask-image: radial-gradient(circle at 0 0, #000 0, transparent 55%);
+            mask-image: radial-gradient(circle at 0 0, #000 0, transparent 55%); }
+
+  .ilu { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center bottom; }
+  .ph { position: absolute; left: 12%; right: 12%; bottom: 6%; height: 44%; border: calc(var(--u)*5) dashed rgba(11,31,77,.35); border-radius: calc(var(--u)*40);
+        display: flex; align-items: center; justify-content: center; font: 700 calc(var(--u)*34) var(--head); color: rgba(11,31,77,.5); }
+
+  /* belon cakap */
+  .bubble { position: absolute; left: 50%; transform: translateX(-50%); top: calc(var(--u)*50); width: calc(var(--u)*920);
+            background: var(--cream); border: calc(var(--u)*6) solid var(--outline); border-radius: calc(var(--u)*130);
+            padding: calc(var(--u)*40) calc(var(--u)*56) calc(var(--u)*44); text-align: center; z-index: 2; }
+  .bubble .tail { position: absolute; bottom: calc(var(--u)*-58); left: calc(var(--u)*300); width: calc(var(--u)*80); height: calc(var(--u)*64); overflow: visible; }
+  .pill { display: inline-block; background: var(--pill); color: #fff; font: 600 calc(var(--u)*54) var(--head); padding: calc(var(--u)*4) calc(var(--u)*40) calc(var(--u)*8); border-radius: 999px; line-height: 1.1; }
+  h1 { font-family: var(--head); font-weight: 700; line-height: .98; letter-spacing: -0.005em; margin-top: calc(var(--u)*14); }
+  h1 .hot { color: var(--hot); display: block; font-size: calc(var(--u)*112); }
+  h1 .ink { color: var(--ink); display: block; font-size: calc(var(--u)*94); }
+  .sub { margin-top: calc(var(--u)*20); font: 700 calc(var(--u)*38) var(--body); line-height: 1.3; color: var(--ink); }
+
+  /* lencana bergerigi (bentuk dibina oleh skrip di bawah) */
+  .badge { position: absolute; width: calc(var(--u)*300); height: calc(var(--u)*300); z-index: 3; display: flex; align-items: center; justify-content: center; text-align: center; }
+  .badge svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .badge > span { position: relative; color: #fff; font: 800 calc(var(--u)*31) var(--body); line-height: 1.2; padding: 0 calc(var(--u)*58); }
+  .badge .hl { color: #FFD43B; }
+  .badge .heart { display: block; color: #FFD43B; font-size: calc(var(--u)*30); margin-top: calc(var(--u)*8); }
+  .badge.kanan { right: calc(var(--u)*26); top: calc(var(--u)*540); }
+  .badge.kiri { left: calc(var(--u)*26); top: calc(var(--u)*520); }
+
+  /* lencana bulat putih (cover) */
+  .circle { position: absolute; right: calc(var(--u)*60); top: calc(var(--u)*560); width: calc(var(--u)*250); height: calc(var(--u)*250); border-radius: 50%; background: #fff;
+            border: calc(var(--u)*5) dashed var(--hot); outline: calc(var(--u)*10) solid #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 3;
+            font: 800 calc(var(--u)*38) var(--body); color: var(--hot); line-height: 1.05; text-align: center; }
+  .circle b { font: 700 calc(var(--u)*110) var(--head); line-height: .9; }
+  .circle small { color: var(--ink); font-size: calc(var(--u)*36); }
+
+  /* cover: belon lebih besar + label kuning */
+  .cover .bubble { width: calc(var(--u)*980); top: calc(var(--u)*40); border-radius: calc(var(--u)*170); padding: calc(var(--u)*44) calc(var(--u)*40) calc(var(--u)*40); }
+  .cover h1 .ink { font-size: calc(var(--u)*84); }
+  .cover h1 .hot { font-size: calc(var(--u)*100); }
+  .tag { display: inline-block; margin-top: calc(var(--u)*22); background: #FFD43B; border: calc(var(--u)*4) dashed #C79A00; color: var(--ink);
+         font: 600 calc(var(--u)*44) var(--head); padding: calc(var(--u)*6) calc(var(--u)*36) calc(var(--u)*10); border-radius: 999px; }
+
+  /* slide penutup / CTA */
+  .cta .bubble { top: calc(var(--u)*70); }
+  .cta h1 .ink { font-size: calc(var(--u)*76); }
+  .cta h1 .hot { font-size: calc(var(--u)*96); }
+  .cta .btn { display: inline-block; margin-top: calc(var(--u)*26); background: var(--hot); color: #fff; font: 600 calc(var(--u)*46) var(--head); padding: calc(var(--u)*12) calc(var(--u)*44) calc(var(--u)*16); border-radius: 999px; }
+  .logo { position: absolute; left: calc(var(--u)*40); bottom: calc(var(--u)*34); height: calc(var(--u)*70); z-index: 4; }
+
+  /* hiasan */
+  .deco { position: absolute; z-index: 1; overflow: visible; }
+  .isi { outline: calc(var(--u)*4) dashed #E11D48; outline-offset: calc(var(--u)*3); }
+</style>
+</head>
+<body data-tema="kuning">
+
+<!-- ===== SLIDE 0: COVER ===== -->
+<section class="slide cover">
+  <img class="ilu" src="ilustrasi-0.png" alt="" onerror="this.outerHTML='<div class=ph>LETAK ILUSTRASI</div>'">
+  <svg class="deco" style="left:calc(var(--u)*24);top:calc(var(--u)*14);width:calc(var(--u)*80)" viewBox="0 0 90 90"><g stroke="#0B1F4D" stroke-width="9" stroke-linecap="round"><path d="M10 70 L40 55"/><path d="M30 30 L52 48"/><path d="M62 8 L66 40"/></g></svg>
+  <div class="bubble">
+    <h1><span class="ink">Tanda Anak</span><span class="hot">Belum Bersedia</span><span class="ink">Masuk Darjah 1</span></h1>
+    <div class="tag">Dari Sudut Membaca</div>
+    <svg class="tail" viewBox="0 0 80 64"><path d="M4 0 L40 60 L60 0" fill="var(--cream)" stroke="var(--outline)" stroke-width="6" stroke-linejoin="round"/><rect x="0" y="-8" width="70" height="10" fill="var(--cream)"/></svg>
+  </div>
+  <div class="badge kiri" data-scallop><span>Ibu bapa anak <span class="hl">4–6 tahun</span><span class="heart">♥</span></span></div>
+  <div class="circle"><b>5</b>tanda<small>penting</small></div>
+  <img class="logo" src="logo.png" alt="" onerror="this.remove()">
+</section>
+
+<!-- ===== SLIDE 1..N: TANDA ===== -->
+<section class="slide">
+  <img class="ilu" src="ilustrasi-1.png" alt="" onerror="this.outerHTML='<div class=ph>LETAK ILUSTRASI</div>'">
+  <svg class="deco" style="left:calc(var(--u)*24);top:calc(var(--u)*14);width:calc(var(--u)*80)" viewBox="0 0 90 90"><g stroke="#0B1F4D" stroke-width="9" stroke-linecap="round"><path d="M10 70 L40 55"/><path d="M30 30 L52 48"/><path d="M62 8 L66 40"/></g></svg>
+  <div class="bubble">
+    <span class="pill">Tanda 1</span>
+    <h1><span class="hot">Masih keliru</span><span class="ink">huruf</span></h1>
+    <p class="sub">Contoh: <b style="color:#1D4ED8">b</b>, <b style="color:var(--hot)">d</b>, <b style="color:#16A34A">p</b> selalu tertukar.</p>
+    <svg class="tail" viewBox="0 0 80 64"><path d="M4 0 L40 60 L60 0" fill="var(--cream)" stroke="var(--outline)" stroke-width="6" stroke-linejoin="round"/><rect x="0" y="-8" width="70" height="10" fill="var(--cream)"/></svg>
+  </div>
+  <div class="badge kanan" data-scallop><span>Asas huruf belum kuat.<span class="heart">♥</span></span></div>
+  <img class="logo" src="logo.png" alt="" onerror="this.remove()">
+</section>
+
+<section class="slide">
+  <img class="ilu" src="ilustrasi-2.png" alt="" onerror="this.outerHTML='<div class=ph>LETAK ILUSTRASI</div>'">
+  <div class="bubble">
+    <span class="pill">Tanda 2</span>
+    <h1><span class="hot">Sukar</span><span class="ink">bunyikan huruf</span></h1>
+    <p class="sub">Kenal huruf, tapi susah sebut bunyi dan gabung.</p>
+    <svg class="tail" viewBox="0 0 80 64"><path d="M4 0 L40 60 L60 0" fill="var(--cream)" stroke="var(--outline)" stroke-width="6" stroke-linejoin="round"/><rect x="0" y="-8" width="70" height="10" fill="var(--cream)"/></svg>
+  </div>
+  <div class="badge kanan" data-scallop><span>Perlu banyak bimbingan.<span class="heart">♥</span></span></div>
+  <img class="logo" src="logo.png" alt="" onerror="this.remove()">
+</section>
+
+<!-- Contoh tema berbeza untuk satu slide sahaja: data-tema="biru" -->
+<section class="slide" data-tema="biru">
+  <img class="ilu" src="ilustrasi-3.png" alt="" onerror="this.outerHTML='<div class=ph>LETAK ILUSTRASI</div>'">
+  <div class="bubble">
+    <span class="pill">Tanda 3</span>
+    <h1><span class="hot">Cepat bosan</span><span class="ink">bila membaca</span></h1>
+    <p class="sub">Nampak buku, terus mengelak atau minta berhenti.</p>
+    <svg class="tail" viewBox="0 0 80 64"><path d="M4 0 L40 60 L60 0" fill="var(--cream)" stroke="var(--outline)" stroke-width="6" stroke-linejoin="round"/><rect x="0" y="-8" width="70" height="10" fill="var(--cream)"/></svg>
+  </div>
+  <div class="badge kanan" data-scallop><span>Minat membaca belum terbina.<span class="heart">♥</span></span></div>
+  <img class="logo" src="logo.png" alt="" onerror="this.remove()">
+</section>
+
+<section class="slide">
+  <img class="ilu" src="ilustrasi-4.png" alt="" onerror="this.outerHTML='<div class=ph>LETAK ILUSTRASI</div>'">
+  <div class="bubble">
+    <span class="pill">Tanda 4</span>
+    <h1><span class="hot">Belum yakin</span><span class="ink">membaca</span></h1>
+    <p class="sub">Cepat diam, malu atau takut bila diminta baca.</p>
+    <svg class="tail" viewBox="0 0 80 64"><path d="M4 0 L40 60 L60 0" fill="var(--cream)" stroke="var(--outline)" stroke-width="6" stroke-linejoin="round"/><rect x="0" y="-8" width="70" height="10" fill="var(--cream)"/></svg>
+  </div>
+  <div class="badge kanan" data-scallop><span>Keyakinan masih rendah.<span class="heart">♥</span></span></div>
+  <img class="logo" src="logo.png" alt="" onerror="this.remove()">
+</section>
+
+<!-- ===== SLIDE PENUTUP / CTA (disyorkan untuk siri awareness) ===== -->
+<section class="slide cta">
+  <img class="ilu" src="ilustrasi-cta.png" alt="" onerror="this.outerHTML='<div class=ph>LETAK ILUSTRASI</div>'">
+  <div class="bubble">
+    <h1><span class="ink">Nampak <span style="white-space:nowrap">tanda-tanda ni?</span></span><span class="hot">Jangan risau.</span></h1>
+    <p class="sub">Setiap anak belajar ikut rentak sendiri. Kami boleh bantu nilai tahap bacaan anak.</p>
+    <span class="btn">WhatsApp <span class="isi">[ISI]</span></span>
+    <svg class="tail" viewBox="0 0 80 64"><path d="M4 0 L40 60 L60 0" fill="var(--cream)" stroke="var(--outline)" stroke-width="6" stroke-linejoin="round"/><rect x="0" y="-8" width="70" height="10" fill="var(--cream)"/></svg>
+  </div>
+  <img class="logo" src="logo.png" alt="" onerror="this.remove()">
+</section>
+
+<script>
+  // Lukis lencana bergerigi (scallop) dengan garis putus-putus di dalam.
+  document.querySelectorAll("[data-scallop]").forEach(function (el) {
+    var n = 14, R = 50, r = 5.2, cx = 50, cy = 50, d = "";
+    for (var i = 0; i <= n; i++) {
+      var a = (i / n) * Math.PI * 2;
+      var x = cx + (R - r) * Math.cos(a), y = cy + (R - r) * Math.sin(a);
+      if (i === 0) d += "M" + x + " " + y;
+      else d += " A" + r * 1.55 + " " + r * 1.55 + " 0 0 1 " + x + " " + y;
+    }
+    el.insertAdjacentHTML("afterbegin",
+      '<svg viewBox="-2 -2 104 104"><path d="' + d + 'Z" fill="var(--badge)" stroke="#fff" stroke-width="2"/>' +
+      '<circle cx="50" cy="50" r="38" fill="none" stroke="#FFD43B" stroke-width="1.2" stroke-dasharray="3 2.4"/></svg>');
+  });
+</script>
+</body>
+</html>

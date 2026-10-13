@@ -18,11 +18,13 @@ Pengguna: team Marketing (Aina — grafik & video, Asyikin — content, Syaikhu 
 | `references/prinsip-design.md` | Design dari kosong, ubah besar, atau **semak design pengguna** |
 | `references/notis.md` | Notis, pemberitahuan, minggu ke-5, cuti, yuran |
 | `references/perayaan.md` | Poster perayaan — tema warna & ucapan yang betul |
+| `references/gaya-awareness.md` | **Poster awareness / edukasi / siri "Tanda"** — gaya kartun latar kuning yang team guna sekarang, termasuk prompt ilustrasi |
 | `templates/poster-iklan.html` | Iklan, promosi, program cuti sekolah, pendaftaran |
 | `templates/poster-perayaan.html` | Ucapan perayaan |
 | `templates/notis.html` | Notis / pemberitahuan (IG, WhatsApp, A4 cetak) |
 | `templates/pakej.html` | Pakej / harga yuran |
-| `templates/carousel.html` | Carousel beberapa slide (tips, edukasi) |
+| `templates/awareness.html` | **Gaya utama untuk awareness/edukasi**: ilustrasi kartun + belon cakap + "Tanda N" + lencana, 6 tema warna |
+| `templates/carousel.html` | Carousel gaya bersih/korporat (bila pengguna nak gaya tanpa ilustrasi) |
 | `scripts/render.py` | HTML → PNG/JPG/PDF |
 | `scripts/takwim.py` | Jana takwim bulanan/tahunan + kira minggu ke-5 |
 | `scripts/brand_colors.py` | Ambil warna dari logo, semak kontras, buat logo putih |
@@ -44,6 +46,8 @@ cp /path/logo.png logo.png                              # gambar mesti dalam fol
 ```
 
 ### 3. Tulis / ubah HTML
+- Poster awareness / tips / edukasi → **ikut `gaya-awareness.md`**, sebab itu gaya sebenar team.
+- Pengguna upload **poster contoh** dan minta "buat macam ni": tiru susunan, warna, gaya font dan hiasan. Masukkan kandungan Minda Optima. Jangan salin bulat-bulat design syarikat lain (logo, ilustrasi, ayat).
 - Tukar teks, warna `:root` (ikut `brand.md`), dan susun atur ikut keperluan. Template ialah titik mula, bukan had. Ubah layout dengan bebas kalau kandungan memerlukan.
 - Semua ukuran guna `calc(var(--u)*N)` (N = piksel atas canvas lebar 1080). Ikut cara ni supaya design kekal betul dalam semua saiz.
 - Gambar guna laluan relatif (`src="foto.jpg"`).

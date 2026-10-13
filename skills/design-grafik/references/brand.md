@@ -15,6 +15,8 @@
 
 Template guna warna sementara (biru `#1D4ED8` + kuning `#FFC83D`) sehingga warna sebenar disahkan.
 
+**Warna yang team dah guna dalam poster awareness** (diambil dari poster sebenar, Okt 2026): kuning `#FEC412`, biru gelap `#0B1F4D`, biru label `#0A3D8F`, merah tajuk `#CF1F1F`, krim `#FFF9F0`. Untuk poster awareness, guna set ni (lihat `gaya-awareness.md`).
+
 ## Font
 
 | Peranan | Font | Nota |
