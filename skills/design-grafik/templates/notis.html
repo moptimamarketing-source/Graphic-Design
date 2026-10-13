@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<!-- Tip: bungkus frasa yang tak boleh dipecah ("Minggu Ke-5", tarikh) dengan white-space:nowrap.
+     NOTIS / PEMBERITAHUAN — sesuai untuk ig-post (1080x1350), wa (1080x1080), a4 (PDF cetak).
+     Jenis: notis cuti, kelas ganti, minggu ke-5, yuran, perubahan jadual, aktiviti.
+     Tukar --tone untuk jenis notis: biru = info, oren = perubahan, merah = penting/segera. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  @page { size: A4; margin: 0; }
+  :root {
+    --u: calc(100vw / 1080);
+    --brand: #1D4ED8;
+    --brand-dark: #1E3A8A;
+    --tone: #F97316;          /* warna jenis notis */
+    --tone-soft: #FFF3E8;
+    --ink: #0F172A;
+    --muted: #475569;
+    --line: #E2E8F0;
+    --paper: #FFFFFF;
+    --font: "Poppins", "Inter", "Segoe UI", Arial, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 100vw; height: 100vh; overflow: hidden; }
+  body { font-family: var(--font); color: var(--ink); background: var(--paper); display: flex; flex-direction: column; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .isi { outline: calc(var(--u)*3) dashed #E11D48; outline-offset: calc(var(--u)*3); }
+
+  header { background: var(--brand-dark); color: #fff; padding: calc(var(--u)*56) calc(var(--u)*72) calc(var(--u)*48); position: relative; overflow: hidden; }
+  header::after { content: ""; position: absolute; right: calc(var(--u)*-120); top: calc(var(--u)*-120); width: calc(var(--u)*380); height: calc(var(--u)*380); border-radius: 50%; background: rgba(255,255,255,.07); }
+  .hrow { display: flex; justify-content: space-between; align-items: center; }
+  .logo { height: calc(var(--u)*64); }
+  .wordmark { font-weight: 800; font-size: calc(var(--u)*30); letter-spacing: .04em; }
+  .tag { background: var(--tone); color: #fff; font-weight: 700; font-size: calc(var(--u)*24); letter-spacing: .18em; padding: calc(var(--u)*10) calc(var(--u)*24); border-radius: 999px; }
+  h1 { margin-top: calc(var(--u)*40); font-size: calc(var(--u)*76); line-height: 1.08; font-weight: 800; letter-spacing: -0.01em; }
+  .date { margin-top: calc(var(--u)*14); font-size: calc(var(--u)*28); opacity: .85; }
+
+  main { flex: 1; padding: calc(var(--u)*56) calc(var(--u)*72) 0; display: flex; flex-direction: column; gap: calc(var(--u)*34); }
+  .greet { font-size: calc(var(--u)*30); font-weight: 600; }
+  p { font-size: calc(var(--u)*30); line-height: 1.55; color: var(--muted); }
+
+  .details { border: calc(var(--u)*2) solid var(--line); border-radius: calc(var(--u)*24); overflow: hidden; }
+  .details div { display: flex; padding: calc(var(--u)*22) calc(var(--u)*30); font-size: calc(var(--u)*29); }
+  .details div + div { border-top: calc(var(--u)*2) solid var(--line); }
+  .details b { flex: 0 0 calc(var(--u)*230); color: var(--muted); font-weight: 500; }
+  .details span { font-weight: 700; }
+
+  .note { background: var(--tone-soft); border-left: calc(var(--u)*10) solid var(--tone); border-radius: calc(var(--u)*16); padding: calc(var(--u)*24) calc(var(--u)*30); font-size: calc(var(--u)*28); line-height: 1.5; }
+  .note b { color: var(--tone); }
+
+  footer { margin-top: auto; padding: calc(var(--u)*32) calc(var(--u)*72) calc(var(--u)*44); display: flex; justify-content: space-between; align-items: center; font-size: calc(var(--u)*24); color: var(--muted); border-top: calc(var(--u)*2) solid var(--line); }
+  footer strong { color: var(--brand-dark); }
+</style>
+</head>
+<body>
+  <header>
+    <div class="hrow">
+      <img class="logo" src="logo-putih.png" alt="Minda Optima" onerror="this.outerHTML='<span class=wordmark>MINDA OPTIMA</span>'">
+      <span class="tag">NOTIS</span>
+    </div>
+    <h1>Kelas Ganti <span style="white-space:nowrap">Minggu Ke-5</span></h1>
+    <div class="date">Dikeluarkan: <span class="isi">[ISI tarikh]</span></div>
+  </header>
+
+  <main>
+    <div class="greet">Assalamualaikum dan salam sejahtera, ibu bapa yang dihormati.</div>
+    <p>Dimaklumkan bahawa bulan ini mempunyai minggu ke-5. Butiran kelas untuk minggu tersebut adalah seperti berikut:</p>
+
+    <div class="details">
+      <div><b>Tarikh</b><span class="isi">[ISI]</span></div>
+      <div><b>Hari</b><span class="isi">[ISI]</span></div>
+      <div><b>Status kelas</b><span class="isi">[ISI: cuti / kelas ganti / aktiviti]</span></div>
+      <div><b>Lokasi</b><span>Semua centre</span></div>
+    </div>
+
+    <div class="note"><b>Perhatian:</b> <span class="isi">[ISI arahan untuk ibu bapa, contoh: sila sahkan kehadiran dengan admin centre]</span></div>
+  </main>
+
+  <footer>
+    <span>Pertanyaan: <strong class="isi">[ISI WhatsApp admin]</strong></span>
+    <span>Terima kasih atas kerjasama.</span>
+  </footer>
+</body>
+</html>

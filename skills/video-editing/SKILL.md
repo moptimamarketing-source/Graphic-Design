@@ -138,6 +138,8 @@ Minda Optima jual kepercayaan ibu bapa, jadi video kena jujur. Video iklan lebih
 
 ## Bila skill ni tak sesuai
 
+- **Tulis skrip / caption / copy iklan** untuk video: guna skill `content-iklan` (ada panduan polisi iklan Meta/TikTok).
+
 - **Video AI dari kosong** (tiada footage): guna tool generate video seperti Higgsfield kalau tersedia, kemudian edit hasilnya di sini.
 - **Fail sangat besar** (>~500 MB atau >10 minit 4K): proses mungkin lambat. Cadang potong bahagian yang perlu dulu, atau jalankan di Claude Code dalam PC sendiri.
 - **Efek grafik kompleks** (motion graphics, animasi teks bergerak, colour grading teliti): terus terang cakap ini lebih sesuai buat dalam CapCut/Premiere. Skill ni boleh sediakan bahan asas (potong, subtitle .srt, audio bersih) untuk diimport ke sana.

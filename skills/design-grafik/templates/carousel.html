@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<!-- CAROUSEL — beberapa slide bertindan menegak dalam satu fail. Setiap .slide = satu gambar.
+     Render:  python render.py carousel.html slide.png --size ig-post --slides 5
+     → slide-1.png ... slide-5.png. Bilangan --slides MESTI sama dengan bilangan <section class="slide">.
+     Struktur disyorkan: 1 cover (hook) → 3-5 isi → 1 CTA. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --u: calc(100vw / 1080);
+    --slide-h: calc(var(--u)*1350);   /* ig-post. Untuk ig-square tukar ke 1080 */
+    --brand: #1D4ED8;
+    --brand-dark: #1E3A8A;
+    --accent: #FFC83D;
+    --ink: #0F172A;
+    --muted: #475569;
+    --soft: #EEF2FF;
+    --paper: #FFFFFF;
+    --font: "Poppins", "Inter", "Segoe UI", Arial, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font); color: var(--ink); width: 100vw; }
+  .slide { height: var(--slide-h); position: relative; overflow: hidden; padding: calc(var(--u)*90) calc(var(--u)*84); display: flex; flex-direction: column; background: var(--paper); }
+  .slide.cover, .slide.cta { background: var(--brand-dark); color: #fff; }
+  .num { position: absolute; top: calc(var(--u)*60); right: calc(var(--u)*72); font-weight: 700; font-size: calc(var(--u)*24); color: var(--muted); }
+  .cover .num, .cta .num { color: rgba(255,255,255,.6); }
+  .brand { position: absolute; bottom: calc(var(--u)*56); left: calc(var(--u)*84); font-weight: 800; font-size: calc(var(--u)*22); letter-spacing: .08em; color: var(--brand); }
+  .cover .brand, .cta .brand { color: rgba(255,255,255,.8); }
+  .swipe { position: absolute; bottom: calc(var(--u)*52); right: calc(var(--u)*72); font-weight: 700; font-size: calc(var(--u)*24); color: var(--accent); }
+
+  .cover h1 { margin-top: auto; font-size: calc(var(--u)*110); line-height: 1.02; font-weight: 800; letter-spacing: -0.02em; }
+  .cover h1 em { font-style: normal; color: var(--accent); }
+  .cover p { margin: calc(var(--u)*30) 0 auto; font-size: calc(var(--u)*34); opacity: .85; max-width: calc(var(--u)*780); line-height: 1.4; }
+
+  .big { font-size: calc(var(--u)*220); font-weight: 800; color: var(--soft); line-height: .9; -webkit-text-stroke: calc(var(--u)*3) var(--brand); }
+  .slide h2 { margin-top: calc(var(--u)*30); font-size: calc(var(--u)*72); line-height: 1.08; font-weight: 800; letter-spacing: -0.01em; }
+  .slide .body { margin-top: calc(var(--u)*30); font-size: calc(var(--u)*34); line-height: 1.55; color: var(--muted); max-width: calc(var(--u)*860); }
+  .tip { margin-top: auto; margin-bottom: calc(var(--u)*80); background: var(--soft); border-radius: calc(var(--u)*24); padding: calc(var(--u)*30) calc(var(--u)*34); font-size: calc(var(--u)*29); line-height: 1.45; }
+  .tip b { color: var(--brand); }
+
+  .cta h2 { margin-top: auto; font-size: calc(var(--u)*86); }
+  .cta .body { color: rgba(255,255,255,.85); }
+  .cta .btn { margin: calc(var(--u)*50) 0 auto; align-self: flex-start; background: var(--accent); color: var(--ink); font-weight: 800; font-size: calc(var(--u)*36); padding: calc(var(--u)*26) calc(var(--u)*40); border-radius: calc(var(--u)*20); }
+</style>
+</head>
+<body>
+
+<section class="slide cover">
+  <span class="num">1/5</span>
+  <h1>3 tanda anak perlukan <em>bantuan membaca</em></h1>
+  <p>Ramai ibu bapa terlepas pandang tanda-tanda ini.</p>
+  <span class="brand">MINDA OPTIMA</span><span class="swipe">Leret →</span>
+</section>
+
+<section class="slide">
+  <span class="num">2/5</span>
+  <div class="big">01</div>
+  <h2>Kenal huruf, tapi tak boleh gabung bunyi</h2>
+  <p class="body">Anak boleh sebut A, B, C satu per satu, tapi tersekat bila perlu baca perkataan.</p>
+  <div class="tip"><b>Cuba di rumah:</b> sebut bunyi suku kata bersama-sama, bukan nama huruf.</div>
+  <span class="brand">MINDA OPTIMA</span>
+</section>
+
+<section class="slide">
+  <span class="num">3/5</span>
+  <div class="big">02</div>
+  <h2>Cepat bosan bila buka buku</h2>
+  <p class="body">Selalunya bukan malas. Anak elak benda yang dia rasa susah.</p>
+  <div class="tip"><b>Cuba di rumah:</b> sesi pendek 10 minit, berhenti sebelum anak penat.</div>
+  <span class="brand">MINDA OPTIMA</span>
+</section>
+
+<section class="slide">
+  <span class="num">4/5</span>
+  <div class="big">03</div>
+  <h2>Baca, tapi tak faham apa yang dibaca</h2>
+  <p class="body">Tenaga anak habis untuk menyebut setiap perkataan, sampai tak sempat faham ayat.</p>
+  <div class="tip"><b>Cuba di rumah:</b> lepas satu ayat, tanya "tadi cerita pasal apa?"</div>
+  <span class="brand">MINDA OPTIMA</span>
+</section>
+
+<section class="slide cta">
+  <span class="num">5/5</span>
+  <h2>Nak tahu tahap bacaan anak?</h2>
+  <p class="body">Sesi penilaian bersama guru kami, sebelum buat apa-apa keputusan.</p>
+  <div class="btn">WhatsApp <span style="outline:3px dashed #F87171">[ISI]</span></div>
+  <span class="brand">MINDA OPTIMA</span>
+</section>
+
+</body>
+</html>

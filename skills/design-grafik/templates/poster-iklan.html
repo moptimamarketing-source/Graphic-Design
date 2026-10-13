@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<!-- POSTER IKLAN — saiz asal 1080x1350 (ig-post). Semua ukuran ikut --u, jadi saiz lain pun ikut skala.
+     Cara guna: salin fail ni, tukar teks, letak logo.png & foto.jpg dalam folder sama, render.
+     Teks dalam <span class="isi"> = belum diisi (nampak bergaris merah). Ganti atau buang sebelum serah. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --u: calc(100vw / 1080);
+    /* WARNA BRAND — ganti ikut references/brand.md */
+    --brand: #1D4ED8;
+    --brand-dark: #1E3A8A;
+    --accent: #FFC83D;
+    --ink: #0F172A;
+    --muted: #475569;
+    --paper: #FFFFFF;
+    --soft: #EEF2FF;
+    --font: "Poppins", "Inter", "Segoe UI", Arial, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 100vw; height: 100vh; overflow: hidden; }
+  body { font-family: var(--font); color: var(--ink); background: var(--paper); position: relative; }
+  .isi { outline: calc(var(--u)*3) dashed #E11D48; outline-offset: calc(var(--u)*4); }
+
+  .blob { position: absolute; border-radius: 50%; }
+  .b1 { width: calc(var(--u)*760); height: calc(var(--u)*760); background: var(--soft); right: calc(var(--u)*-260); top: calc(var(--u)*-240); }
+  .b2 { width: calc(var(--u)*180); height: calc(var(--u)*180); background: var(--accent); right: calc(var(--u)*90); top: calc(var(--u)*430); opacity: .9; }
+
+  .wrap { position: absolute; inset: calc(var(--u)*72) calc(var(--u)*72) calc(var(--u)*230); display: flex; flex-direction: column; }
+  .top { display: flex; align-items: center; justify-content: space-between; }
+  .logo { height: calc(var(--u)*84); }
+  .wordmark { font-weight: 800; font-size: calc(var(--u)*34); letter-spacing: .02em; color: var(--brand-dark); }
+  .badge { background: var(--brand); color: #fff; font-weight: 600; font-size: calc(var(--u)*24); padding: calc(var(--u)*12) calc(var(--u)*26); border-radius: 999px; }
+
+  h1 { margin-top: calc(var(--u)*56); font-size: calc(var(--u)*104); line-height: 1.02; font-weight: 800; letter-spacing: -0.02em; max-width: calc(var(--u)*760); }
+  h1 em { font-style: normal; color: var(--brand); background: linear-gradient(transparent 62%, var(--accent) 62%); }
+  .sub { margin-top: calc(var(--u)*26); font-size: calc(var(--u)*34); line-height: 1.4; color: var(--muted); max-width: calc(var(--u)*640); }
+
+  .row { flex: 1; min-height: 0; margin-top: calc(var(--u)*48); display: flex; gap: calc(var(--u)*40); align-items: stretch; }
+  .photo { flex: 0 0 calc(var(--u)*430); border-radius: calc(var(--u)*40); overflow: hidden;
+           background: linear-gradient(135deg, var(--soft), var(--accent)); position: relative; box-shadow: 0 calc(var(--u)*24) calc(var(--u)*60) rgba(15,23,42,.18); }
+  .photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .photo .ph { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-weight: 700; color: var(--brand-dark); font-size: calc(var(--u)*28); }
+  .points { align-self: flex-end; list-style: none; display: flex; flex-direction: column; gap: calc(var(--u)*26); padding-bottom: calc(var(--u)*10); }
+  .points li { display: flex; gap: calc(var(--u)*18); align-items: flex-start; font-size: calc(var(--u)*32); font-weight: 600; line-height: 1.25; }
+  .tick { flex: 0 0 calc(var(--u)*48); height: calc(var(--u)*48); border-radius: 50%; background: var(--brand); display: flex; align-items: center; justify-content: center; }
+  .tick svg { width: 60%; height: 60%; }
+
+  .cta { position: absolute; left: 0; right: 0; bottom: 0; height: calc(var(--u)*190); background: var(--brand-dark); color: #fff;
+         display: flex; align-items: center; justify-content: space-between; padding: 0 calc(var(--u)*72); }
+  .cta .ask { font-size: calc(var(--u)*40); font-weight: 800; }
+  .cta .ask small { display: block; font-size: calc(var(--u)*24); font-weight: 500; opacity: .85; margin-top: calc(var(--u)*6); }
+  .cta .btn { background: var(--accent); color: var(--ink); font-weight: 800; font-size: calc(var(--u)*30); padding: calc(var(--u)*22) calc(var(--u)*34); border-radius: calc(var(--u)*20); white-space: nowrap; }
+</style>
+</head>
+<body>
+  <div class="blob b1"></div><div class="blob b2"></div>
+
+  <div class="wrap">
+    <div class="top">
+      <img class="logo" src="logo.png" alt="Minda Optima" onerror="this.outerHTML='<span class=wordmark>MINDA OPTIMA</span>'">
+      <span class="badge">Pantas Baca · 4 tahun ke atas</span>
+    </div>
+
+    <h1>Anak lambat <em>membaca?</em></h1>
+    <p class="sub">Belajar membaca tanpa mengeja dan tanpa menghafal, dengan giliran 1-to-1 bersama guru.</p>
+
+    <div class="row">
+      <div class="photo">
+        <img src="foto.jpg" alt="" onerror="this.remove()">
+        <div class="ph" style="z-index:-1">LETAK FOTO</div>
+      </div>
+      <ul class="points">
+        <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>Giliran 1-to-1 setiap sesi</li>
+        <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>Maksimum 8 pelajar sekelas</li>
+        <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>Kelas fizikal &amp; online</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="cta">
+    <div class="ask">Daftar sesi penilaian<small><span class="isi">[ISI lokasi / centre]</span></small></div>
+    <div class="btn">WhatsApp <span class="isi">[ISI nombor]</span></div>
+  </div>
+</body>
+</html>

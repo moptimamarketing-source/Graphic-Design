@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<!-- PAKEJ / HARGA — saiz asal 1080x1350 (ig-post). 2 atau 3 kad pakej.
+     JANGAN reka harga. Semua harga mesti datang dari pengguna / senarai harga rasmi. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --u: calc(100vw / 1080);
+    --brand: #1D4ED8;
+    --brand-dark: #1E3A8A;
+    --accent: #FFC83D;
+    --ink: #0F172A;
+    --muted: #64748B;
+    --soft: #F1F5FF;
+    --paper: #FFFFFF;
+    --font: "Poppins", "Inter", "Segoe UI", Arial, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 100vw; height: 100vh; overflow: hidden; }
+  body { font-family: var(--font); color: var(--ink); background: var(--soft); display: flex; flex-direction: column; padding: calc(var(--u)*70) calc(var(--u)*64) calc(var(--u)*56); }
+  .isi { outline: calc(var(--u)*3) dashed #E11D48; outline-offset: calc(var(--u)*3); }
+
+  .top { display: flex; justify-content: space-between; align-items: center; }
+  .logo { height: calc(var(--u)*64); }
+  .wordmark { font-weight: 800; font-size: calc(var(--u)*30); color: var(--brand-dark); letter-spacing: .03em; }
+  .kicker { font-weight: 700; color: var(--brand); font-size: calc(var(--u)*26); letter-spacing: .14em; }
+  h1 { margin-top: calc(var(--u)*44); font-size: calc(var(--u)*78); font-weight: 800; line-height: 1.05; letter-spacing: -0.015em; }
+  .sub { margin-top: calc(var(--u)*14); font-size: calc(var(--u)*30); color: var(--muted); }
+
+  .cards { flex: 1; min-height: 0; margin-top: calc(var(--u)*48); display: flex; gap: calc(var(--u)*28); align-items: stretch; }
+  .card { flex: 1; background: var(--paper); border-radius: calc(var(--u)*32); padding: calc(var(--u)*40) calc(var(--u)*34); display: flex; flex-direction: column; position: relative;
+          box-shadow: 0 calc(var(--u)*14) calc(var(--u)*40) rgba(30,58,138,.10); }
+  .card.hot { background: var(--brand-dark); color: #fff; transform: translateY(calc(var(--u)*-14)); }
+  .ribbon { position: absolute; top: calc(var(--u)*-20); left: 50%; transform: translateX(-50%); background: var(--accent); color: var(--ink); font-weight: 800; font-size: calc(var(--u)*20); letter-spacing: .1em; padding: calc(var(--u)*8) calc(var(--u)*20); border-radius: 999px; white-space: nowrap; }
+  .name { font-size: calc(var(--u)*34); font-weight: 800; }
+  .for { font-size: calc(var(--u)*22); opacity: .7; margin-top: calc(var(--u)*6); }
+  .price { margin-top: calc(var(--u)*30); font-size: calc(var(--u)*66); font-weight: 800; line-height: 1; letter-spacing: -0.02em; }
+  .price small { font-size: calc(var(--u)*24); font-weight: 500; opacity: .7; letter-spacing: 0; }
+  ul { list-style: none; margin-top: calc(var(--u)*32); display: flex; flex-direction: column; gap: calc(var(--u)*16); }
+  li { font-size: calc(var(--u)*24); line-height: 1.35; padding-left: calc(var(--u)*36); position: relative; }
+  li::before { content: ""; position: absolute; left: 0; top: calc(var(--u)*7); width: calc(var(--u)*20); height: calc(var(--u)*20); border-radius: 50%; background: var(--accent); }
+
+  .foot { margin-top: calc(var(--u)*40); display: flex; justify-content: space-between; align-items: center; gap: calc(var(--u)*24); }
+  .terms { font-size: calc(var(--u)*20); color: var(--muted); line-height: 1.4; max-width: calc(var(--u)*560); }
+  .btn { background: var(--brand); color: #fff; font-weight: 800; font-size: calc(var(--u)*28); padding: calc(var(--u)*22) calc(var(--u)*32); border-radius: calc(var(--u)*18); white-space: nowrap; }
+</style>
+</head>
+<body>
+  <div class="top">
+    <img class="logo" src="logo.png" alt="Minda Optima" onerror="this.outerHTML='<span class=wordmark>MINDA OPTIMA</span>'">
+    <span class="kicker">PAKEJ YURAN</span>
+  </div>
+  <h1>Pilih pakej yang sesuai untuk anak</h1>
+  <p class="sub">Semua pakej: giliran 1-to-1, maksimum 8 pelajar sekelas.</p>
+
+  <div class="cards">
+    <div class="card">
+      <div class="name">Pantas Baca</div>
+      <div class="for">Bahasa Melayu</div>
+      <div class="price"><span class="isi">RM[ISI]</span> <small>/ bulan</small></div>
+      <ul>
+        <li>Tanpa eja, tanpa hafal</li>
+        <li class="isi">[ISI kekerapan kelas]</li>
+        <li>Fizikal atau online</li>
+      </ul>
+    </div>
+    <div class="card hot">
+      <span class="ribbon">PALING DIPILIH</span>
+      <div class="name">Combo BM + English</div>
+      <div class="for">Pantas Baca + TVR</div>
+      <div class="price"><span class="isi">RM[ISI]</span> <small>/ bulan</small></div>
+      <ul>
+        <li>Dua bahasa sekali</li>
+        <li class="isi">[ISI kekerapan kelas]</li>
+        <li>Fizikal atau online</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="name">The Victoria Readers</div>
+      <div class="for">English</div>
+      <div class="price"><span class="isi">RM[ISI]</span> <small>/ bulan</small></div>
+      <ul>
+        <li>Fokus teknik artikulasi</li>
+        <li class="isi">[ISI kekerapan kelas]</li>
+        <li>Fizikal atau online</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="foot">
+    <div class="terms"><span class="isi">[ISI terma: yuran pendaftaran, tempoh sah, dsb.]</span></div>
+    <div class="btn">WhatsApp <span class="isi">[ISI]</span></div>
+  </div>
+</body>
+</html>

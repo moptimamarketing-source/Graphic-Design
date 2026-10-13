@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<!-- POSTER PERAYAAN — saiz asal 1080x1350 (ig-post), boleh juga ig-square / story.
+     Tukar TEMA di :root ikut perayaan (lihat references/perayaan.md untuk palet & ucapan).
+     Hiasan dibuat dengan CSS/SVG sahaja — tiada gambar luar diperlukan. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Playfair+Display:ital,wght@0,700;1,600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --u: calc(100vw / 1080);
+    /* TEMA: contoh Hari Raya (hijau zamrud + emas). Lihat references/perayaan.md untuk tema lain. */
+    --bg1: #064E3B;
+    --bg2: #065F46;
+    --gold: #E9C46A;
+    --text: #FFFDF5;
+    --soft: rgba(255,253,245,.78);
+    --font: "Poppins", "Inter", Arial, sans-serif;
+    --display: "Playfair Display", Georgia, serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 100vw; height: 100vh; overflow: hidden; }
+  body { font-family: var(--font); color: var(--text); position: relative;
+         background: radial-gradient(120% 80% at 50% 0%, var(--bg2), var(--bg1)); }
+  .isi { outline: calc(var(--u)*3) dashed #F87171; outline-offset: calc(var(--u)*4); }
+
+  /* corak halus */
+  .pattern { position: absolute; inset: 0; opacity: .10;
+    background-image: radial-gradient(var(--gold) calc(var(--u)*2.2), transparent calc(var(--u)*2.6));
+    background-size: calc(var(--u)*46) calc(var(--u)*46); }
+  .frame { position: absolute; inset: calc(var(--u)*36); border: calc(var(--u)*2) solid var(--gold); border-radius: calc(var(--u)*28); opacity: .55; }
+  .orn { position: absolute; left: 50%; transform: translateX(-50%); width: calc(var(--u)*300); }
+  .orn.top { top: calc(var(--u)*90); }
+  .orn.bot { bottom: calc(var(--u)*180); transform: translateX(-50%) rotate(180deg); }
+
+  .center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 0 calc(var(--u)*110); }
+  .kicker { font-size: calc(var(--u)*30); letter-spacing: .32em; text-transform: uppercase; color: var(--gold); font-weight: 600; }
+  h1 { font-family: var(--display); font-size: calc(var(--u)*118); line-height: 1.02; margin-top: calc(var(--u)*24); font-weight: 700; }
+  h1 i { color: var(--gold); font-weight: 600; }
+  .line { width: calc(var(--u)*120); height: calc(var(--u)*4); background: var(--gold); margin: calc(var(--u)*40) 0; border-radius: 9px; }
+  .msg { font-size: calc(var(--u)*34); line-height: 1.5; color: var(--soft); max-width: calc(var(--u)*760); }
+
+  .foot { position: absolute; left: 0; right: 0; bottom: calc(var(--u)*80); display: flex; flex-direction: column; align-items: center; gap: calc(var(--u)*12); }
+  .foot .from { font-size: calc(var(--u)*24); color: var(--soft); letter-spacing: .06em; }
+  .logo { height: calc(var(--u)*70); }
+  .wordmark { font-weight: 800; font-size: calc(var(--u)*32); letter-spacing: .08em; color: var(--text); }
+</style>
+</head>
+<body>
+  <div class="pattern"></div>
+  <div class="frame"></div>
+
+  <!-- ornamen: lengkung + bintang (boleh ganti dengan ketupat, tanglung, pelita, dsb.) -->
+  <svg class="orn top" viewBox="0 0 300 60" fill="none" stroke="var(--gold)" stroke-width="2.5" stroke-linecap="round">
+    <path d="M10 40 Q150 -10 290 40"/><path d="M60 46 Q150 14 240 46"/>
+    <path d="M150 6 l5 11 12 1-9 8 3 12-11-6-11 6 3-12-9-8 12-1z" fill="var(--gold)" stroke="none"/>
+  </svg>
+
+  <div class="center">
+    <div class="kicker">Salam Aidilfitri</div>
+    <h1>Selamat Hari Raya <i>Aidilfitri</i></h1>
+    <div class="line"></div>
+    <p class="msg">Maaf zahir dan batin. Semoga Syawal ini membawa keberkatan buat semua keluarga.</p>
+  </div>
+
+  <svg class="orn bot" viewBox="0 0 300 60" fill="none" stroke="var(--gold)" stroke-width="2.5" stroke-linecap="round">
+    <path d="M10 40 Q150 -10 290 40"/><path d="M60 46 Q150 14 240 46"/>
+  </svg>
+
+  <div class="foot">
+    <div class="from">Daripada keluarga besar</div>
+    <img class="logo" src="logo-putih.png" alt="Minda Optima" onerror="this.outerHTML='<span class=wordmark>MINDA OPTIMA</span>'">
+  </div>
+</body>
+</html>
