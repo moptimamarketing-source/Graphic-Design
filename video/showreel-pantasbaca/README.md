@@ -24,9 +24,10 @@ Sepanjang video: motion blur (2 subframe, shutter 180°), bloom, camera shake ik
 ```bash
 npm install                                  # three.js
 node render.mjs out/video_noaudio.mp4        # ~3s/frame, Chromium headless (Playwright)
+# lebih laju: jalankan beberapa julat frame serentak, contoh `node render.mjs out/seg_0.mp4 0 113`, kemudian sambung dengan ffmpeg concat
 python3 music.py out/music.wav               # muzik asal 120 BPM, F minor
-ffmpeg -i out/video_noaudio.mp4 -i out/music.wav -c:v copy \
-  -af loudnorm=I=-14:TP=-1:LRA=7 -c:a aac -b:a 320k -ar 48000 \
+ffmpeg -i out/video_noaudio.mp4 -i out/music.wav -c:v libx264 -preset veryslow -crf 16 \
+  -profile:v high -pix_fmt yuv420p -af loudnorm=I=-14:TP=-1:LRA=7 -c:a aac -b:a 320k -ar 48000 \
   -movflags +faststart -shortest pantasbaca-showreel-15s-1080x1920.mp4
 node render.mjs --stills 100 220 449         # semak frame tertentu -> out/stills/
 ```
