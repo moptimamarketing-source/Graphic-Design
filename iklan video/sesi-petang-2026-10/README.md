@@ -30,9 +30,9 @@ Video diedit guna **HyperFrames** (HTML → video) daripada `try 1.mp4` (Google 
    - Kad "PILIHAN JADUAL" dengan slot baru muncul, kad "LEBIH RAMAI PELAJAR", jam berputar + ✓ "WAKTU YANG SESUAI"
    - "JADUAL TAK SESUAI?" + slot dipangkah ✗ (video jadi kelabu, kemudian warna kembali masa CTA)
    - CTA: butang "SEMAK SLOT SESI PETANG" ditekan + "SEKARANG!"
-   - End card: maskot, wordmark MINDA OPTIMA, "SESI PETANG KINI DIBUKA!", "SEMAK SLOT SEKARANG"
+   - End card (paling belakang): **logo rasmi Minda Optima** atas kad putih dengan kilauan + bintang, "SESI PETANG KINI DIBUKA!", "SEMAK SLOT SEKARANG"
 6. **Caption BM perkataan demi perkataan**: perkataan aktif jadi kuning, kata kunci dalam pill berwarna. Kedudukan caption di atas zon UI TikTok/Reels.
-7. **24 SFX** (whoosh, pop, sparkle, chime, click, impact) dari library HyperFrames (lesen Pixabay: komersial OK, tanpa atribusi).
+7. **25 SFX** (whoosh, pop, sparkle, chime, click, impact) dari library HyperFrames (lesen Pixabay: komersial OK, tanpa atribusi).
 
 ## Perlu semak sebelum publish
 

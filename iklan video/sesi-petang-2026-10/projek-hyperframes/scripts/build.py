@@ -388,21 +388,24 @@ T('tl.to("#g8-wrap", {opacity: 0, scale: 0.85, duration: 0.2, ease: "power2.in"}
 html_layers.append(f'''      <div id="g9" class="clip ov" data-start="{END_CARD}" data-duration="{tail_dur}" data-track-index="8">
         <div class="end-tint" id="end-tint"></div>
         <div class="end-wrap">
-          <div class="end-mascot" id="end-mascot"><img src="assets/mascot.png" alt=""></div>
-          <div class="wordmark" id="end-wm"><span class="wb">M</span><span class="wb">I<i class="dot"></i></span><span class="wb">N</span><span class="wb">D</span><span class="wo">A</span><span class="gap"></span><span class="wr">O</span><span class="wr">P</span><span class="wr">T</span><span class="wb">I<i class="dot"></i></span><span class="wb">M</span><span class="wb">A</span></div>
+          <div class="end-logo" id="end-logo"><img src="assets/logo-minda-optima.png" alt="Minda Optima"><span class="end-shine" id="end-shine"></span></div>
           <div class="end-tag" id="end-tag">Program Membaca Kanak-Kanak</div>
           <div class="end-head" id="end-head">SESI PETANG<br><span>KINI DIBUKA!</span></div>
           <div class="end-cta" id="end-cta">SEMAK SLOT SEKARANG</div>
         </div>
+        {star("spark es1")}{star("spark es2")}{star("spark es3")}
       </div>''')
 E = END_CARD
 T(f'tl.fromTo("#end-tint", {{opacity: 0}}, {{opacity: 1, duration: 0.4, ease: "power2.out"}}, {E});')
-pop_in("#end-mascot", E + 0.12, 0.2, -20, 0.55)
-T(f'tl.fromTo("#end-wm span", {{opacity: 0, y: 60, scale: 0.4}}, {{opacity: 1, y: 0, scale: 1, duration: 0.35, ease: "back.out(2.5)", stagger: 0.035}}, {q(E + 0.35)});')
+pop_in("#end-logo", E + 0.1, 0.3, -6, 0.55)
+T(f'tl.fromTo("#end-shine", {{x: -300, rotation: 18}}, {{x: 1150, rotation: 18, duration: 0.8, ease: "power2.inOut"}}, {q(E + 0.7)});')
+for i, t in enumerate([E + 0.5, E + 0.62, E + 0.74]):
+    T(f'tl.fromTo("#g9 .es{i + 1}", {{opacity: 0, scale: 0, rotation: 0}}, {{opacity: 1, scale: 1, rotation: 90, duration: 0.28, ease: "back.out(3)"}}, {q(t)});')
+    T(f'tl.to("#g9 .es{i + 1}", {{opacity: 0, scale: 0.3, duration: 0.3}}, {q(t + 0.45)});')
 T(f'tl.fromTo("#end-tag", {{opacity: 0, y: 20}}, {{opacity: 1, y: 0, duration: 0.3, ease: "power2.out"}}, {q(E + 0.8)});')
 pop_in("#end-head", E + 0.95, 0.5, -4, 0.45)
 pop_in("#end-cta", E + 1.25, 0.4, 3, 0.45)
-bob("#end-mascot", E + 0.8, TOTAL, 10, 1.2)
+bob("#end-logo", E + 0.8, TOTAL, 8, 1.2)
 T(f'tl.fromTo("#end-cta", {{scale: 1}}, {{scale: 1.06, duration: 0.35, ease: "sine.inOut", yoyo: true, repeat: 3, immediateRender: false}}, {q(E + 1.75)});')
 
 # ------------------------------------------------------------------ audio: SFX + music
@@ -426,6 +429,7 @@ SFX = [  # (file, transient time, onset offset, volume)
     ("click", 23.38, 0.04, 0.6),
     ("sparkle", 25.12, 0.09, 0.4),
     ("whoosh", END_CARD, 0.16, 0.42),
+    ("sparkle", END_CARD + 0.5, 0.09, 0.34),
     ("chime", END_CARD + 0.95, 0.41, 0.4),
 ]
 SFX_LEN = {"pop": 0.72, "whoosh": 0.57, "whoosh-short": 0.57, "impact-bass-1": 2.11, "sparkle": 1.8,
@@ -588,16 +592,13 @@ CSS = f"""
 
       /* END card */
       .end-tint {{ position: absolute; inset: 0; opacity: 0; background: linear-gradient(180deg, rgba(14,52,120,0.82) 0%, rgba(30,111,217,0.55) 45%, rgba(11,42,91,0.88) 100%); }}
-      .end-wrap {{ position: absolute; left: 0; right: 0; top: 250px; display: flex; flex-direction: column; align-items: center; }}
-      .end-mascot {{ width: 420px; height: 420px; border-radius: 50%; background: #fff; border: 10px solid #FFD23F; overflow: hidden;
-        box-shadow: 0 18px 0 {NAVY}, 0 30px 60px rgba(0,0,0,0.4); }}
-      .end-mascot img {{ width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; display: block; }}
-      .wordmark {{ display: flex; align-items: flex-end; margin-top: 46px; background: #fff; border: 8px solid {NAVY}; border-radius: 999px;
-        padding: 18px 54px 4px; box-shadow: 0 14px 0 {NAVY}; font-family: "Baloo 2"; font-weight: 700; font-size: 124px; line-height: 1; }}
-      .wordmark span {{ display: inline-block; position: relative; }}
-      .wordmark .gap {{ width: 22px; }}
-      .wb {{ color: #1E6FD9; }} .wo {{ color: #F7941D; }} .wr {{ color: #E8262D; }}
-      .wordmark .dot {{ position: absolute; left: 50%; top: 12px; width: 22px; height: 22px; margin-left: -11px; border-radius: 50%; background: #E8262D; }}
+      .end-wrap {{ position: absolute; left: 0; right: 0; top: 230px; display: flex; flex-direction: column; align-items: center; }}
+      .end-logo {{ position: relative; width: 940px; background: #fff; border: 8px solid {NAVY}; border-radius: 56px; overflow: hidden;
+        padding: 34px 40px 30px; box-shadow: 0 18px 0 {NAVY}, 0 30px 60px rgba(0,0,0,0.4); }}
+      .end-logo img {{ width: 100%; height: auto; display: block; }}
+      .end-shine {{ position: absolute; top: -80px; left: 0; width: 150px; height: 820px;
+        background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.8) 50%, rgba(255,255,255,0) 100%); }}
+      .es1 {{ left: 40px; top: 190px; }} .es2 {{ left: 950px; top: 230px; width: 80px; height: 80px; }} .es3 {{ left: 960px; top: 790px; width: 64px; height: 64px; }}
       .end-tag {{ margin-top: 34px; font-family: "Inter"; font-weight: 800; font-size: 44px; color: #fff; letter-spacing: 1px; opacity: 0.95; }}
       .end-head {{ margin-top: 40px; font-family: "Baloo 2"; font-weight: 700; font-size: 118px; line-height: 0.92; color: #fff; text-align: center;
         text-shadow: {TITLE_SHADOW}; }}
