@@ -1,0 +1,472 @@
+<!doctype html>
+<html lang="ms" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Sesi Petang Kini Dibuka</title>
+    <script src="assets/lib/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "Fredoka"; font-weight: 600; src: url("assets/fonts/fredoka-latin-600-normal.woff2") format("woff2"); }
+      @font-face { font-family: "Fredoka"; font-weight: 700; src: url("assets/fonts/fredoka-latin-700-normal.woff2") format("woff2"); }
+      @font-face { font-family: "Nunito"; font-weight: 800; src: url("assets/fonts/nunito-latin-800-normal.woff2") format("woff2"); }
+      @font-face { font-family: "Nunito"; font-weight: 900; src: url("assets/fonts/nunito-latin-900-normal.woff2") format("woff2"); }
+      :root {
+        --navy: #0b1f4d; --blue: #1e63d6; --sky: #4aa3ff; --yellow: #fec412;
+        --red: #e53935; --orange: #f7931e; --green: #1fb36b; --cream: #fff9f0;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000; }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; font-family: "Nunito", sans-serif; }
+      .clip { position: absolute; inset: 0; }
+
+      /* ---------- footage ---------- */
+      .cam { position: absolute; inset: 0; transform-origin: 50% 50%; z-index: 1; }
+      .cam video { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+      /* ---------- shared graphic bits ---------- */
+      .layer { z-index: 5; }
+      .display { font-family: "Fredoka", sans-serif; font-weight: 700; line-height: 1; }
+      .stroke { color: var(--yellow); -webkit-text-stroke: 14px var(--navy); paint-order: stroke fill; text-shadow: 0 10px 0 var(--navy); }
+      .card { position: absolute; background: var(--cream); border-radius: 44px; border: 8px solid var(--navy); box-shadow: 0 16px 0 var(--navy); }
+      .pill { display: inline-block; font-family: "Fredoka", sans-serif; font-weight: 700; border-radius: 999px; }
+      .row { position: absolute; left: 0; width: 1080px; display: flex; justify-content: center; align-items: center; }
+
+      /* ---------- G1 hook ---------- */
+      #h-label { top: 120px; }
+      #h-label .pill { background: var(--navy); color: #fff; font-size: 46px; padding: 14px 36px; letter-spacing: 3px; }
+      #h-title { top: 205px; gap: 0; }
+      #h-title .ch { display: inline-block; font-size: 158px; }
+      #h-title .sp { display: inline-block; width: 40px; }
+      #h-sun { position: absolute; left: 50px; top: 150px; width: 170px; height: 170px; }
+      #h-stamp { top: 420px; }
+      #h-stamp .pill { background: var(--red); color: #fff; font-size: 86px; padding: 18px 54px; border: 8px solid #fff; box-shadow: 0 12px 0 var(--navy); }
+
+      /* ---------- G2 demand ---------- */
+      #d-card { left: 150px; top: 120px; width: 780px; height: 520px; }
+      #d-head { position: absolute; left: 0; top: 34px; width: 100%; text-align: center; font-size: 66px; color: var(--navy); }
+      #d-head .r { color: var(--red); }
+      #d-bars { position: absolute; left: 90px; bottom: 50px; width: 600px; height: 300px; display: flex; align-items: flex-end; gap: 40px; }
+      .bar { display: block; width: 115px; border-radius: 22px 22px 8px 8px; transform-origin: 50% 100%; }
+      #d-arrow { position: absolute; left: 60px; top: 150px; width: 660px; height: 330px; overflow: visible; }
+
+      /* ---------- G3 time ---------- */
+      #t-wrap { top: 150px; gap: 40px; }
+      #t-clock { width: 300px; height: 300px; display: block; overflow: visible; }
+      #t-chips { display: flex; flex-direction: column; gap: 28px; align-items: flex-start; }
+      #t-chips .pill { font-size: 62px; padding: 20px 40px; border: 7px solid var(--navy); box-shadow: 0 10px 0 var(--navy); }
+      #t-chip1 { background: var(--yellow); color: var(--navy); }
+      #t-chip2 { background: var(--blue); color: #fff; }
+
+      /* ---------- G4 count ---------- */
+      #c-num { top: 130px; }
+      #c-num .n { font-size: 240px; display: block; }
+      #c-label { top: 420px; gap: 20px; }
+      #c-label .pill { font-size: 60px; padding: 14px 40px; border: 7px solid var(--navy); box-shadow: 0 10px 0 var(--navy); }
+      #c-pel { background: var(--navy); color: #fff; }
+      #c-sub { top: 545px; }
+      #c-sub .pill { background: #fff; color: var(--navy); font-family: "Nunito", sans-serif; font-weight: 900; font-size: 46px; padding: 14px 34px; border: 6px solid var(--navy); }
+      .star { position: absolute; width: 60px; height: 60px; left: 510px; top: 240px; display: block; }
+
+      /* ---------- G5 calendar ---------- */
+      #k-card { left: 120px; top: 110px; width: 840px; height: 560px; overflow: hidden; }
+      #k-head { position: absolute; left: 0; top: 0; width: 100%; height: 120px; background: var(--blue); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 56px; }
+      #k-grid { position: absolute; left: 50px; top: 160px; width: 740px; display: grid; grid-template-columns: 200px repeat(5, 1fr); gap: 22px 18px; align-items: center; }
+      .k-lab { white-space: nowrap; font-family: "Fredoka", sans-serif; font-weight: 700; font-size: 38px; color: var(--navy); }
+      .k-cell { display: block; height: 96px; border-radius: 24px; border: 6px solid var(--navy); }
+      .k-old { background: #cfe3ff; }
+      .k-new { background: var(--yellow); display: flex; align-items: center; justify-content: center; font-family: "Fredoka", sans-serif; font-weight: 700; font-size: 64px; color: var(--navy); }
+      #k-badge { position: absolute; left: 640px; top: 560px; width: 330px; height: 330px; display: block; }
+
+      /* ---------- G6 check ---------- */
+      #s-title { top: 120px; }
+      #s-title .display { font-size: 110px; }
+      #s-card { left: 170px; top: 270px; width: 740px; height: 400px; }
+      .s-row { position: absolute; left: 50px; width: 640px; height: 90px; display: flex; align-items: center; gap: 30px; }
+      .s-ico { width: 70px; height: 70px; border-radius: 50%; background: #e3e8f2; border: 6px solid var(--navy); display: flex; align-items: center; justify-content: center; }
+      .s-tick { width: 46px; height: 46px; display: block; }
+      .s-line { flex: 1; height: 34px; border-radius: 17px; background: #dfe6f3; }
+      .s-tag { font-family: "Fredoka", sans-serif; font-weight: 700; font-size: 34px; color: #fff; background: var(--green); border-radius: 999px; padding: 8px 22px; }
+      #s-glass { position: absolute; left: 120px; top: 270px; width: 220px; height: 220px; display: block; }
+
+      /* ---------- G7 pick ---------- */
+      #p-title { top: 120px; }
+      #p-title .display { font-size: 96px; }
+      #p-slots { top: 290px; gap: 30px; }
+      .slot { width: 270px; height: 250px; border-radius: 40px; background: #fff; border: 8px solid var(--navy); box-shadow: 0 12px 0 var(--navy); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; }
+      .slot svg { width: 110px; height: 110px; display: block; }
+      .slot .ln { display: block; width: 150px; height: 26px; border-radius: 13px; background: #dfe6f3; }
+      #p-hand { position: absolute; left: 600px; top: 520px; width: 190px; height: 190px; display: block; }
+      #p-ok { top: 600px; }
+      #p-ok .pill { background: var(--green); color: #fff; font-size: 58px; padding: 16px 44px; border: 7px solid #fff; box-shadow: 0 10px 0 var(--navy); }
+
+      /* ---------- captions ---------- */
+      #caps { z-index: 8; }
+      .cap { position: absolute; left: 110px; top: 1250px; width: 860px; display: flex; justify-content: center; text-align: center; opacity: 0; }
+      .cap-in { display: inline-block; font-family: "Nunito", sans-serif; font-weight: 900; font-size: 76px; line-height: 1.1; color: #fff;
+        -webkit-text-stroke: 14px var(--navy); paint-order: stroke fill; text-shadow: 0 8px 0 var(--navy); }
+      .cap .hot { color: var(--yellow); }
+
+      /* ---------- end card ---------- */
+      #endcard { z-index: 10; }
+      #e-bg { position: absolute; inset: 0; background: radial-gradient(circle at 50% 38%, #2a5bd7 0%, #12307a 45%, var(--navy) 100%); }
+      #e-dots { position: absolute; inset: 0; opacity: 0.18; background-image: radial-gradient(#fff 3px, transparent 3.5px); background-size: 46px 46px; }
+      #e-logo { top: 540px; }
+      #e-logo .plate { display: flex; align-items: center; background: #fff; border-radius: 999px; padding: 26px 56px; box-shadow: 0 14px 0 rgba(0,0,0,0.25); }
+      #e-logo .L { display: inline-block; font-family: "Fredoka", sans-serif; font-weight: 700; font-size: 118px; line-height: 1; }
+      #e-logo .gap { display: inline-block; width: 26px; }
+      #e-head { top: 800px; }
+      #e-head .display { font-size: 118px; text-align: center; width: 940px; }
+      #e-sub { top: 1100px; }
+      #e-sub p { width: 860px; text-align: center; font-weight: 800; font-size: 52px; line-height: 1.25; color: var(--cream); }
+      #e-cta { top: 1320px; }
+      #e-cta .btn { display: flex; align-items: center; gap: 22px; background: var(--yellow); color: var(--navy); font-family: "Fredoka", sans-serif; font-weight: 700; font-size: 64px;
+        padding: 30px 60px; border-radius: 999px; border: 8px solid #fff; box-shadow: 0 14px 0 rgba(0,0,0,0.3); }
+      #e-cta svg { width: 60px; height: 60px; display: block; }
+      #e-hand { position: absolute; left: 720px; top: 1440px; width: 170px; height: 170px; display: block; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="27.47" data-width="1080" data-height="1920">
+      <!-- ================= FOOTAGE (jeda janggal dah dipotong) ================= -->
+      <div class="cam" id="cam-A"><video id="vA" src="assets/asal.mp4" data-start="0.0" data-duration="3.9" data-media-start="0.0" data-has-audio="true" data-fade-in="0.03" data-fade-out="0.04" data-track-index="0" playsinline></video></div>
+      <div class="cam" id="cam-B"><video id="vB" src="assets/asal.mp4" data-start="3.9" data-duration="3.3" data-media-start="4.12" data-has-audio="true" data-fade-in="0.03" data-fade-out="0.04" data-track-index="0" playsinline></video></div>
+      <div class="cam" id="cam-C"><video id="vC" src="assets/asal.mp4" data-start="7.2" data-duration="3.38" data-media-start="7.66" data-has-audio="true" data-fade-in="0.03" data-fade-out="0.04" data-track-index="0" playsinline></video></div>
+      <div class="cam" id="cam-D"><video id="vD" src="assets/asal.mp4" data-start="10.58" data-duration="4.97" data-media-start="11.48" data-has-audio="true" data-fade-in="0.03" data-fade-out="0.04" data-track-index="0" playsinline></video></div>
+      <div class="cam" id="cam-E"><video id="vE" src="assets/asal.mp4" data-start="15.55" data-duration="4.02" data-media-start="16.72" data-has-audio="true" data-fade-in="0.03" data-fade-out="0.04" data-track-index="0" playsinline></video></div>
+      <div class="cam" id="cam-F"><video id="vF" src="assets/asal.mp4" data-start="19.57" data-duration="1.82" data-media-start="20.9" data-has-audio="true" data-fade-in="0.03" data-fade-out="0.04" data-track-index="0" playsinline></video></div>
+      <div class="cam" id="cam-G"><video id="vG" src="assets/asal.mp4" data-start="21.39" data-duration="3.08" data-media-start="22.92" data-has-audio="true" data-fade-in="0.03" data-fade-out="0.04" data-track-index="0" playsinline></video><video id="vTail" src="assets/asal.mp4" data-start="24.47" data-duration="0.5" data-media-start="26.0" muted data-track-index="1" playsinline></video></div>
+
+      <!-- ================= G1: hook ================= -->
+      <div id="g1" class="clip layer" data-start="0" data-duration="3.9" data-track-index="2">
+        <svg id="h-sun" viewBox="-60 -60 120 120">
+          <g id="h-rays" fill="#f7931e">
+            <rect x="-6" y="-58" width="12" height="22" rx="6"/><rect x="-6" y="36" width="12" height="22" rx="6"/>
+            <rect x="-58" y="-6" width="22" height="12" rx="6"/><rect x="36" y="-6" width="22" height="12" rx="6"/>
+            <rect x="-6" y="-58" width="12" height="22" rx="6" transform="rotate(45)"/><rect x="-6" y="36" width="12" height="22" rx="6" transform="rotate(45)"/>
+            <rect x="-58" y="-6" width="22" height="12" rx="6" transform="rotate(45)"/><rect x="36" y="-6" width="22" height="12" rx="6" transform="rotate(45)"/>
+          </g>
+          <circle r="30" fill="#fec412" stroke="#0b1f4d" stroke-width="6"/>
+        </svg>
+        <div id="h-label" class="row"><span class="pill">JADUAL BARU</span></div>
+        <div id="h-title" class="row display stroke">
+          <span class="ch">S</span><span class="ch">E</span><span class="ch">S</span><span class="ch">I</span><span class="sp"></span><span class="ch">P</span><span class="ch">E</span><span class="ch">T</span><span class="ch">A</span><span class="ch">N</span><span class="ch">G</span>
+        </div>
+        <div id="h-stamp" class="row"><span class="pill">KINI DIBUKA!</span></div>
+      </div>
+
+      <!-- ================= G2: permintaan meningkat ================= -->
+      <div id="g2" class="clip layer" data-start="3.9" data-duration="3.3" data-track-index="2">
+        <div id="d-card" class="card">
+          <div id="d-head" class="display">PERMINTAAN <span class="r">NAIK</span></div>
+          <div id="d-bars">
+            <span class="bar" style="height:30%;background:#9cc6ff"></span>
+            <span class="bar" style="height:48%;background:#4aa3ff"></span>
+            <span class="bar" style="height:70%;background:#1e63d6"></span>
+            <span class="bar" style="height:96%;background:#fec412"></span>
+          </div>
+          <svg id="d-arrow" viewBox="0 0 660 330">
+            <path id="d-line" d="M20 300 L200 230 L330 250 L560 60" fill="none" stroke="#e53935" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+            <path id="d-head2" d="M520 40 L600 30 L585 110 Z" fill="#e53935" stroke="#e53935" stroke-width="10" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- ================= G3: tambah pilihan masa ================= -->
+      <div id="g3" class="clip layer" data-start="7.2" data-duration="3.38" data-track-index="2">
+        <div id="t-wrap" class="row">
+          <svg id="t-clock" viewBox="-110 -110 220 220">
+            <circle r="98" fill="#fff9f0" stroke="#0b1f4d" stroke-width="12"/>
+            <g fill="#0b1f4d"><circle cy="-74" r="7"/><circle cy="74" r="7"/><circle cx="-74" r="7"/><circle cx="74" r="7"/></g>
+            <g id="t-hour"><rect x="-7" y="-50" width="14" height="58" rx="7" fill="#0b1f4d"/></g>
+            <g id="t-min"><rect x="-5" y="-76" width="10" height="84" rx="5" fill="#e53935"/></g>
+            <circle r="11" fill="#0b1f4d"/>
+            <g id="t-plus"><circle cx="78" cy="-78" r="34" fill="#1fb36b" stroke="#fff" stroke-width="7"/><path d="M78 -96 V-60 M60 -78 H96" stroke="#fff" stroke-width="10" stroke-linecap="round"/></g>
+          </svg>
+          <div id="t-chips">
+            <span id="t-chip1" class="pill">+ PILIHAN MASA</span>
+            <span id="t-chip2" class="pill">KELAS FIZIKAL</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= G4: 2,700+ pelajar ================= -->
+      <div id="g4" class="clip layer" data-start="10.58" data-duration="4.97" data-track-index="2">
+        <div id="c-stars"></div>
+        <div id="c-num" class="row display stroke"><span class="n" id="c-n">0</span></div>
+        <div id="c-label" class="row"><span id="c-pel" class="pill">PELAJAR</span></div>
+        <div id="c-sub" class="row"><span class="pill">sedang belajar di Minda Optima</span></div>
+      </div>
+
+      <!-- ================= G5: lebih banyak pilihan jadual ================= -->
+      <div id="g5" class="clip layer" data-start="15.55" data-duration="4.02" data-track-index="2">
+        <div id="k-card" class="card">
+          <div id="k-head" class="display">LEBIH BANYAK PILIHAN</div>
+          <div id="k-grid">
+            <span class="k-lab">Sedia ada</span>
+            <span class="k-cell k-old"></span><span class="k-cell k-old"></span><span class="k-cell k-old"></span><span class="k-cell k-old"></span><span class="k-cell k-old"></span>
+            <span class="k-lab">Petang</span>
+            <span class="k-cell k-new">+</span><span class="k-cell k-new">+</span><span class="k-cell k-new">+</span><span class="k-cell k-new">+</span><span class="k-cell k-new">+</span>
+          </div>
+        </div>
+        <svg id="k-badge" viewBox="-100 -100 200 200">
+          <path id="k-scallop" fill="#0b1f4d" d=""/>
+          <circle r="70" fill="none" stroke="#fec412" stroke-width="4" stroke-dasharray="10 8"/>
+          <text y="-6" text-anchor="middle" font-family="Fredoka" font-weight="700" font-size="32" fill="#fff">UNTUK</text>
+          <text y="30" text-anchor="middle" font-family="Fredoka" font-weight="700" font-size="32" fill="#fff">PARENTS</text>
+          <path d="M0 62 C-14 48 -26 40 -16 30 C-8 22 0 30 0 34 C0 30 8 22 16 30 C26 40 14 48 0 62 Z" fill="#fec412"/>
+        </svg>
+      </div>
+
+      <!-- ================= G6: semak jadual ================= -->
+      <div id="g6" class="clip layer" data-start="19.57" data-duration="1.82" data-track-index="2">
+        <div id="s-title" class="row"><span class="display stroke">SEMAK JADUAL</span></div>
+        <div id="s-card" class="card">
+          <div class="s-row" style="top:45px"><span class="s-ico"><svg class="s-tick" viewBox="0 0 50 50"><path d="M10 26 L21 37 L41 13" fill="none" stroke="#1fb36b" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="s-line"></span><span class="s-tag">ADA</span></div>
+          <div class="s-row" style="top:155px"><span class="s-ico"><svg class="s-tick" viewBox="0 0 50 50"><path d="M10 26 L21 37 L41 13" fill="none" stroke="#1fb36b" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="s-line"></span><span class="s-tag">ADA</span></div>
+          <div class="s-row" style="top:265px"><span class="s-ico"><svg class="s-tick" viewBox="0 0 50 50"><path d="M10 26 L21 37 L41 13" fill="none" stroke="#1fb36b" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="s-line"></span><span class="s-tag">ADA</span></div>
+        </div>
+        <svg id="s-glass" viewBox="0 0 120 120">
+          <circle cx="48" cy="48" r="34" fill="rgba(255,255,255,0.35)" stroke="#0b1f4d" stroke-width="10"/>
+          <path d="M74 74 L108 108" stroke="#0b1f4d" stroke-width="16" stroke-linecap="round"/>
+          <path d="M30 38 Q36 26 48 24" stroke="#fff" stroke-width="6" fill="none" stroke-linecap="round"/>
+        </svg>
+      </div>
+
+      <!-- ================= G7: pilih waktu ================= -->
+      <div id="g7" class="clip layer" data-start="21.39" data-duration="3.08" data-track-index="2">
+        <div id="p-title" class="row"><span class="display stroke">PILIH WAKTU</span></div>
+        <div id="p-slots" class="row">
+          <div class="slot" id="p-s1"><svg viewBox="-60 -60 120 120"><circle r="50" fill="#cfe3ff" stroke="#0b1f4d" stroke-width="8"/><path d="M0 -30 V0 L20 14" stroke="#0b1f4d" stroke-width="9" fill="none" stroke-linecap="round"/></svg><span class="ln"></span></div>
+          <div class="slot" id="p-s2"><svg viewBox="-60 -60 120 120"><circle r="50" fill="#fec412" stroke="#0b1f4d" stroke-width="8"/><path d="M0 -30 V0 L-22 18" stroke="#0b1f4d" stroke-width="9" fill="none" stroke-linecap="round"/></svg><span class="ln"></span></div>
+          <div class="slot" id="p-s3"><svg viewBox="-60 -60 120 120"><circle r="50" fill="#cfe3ff" stroke="#0b1f4d" stroke-width="8"/><path d="M0 -30 V0 L26 -8" stroke="#0b1f4d" stroke-width="9" fill="none" stroke-linecap="round"/></svg><span class="ln"></span></div>
+        </div>
+        <div id="p-ok" class="row"><span class="pill">✓ SESUAI UNTUK ANAK</span></div>
+        <svg id="p-hand" viewBox="0 0 100 100">
+          <path d="M38 10 C38 4 48 4 48 10 L48 44 L52 44 L52 34 C52 28 62 28 62 34 L62 46 L66 46 L66 38 C66 32 76 32 76 38 L76 50 L80 50 L80 44 C80 38 90 38 90 44 L90 70 C90 84 80 94 66 94 L52 94 C44 94 38 90 34 84 L18 60 C14 54 22 48 28 54 L38 64 Z" fill="#fff" stroke="#0b1f4d" stroke-width="6" stroke-linejoin="round"/>
+        </svg>
+      </div>
+
+      <!-- ================= CAPTIONS ================= -->
+      <div id="caps" class="clip" data-start="0" data-duration="24.47" data-track-index="3">
+        <div class="cap" id="cap0"><span class="cap-in">Jadual sesi <span class="hot">petang</span></span></div>
+        <div class="cap" id="cap1"><span class="cap-in">kelas <span class="hot">Minda Optima</span></span></div>
+        <div class="cap" id="cap2"><span class="cap-in"><span class="hot">kini dibuka!</span></span></div>
+        <div class="cap" id="cap3"><span class="cap-in">Disebabkan <span class="hot">permintaan</span></span></div>
+        <div class="cap" id="cap4"><span class="cap-in">kelas yang <span class="hot">semakin meningkat</span></span></div>
+        <div class="cap" id="cap5"><span class="cap-in">kami <span class="hot">tambah</span> lagi</span></div>
+        <div class="cap" id="cap6"><span class="cap-in"><span class="hot">pilihan masa</span></span></div>
+        <div class="cap" id="cap7"><span class="cap-in">untuk kelas <span class="hot">fizikal</span></span></div>
+        <div class="cap" id="cap8"><span class="cap-in">Lebih <span class="hot">2,700</span></span></div>
+        <div class="cap" id="cap9"><span class="cap-in">orang <span class="hot">pelajar</span></span></div>
+        <div class="cap" id="cap10"><span class="cap-in">yang sedang belajar</span></div>
+        <div class="cap" id="cap11"><span class="cap-in">di <span class="hot">Minda Optima</span></span></div>
+        <div class="cap" id="cap12"><span class="cap-in">Jadi, kami nak bagi</span></div>
+        <div class="cap" id="cap13"><span class="cap-in">lebih banyak <span class="hot">pilihan jadual</span></span></div>
+        <div class="cap" id="cap14"><span class="cap-in">kepada <span class="hot">parents</span></span></div>
+        <div class="cap" id="cap15"><span class="cap-in"><span class="hot">Semak</span> jadual</span></div>
+        <div class="cap" id="cap16"><span class="cap-in">yang <span class="hot">tersedia</span></span></div>
+        <div class="cap" id="cap17"><span class="cap-in">dan <span class="hot">pilih</span> waktu jadual</span></div>
+        <div class="cap" id="cap18"><span class="cap-in">yang <span class="hot">sesuai</span> untuk anak</span></div>
+      </div>
+
+      <!-- ================= END CARD ================= -->
+      <div id="endcard" class="clip" data-start="24.47" data-duration="3.0" data-track-index="4">
+        <div id="e-wipe" style="position:absolute;inset:0">
+          <div id="e-bg"></div>
+          <div id="e-dots"></div>
+        </div>
+        <div id="e-logo" class="row"><div class="plate">
+          <span class="L" style="color:#1e63d6">M</span><span class="L" style="color:#1e63d6">I</span><span class="L" style="color:#1e63d6">N</span><span class="L" style="color:#1e63d6">D</span><span class="L" style="color:#f7931e">A</span><span class="gap"></span><span class="L" style="color:#e53935">O</span><span class="L" style="color:#e53935">P</span><span class="L" style="color:#e53935">T</span><span class="L" style="color:#1e63d6">I</span><span class="L" style="color:#1e63d6">M</span><span class="L" style="color:#1e63d6">A</span>
+        </div></div>
+        <div id="e-head" class="row"><div class="display stroke">Sesi Petang Kini Dibuka!</div></div>
+        <div id="e-sub" class="row"><p>Semak jadual &amp; pilih waktu yang sesuai untuk anak</p></div>
+        <div id="e-cta" class="row"><div class="btn">MESEJ KAMI SEKARANG
+          <svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="27" fill="#0b1f4d"/><path d="M22 30 H40 M32 21 L41 30 L32 39" stroke="#fec412" stroke-width="7" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+        <svg id="e-hand" viewBox="0 0 100 100">
+          <path d="M38 10 C38 4 48 4 48 10 L48 44 L52 44 L52 34 C52 28 62 28 62 34 L62 46 L66 46 L66 38 C66 32 76 32 76 38 L76 50 L80 50 L80 44 C80 38 90 38 90 44 L90 70 C90 84 80 94 66 94 L52 94 C44 94 38 90 34 84 L18 60 C14 54 22 48 28 54 L38 64 Z" fill="#fff" stroke="#0b1f4d" stroke-width="6" stroke-linejoin="round"/>
+        </svg>
+      </div>
+
+      <!-- ================= SFX ================= -->
+    <audio id="sfx0" src="assets/sfx/whoosh-short.mp3" data-start="0.08" data-duration="0.57" data-volume="0.3" data-track-index="10"></audio>
+    <audio id="sfx1" src="assets/sfx/pop.mp3" data-start="0.32" data-duration="0.72" data-volume="0.35" data-track-index="11"></audio>
+    <audio id="sfx2" src="assets/sfx/impact-bass-1.mp3" data-start="2.83" data-duration="2.12" data-volume="0.45" data-track-index="12"></audio>
+    <audio id="sfx3" src="assets/sfx/whoosh.mp3" data-start="3.92" data-duration="0.57" data-volume="0.28" data-track-index="13"></audio>
+    <audio id="sfx4" src="assets/sfx/pop.mp3" data-start="5.38" data-duration="0.72" data-volume="0.25" data-track-index="14"></audio>
+    <audio id="sfx5" src="assets/sfx/ping.mp3" data-start="6.28" data-duration="1.32" data-volume="0.3" data-track-index="15"></audio>
+    <audio id="sfx6" src="assets/sfx/whoosh.mp3" data-start="7.22" data-duration="0.57" data-volume="0.28" data-track-index="16"></audio>
+    <audio id="sfx7" src="assets/sfx/pop.mp3" data-start="8.09" data-duration="0.72" data-volume="0.35" data-track-index="17"></audio>
+    <audio id="sfx8" src="assets/sfx/pop.mp3" data-start="9.79" data-duration="0.72" data-volume="0.35" data-track-index="18"></audio>
+    <audio id="sfx9" src="assets/sfx/whoosh.mp3" data-start="10.6" data-duration="0.57" data-volume="0.28" data-track-index="19"></audio>
+    <audio id="sfx10" src="assets/sfx/sparkle.mp3" data-start="12.2" data-duration="1.8" data-volume="0.35" data-track-index="20"></audio>
+    <audio id="sfx11" src="assets/sfx/ping.mp3" data-start="12.23" data-duration="1.32" data-volume="0.3" data-track-index="21"></audio>
+    <audio id="sfx12" src="assets/sfx/pop.mp3" data-start="12.55" data-duration="0.72" data-volume="0.3" data-track-index="22"></audio>
+    <audio id="sfx13" src="assets/sfx/whoosh.mp3" data-start="15.57" data-duration="0.57" data-volume="0.28" data-track-index="23"></audio>
+    <audio id="sfx14" src="assets/sfx/pop.mp3" data-start="16.83" data-duration="0.72" data-volume="0.25" data-track-index="24"></audio>
+    <audio id="sfx15" src="assets/sfx/notification.mp3" data-start="18.63" data-duration="2.46" data-volume="0.3" data-track-index="25"></audio>
+    <audio id="sfx16" src="assets/sfx/whoosh-short.mp3" data-start="19.59" data-duration="0.57" data-volume="0.3" data-track-index="26"></audio>
+    <audio id="sfx17" src="assets/sfx/click-soft.mp3" data-start="19.97" data-duration="0.37" data-volume="0.4" data-track-index="27"></audio>
+    <audio id="sfx18" src="assets/sfx/click-soft.mp3" data-start="20.32" data-duration="0.37" data-volume="0.4" data-track-index="28"></audio>
+    <audio id="sfx19" src="assets/sfx/click-soft.mp3" data-start="20.67" data-duration="0.37" data-volume="0.4" data-track-index="29"></audio>
+    <audio id="sfx20" src="assets/sfx/whoosh-short.mp3" data-start="21.41" data-duration="0.57" data-volume="0.3" data-track-index="30"></audio>
+    <audio id="sfx21" src="assets/sfx/click.mp3" data-start="21.87" data-duration="0.37" data-volume="0.45" data-track-index="31"></audio>
+    <audio id="sfx22" src="assets/sfx/chime.mp3" data-start="23.02" data-duration="2.5" data-volume="0.3" data-track-index="32"></audio>
+    <audio id="sfx23" src="assets/sfx/whoosh.mp3" data-start="24.35" data-duration="0.57" data-volume="0.35" data-track-index="33"></audio>
+    <audio id="sfx24" src="assets/sfx/impact-bass-1.mp3" data-start="24.89" data-duration="2.12" data-volume="0.4" data-track-index="34"></audio>
+    <audio id="sfx25" src="assets/sfx/click.mp3" data-start="26.32" data-duration="0.37" data-volume="0.4" data-track-index="35"></audio>
+    <audio id="sfx26" src="assets/sfx/sparkle.mp3" data-start="26.37" data-duration="1.1" data-volume="0.3" data-track-index="36"></audio>
+    </div>
+
+    <script>
+      const T = {"dibuka": 2.85, "meningkat": 5.33, "pilihanMasa": 8.09, "fizikal": 9.84, "count0": 10.65, "count1": 12.25, "pelajar": 12.4, "belajar": 13.6, "pilihanJadual": 16.83, "parents": 18.58, "semak": 19.62, "tersedia": 20.47, "pilih": 21.87, "sesuai": 23.02, "videoEnd": 24.47, "total": 27.47, "segA": 0.0, "endA": 3.9, "dA": 3.9, "segB": 3.9, "endB": 7.2, "dB": 3.3, "segC": 7.2, "endC": 10.58, "dC": 3.38, "segD": 10.58, "endD": 15.55, "dD": 4.97, "segE": 15.55, "endE": 19.57, "dE": 4.02, "segF": 19.57, "endF": 21.39, "dF": 1.82, "segG": 21.39, "endG": 24.47, "dG": 3.08, "dEnd": 3.0};
+      const CAPT = [[0.05, 1.12], [1.12, 2.72], [2.85, 3.88], [3.9, 5.28], [5.28, 7.2], [7.2, 8.09], [8.09, 8.89], [8.89, 10.58], [10.58, 12.3], [12.3, 13.52], [13.52, 14.5], [14.5, 15.55], [15.55, 16.78], [16.78, 18.53], [18.53, 19.57], [19.57, 20.42], [20.42, 21.39], [21.39, 22.97], [22.97, 24.47]];
+      const SEGS = [{"name": "A", "out": 0.0, "dur": 3.9}, {"name": "B", "out": 3.9, "dur": 3.3}, {"name": "C", "out": 7.2, "dur": 3.38}, {"name": "D", "out": 10.58, "dur": 4.97}, {"name": "E", "out": 15.55, "dur": 4.02}, {"name": "F", "out": 19.57, "dur": 1.82}, {"name": "G", "out": 21.39, "dur": 3.08}];
+      const tl = gsap.timeline({ paused: true });
+      const q = (s) => document.querySelector(s);
+      const qa = (s) => Array.from(document.querySelectorAll(s));
+
+      // lencana bergerigi (sama gaya poster awareness)
+      (function () {
+        let d = "";
+        const n = 18;
+        for (let i = 0; i <= n * 2; i++) {
+          const a = (Math.PI * i) / n;
+          const r = i % 2 ? 84 : 98;
+          d += (i ? "L" : "M") + (Math.sin(a) * r).toFixed(2) + " " + (-Math.cos(a) * r).toFixed(2) + " ";
+        }
+        q("#k-scallop").setAttribute("d", d + "Z");
+      })();
+
+      // ---------- kamera: tukar framing setiap potongan supaya jump cut nampak sengaja ----------
+      const CAM = {
+        A: { from: 1.0, to: 1.07 },
+        B: { from: 1.2, to: 1.17, punch: true },
+        C: { from: 1.0, to: 1.04 },
+        D: { from: 1.15, to: 1.19, punch: true },
+        E: { from: 1.02, to: 1.07 },
+        F: { from: 1.22, to: 1.2, punch: true },
+        G: { from: 1.08, to: 1.13 },
+      };
+      SEGS.forEach((g) => {
+        const c = CAM[g.name];
+        const el = "#cam-" + g.name;
+        tl.set(el, { transformOrigin: "50% 47%" }, 0);
+        if (c.punch) {
+          tl.fromTo(el, { scale: c.from + 0.06 }, { scale: c.from, duration: 0.22, ease: "power3.out" }, g.out);
+          tl.to(el, { scale: c.to, duration: g.dur - 0.22, ease: "none" }, g.out + 0.22);
+        } else {
+          tl.fromTo(el, { scale: c.from }, { scale: c.to, duration: g.dur, ease: "none" }, g.out);
+        }
+      });
+      // goncang sikit masa "KINI DIBUKA"
+      tl.fromTo("#cam-A", { x: 0, y: 0 }, { x: 10, y: -6, duration: 0.05, repeat: 5, yoyo: true, ease: "none" }, T.dibuka);
+      tl.set("#cam-A", { x: 0, y: 0 }, T.dibuka + 0.31);
+
+      // ---------- G1 hook ----------
+      tl.fromTo("#h-label .pill", { y: -60, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35, ease: "back.out(2)" }, 0.08);
+      tl.fromTo("#h-title .ch", { y: 90, scale: 0.4, opacity: 0 }, { y: 0, scale: 1, opacity: 1, duration: 0.42, ease: "back.out(2.2)", stagger: 0.04 }, 0.25);
+      tl.fromTo("#h-sun", { x: -200, opacity: 0 }, { x: 0, opacity: 1, duration: 0.5, ease: "back.out(1.6)" }, 0.3);
+      tl.fromTo("#h-rays", { rotation: 0, svgOrigin: "0 0" }, { rotation: 120, svgOrigin: "0 0", duration: T.endA, ease: "none" }, 0);
+      tl.fromTo("#h-stamp .pill", { scale: 2.6, rotation: -14, opacity: 0 }, { scale: 1, rotation: -5, opacity: 1, duration: 0.28, ease: "power4.in" }, T.dibuka - 0.26);
+      tl.to("#h-title .ch", { y: -40, opacity: 0, duration: 0.18, stagger: 0.01, ease: "power2.in" }, T.endA - 0.25);
+      tl.to(["#h-label .pill", "#h-sun", "#h-stamp .pill"], { opacity: 0, duration: 0.15 }, T.endA - 0.17);
+
+      // ---------- G2 demand ----------
+      tl.fromTo("#d-card", { y: -120, opacity: 0, rotation: -3 }, { y: 0, opacity: 1, rotation: 0, duration: 0.45, ease: "back.out(1.7)" }, T.segB + 0.02);
+      tl.fromTo(".bar", { scaleY: 0 }, { scaleY: 1, duration: 0.5, ease: "back.out(1.8)", stagger: 0.16 }, T.meningkat);
+      tl.fromTo("#d-line", { strokeDasharray: 820, strokeDashoffset: 820 }, { strokeDashoffset: 0, duration: 0.7, ease: "power2.inOut" }, T.meningkat + 0.35);
+      tl.fromTo("#d-head2", { opacity: 0, scale: 0, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: 0.25, ease: "back.out(3)" }, T.meningkat + 0.95);
+      tl.fromTo("#d-head .r", { scale: 1 }, { scale: 1.18, duration: 0.18, yoyo: true, repeat: 1, ease: "power2.out" }, T.meningkat + 0.95);
+      tl.to("#d-card", { y: -80, opacity: 0, duration: 0.2, ease: "power2.in" }, T.endB - 0.22);
+
+      // ---------- G3 time ----------
+      tl.fromTo("#t-clock", { scale: 0, rotation: -90, opacity: 0 }, { scale: 1, rotation: 0, opacity: 1, duration: 0.5, ease: "back.out(1.8)" }, T.segC + 0.02);
+      tl.fromTo("#t-min", { rotation: 0, svgOrigin: "0 0" }, { rotation: 720, svgOrigin: "0 0", duration: T.dC - 0.3, ease: "power2.out" }, T.segC + 0.1);
+      tl.fromTo("#t-hour", { rotation: 0, svgOrigin: "0 0" }, { rotation: 60, svgOrigin: "0 0", duration: T.dC - 0.3, ease: "power2.out" }, T.segC + 0.1);
+      tl.fromTo("#t-plus", { scale: 0, svgOrigin: "78 -78" }, { scale: 1, svgOrigin: "78 -78", duration: 0.35, ease: "back.out(3)" }, T.pilihanMasa - 0.1);
+      tl.fromTo("#t-chip1", { x: 200, opacity: 0 }, { x: 0, opacity: 1, duration: 0.35, ease: "back.out(2)" }, T.pilihanMasa);
+      tl.fromTo("#t-chip2", { x: 200, opacity: 0 }, { x: 0, opacity: 1, duration: 0.35, ease: "back.out(2)" }, T.fizikal - 0.05);
+      tl.to("#t-wrap", { y: -80, opacity: 0, duration: 0.2, ease: "power2.in" }, T.endC - 0.22);
+
+      // ---------- G4 count ----------
+      const cnt = { v: 0 };
+      const nEl = q("#c-n");
+      tl.fromTo("#c-num .n", { scale: 0.5, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.35, ease: "back.out(2)" }, T.segD + 0.02);
+      tl.fromTo(cnt, { v: 0 }, { v: 2700, duration: T.count1 - T.count0, ease: "power2.out",
+        onUpdate: () => { nEl.textContent = Math.round(cnt.v).toLocaleString("en-US") + (cnt.v >= 2700 ? "+" : ""); } }, T.count0);
+      tl.fromTo("#c-num .n", { scale: 1 }, { scale: 1.12, immediateRender: false, duration: 0.15, yoyo: true, repeat: 1, ease: "power2.out" }, T.count1);
+      // letupan bintang (kedudukan tetap, tiada random)
+      const starBox = q("#c-stars");
+      for (let i = 0; i < 12; i++) {
+        const s = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        s.setAttribute("viewBox", "-10 -10 20 20");
+        s.setAttribute("class", "star");
+        s.innerHTML = '<path d="M0 -9 L2.6 -2.6 L9 0 L2.6 2.6 L0 9 L-2.6 2.6 L-9 0 L-2.6 -2.6 Z" fill="' + ["#fec412", "#fff", "#4aa3ff", "#e53935"][i % 4] + '"/>';
+        starBox.appendChild(s);
+        const a = (i / 12) * Math.PI * 2;
+        const r = 330 + (i % 3) * 70;
+        tl.fromTo(s, { x: 0, y: 0, scale: 0, opacity: 1, rotation: 0 },
+          { x: Math.cos(a) * r, y: Math.sin(a) * r * 0.55, scale: 1 + (i % 2) * 0.6, rotation: 180, duration: 0.8, ease: "power3.out" }, T.count1);
+        tl.to(s, { opacity: 0, duration: 0.3 }, T.count1 + 0.6);
+      }
+      tl.fromTo("#c-pel", { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, ease: "back.out(2.5)" }, T.pelajar + 0.1);
+      tl.fromTo("#c-sub .pill", { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, ease: "back.out(2)" }, T.belajar);
+      tl.to(["#c-num", "#c-label", "#c-sub"], { y: -80, opacity: 0, duration: 0.2, ease: "power2.in" }, T.endD - 0.22);
+
+      // ---------- G5 calendar ----------
+      tl.fromTo("#k-card", { y: -140, opacity: 0, rotation: 3 }, { y: 0, opacity: 1, rotation: 0, duration: 0.45, ease: "back.out(1.7)" }, T.segE + 0.02);
+      tl.fromTo(".k-old", { scale: 0 }, { scale: 1, duration: 0.25, ease: "back.out(2)", stagger: 0.05 }, T.segE + 0.3);
+      tl.fromTo(".k-new", { scale: 0, rotation: -20 }, { scale: 1, rotation: 0, duration: 0.3, ease: "back.out(3)", stagger: 0.12 }, T.pilihanJadual);
+      tl.fromTo("#k-badge", { scale: 0, rotation: -60, opacity: 0 }, { scale: 1, rotation: 8, opacity: 1, duration: 0.45, ease: "back.out(2.2)" }, T.parents);
+      tl.to(["#k-card", "#k-badge"], { y: -80, opacity: 0, duration: 0.2, ease: "power2.in" }, T.endE - 0.22);
+
+      // ---------- G6 semak ----------
+      tl.fromTo("#s-title .display", { scale: 0.3, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3, ease: "back.out(2.4)" }, T.segF + 0.02);
+      tl.fromTo("#s-card", { y: 120, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35, ease: "back.out(1.6)" }, T.segF + 0.08);
+      tl.set(".s-tick", { scale: 0, transformOrigin: "50% 50%" }, 0);
+      tl.set(".s-tag", { opacity: 0, scale: 0.4 }, 0);
+      tl.set("#s-glass", { x: 0, y: 0, opacity: 0 }, 0);
+      tl.to("#s-glass", { opacity: 1, duration: 0.15 }, T.semak + 0.05);
+      [0, 1, 2].forEach((i) => {
+        const tt = T.semak + 0.35 + i * 0.35;
+        tl.to("#s-glass", { x: 120 + i * 40, y: i * 110, duration: 0.3, ease: "power2.inOut" }, tt - 0.3);
+        tl.to(qa(".s-tick")[i], { scale: 1, duration: 0.25, ease: "back.out(3)" }, tt);
+        tl.to(qa(".s-tag")[i], { opacity: 1, scale: 1, duration: 0.25, ease: "back.out(3)" }, tt + 0.05);
+      });
+      tl.to("#s-glass", { x: 600, y: 120, opacity: 0, duration: 0.3, ease: "power2.in" }, T.semak + 1.3);
+      tl.to(["#s-title", "#s-card"], { y: -80, opacity: 0, duration: 0.18, ease: "power2.in" }, T.endF - 0.2);
+
+      // ---------- G7 pilih ----------
+      tl.fromTo("#p-title .display", { y: -60, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, ease: "back.out(2)" }, T.segG + 0.02);
+      tl.fromTo(".slot", { y: 100, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35, ease: "back.out(1.8)", stagger: 0.08 }, T.segG + 0.1);
+      tl.fromTo("#p-hand", { x: 260, y: 320, opacity: 0 }, { x: 0, y: 0, opacity: 1, duration: 0.45, ease: "power3.out" }, T.pilih - 0.55);
+      tl.to("#p-hand", { scale: 0.85, duration: 0.08, yoyo: true, repeat: 1, transformOrigin: "40% 10%" }, T.pilih - 0.04);
+      tl.to("#p-s2", { scale: 1.12, backgroundColor: "#fff3c4", borderColor: "#1fb36b", duration: 0.25, ease: "back.out(3)" }, T.pilih);
+      tl.to(["#p-s1", "#p-s3"], { opacity: 0.45, scale: 0.92, duration: 0.25 }, T.pilih);
+      tl.to("#p-hand", { x: 120, y: 260, opacity: 0, duration: 0.35, ease: "power2.in" }, T.pilih + 0.45);
+      tl.fromTo("#p-ok .pill", { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.35, ease: "back.out(2.6)" }, T.sesuai);
+      tl.to(["#p-title", "#p-slots", "#p-ok"], { opacity: 0, duration: 0.15 }, T.endG - 0.15);
+
+      // ---------- captions ----------
+      CAPT.forEach(([s, e], i) => {
+        const el = "#cap" + i;
+        tl.fromTo(el, { opacity: 0, y: 24, scale: 0.85 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(2.5)" }, s);
+        tl.set(el, { opacity: 0 }, e - 0.02);
+      });
+
+      // ---------- end card ----------
+      const E = T.videoEnd;
+      tl.fromTo("#e-wipe", { clipPath: "circle(0% at 50% 45%)" }, { clipPath: "circle(80% at 50% 45%)", duration: 0.45, ease: "power3.inOut" }, E);
+      tl.fromTo("#e-logo .L", { y: -260, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: "bounce.out", stagger: 0.025 }, E + 0.12);
+      tl.fromTo("#e-logo .plate", { scale: 0.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.35, ease: "back.out(2)" }, E + 0.1);
+      tl.fromTo("#e-head .display", { scale: 0.5, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4, ease: "back.out(2.2)" }, E + 0.55);
+      tl.fromTo("#e-sub p", { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35, ease: "power3.out" }, E + 0.85);
+      tl.fromTo("#e-cta .btn", { y: 80, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35, ease: "back.out(2)" }, E + 1.1);
+      tl.fromTo("#e-hand", { x: 240, y: 240, opacity: 0 }, { x: 0, y: 0, opacity: 1, duration: 0.4, ease: "power3.out" }, E + 1.45);
+      tl.to("#e-hand", { scale: 0.85, duration: 0.08, yoyo: true, repeat: 1, transformOrigin: "40% 10%" }, E + 1.85);
+      tl.to("#e-cta .btn", { scale: 1.08, duration: 0.25, yoyo: true, repeat: 3, ease: "sine.inOut" }, E + 1.88);
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

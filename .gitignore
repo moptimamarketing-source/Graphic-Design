@@ -1,0 +1,6 @@
+# kerja video: fail besar tak masuk git
+video-kerja/**/*.mp4
+video-kerja/**/*.wav
+video-kerja/**/frames/
+video-kerja/**/.hyperframes/
+video-kerja/**/node_modules/

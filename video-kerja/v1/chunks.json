@@ -1,0 +1,101 @@
+{
+ "pauses": [
+  [
+   2.76,
+   2.87
+  ],
+  [
+   7.48,
+   7.71
+  ],
+  [
+   11.1,
+   11.36
+  ],
+  [
+   11.38,
+   11.53
+  ],
+  [
+   16.62,
+   16.76
+  ],
+  [
+   20.74,
+   20.92
+  ],
+  [
+   22.79,
+   22.97
+  ],
+  [
+   23.24,
+   23.35
+  ],
+  [
+   24.52,
+   24.64
+  ],
+  [
+   25.96,
+   26.36
+  ]
+ ],
+ "chunks": [
+  {
+   "start": 0,
+   "end": 2.81,
+   "text": "Jadual sesi petang kelas minda Optima"
+  },
+  {
+   "start": 2.81,
+   "end": 7.6,
+   "text": "Kini dibuka Disebabkan permintaan Kelas yang semakin meningkat"
+  },
+  {
+   "start": 7.6,
+   "end": 11.23,
+   "text": "Kami tambah lagi pilihan masa untuk kelas fizikal."
+  },
+  {
+   "start": 11.23,
+   "end": 11.46,
+   "text": "Ter"
+  },
+  {
+   "start": 11.46,
+   "end": 16.69,
+   "text": "Lebih 2,700 orang pelajar yang sedang belajar di Minda Optima."
+  },
+  {
+   "start": 16.69,
+   "end": 20.83,
+   "text": "Jadi, kami nak bagi lebih banyak pilihan jadual kepada parents?"
+  },
+  {
+   "start": 20.83,
+   "end": 22.88,
+   "text": "Semak jadual yang tersedia."
+  },
+  {
+   "start": 22.88,
+   "end": 23.3,
+   "text": "Dan"
+  },
+  {
+   "start": 23.3,
+   "end": 24.58,
+   "text": "Pilih waktu jadual"
+  },
+  {
+   "start": 24.58,
+   "end": 26.16,
+   "text": "yang sesuai untuk anak."
+  },
+  {
+   "start": 26.16,
+   "end": 26.35,
+   "text": "Ter"
+  }
+ ]
+}
