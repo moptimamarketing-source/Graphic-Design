@@ -1,0 +1,302 @@
+[
+ {
+  "text": "berita",
+  "start": 0.2,
+  "end": 0.52
+ },
+ {
+  "text": "baik",
+  "start": 0.56,
+  "end": 0.82
+ },
+ {
+  "text": "perens",
+  "start": 0.84,
+  "end": 1.94
+ },
+ {
+  "text": "minda",
+  "start": 2.253,
+  "end": 2.573
+ },
+ {
+  "text": "optima",
+  "start": 2.633,
+  "end": 3.033
+ },
+ {
+  "text": "kini",
+  "start": 3.4,
+  "end": 3.66
+ },
+ {
+  "text": "dah",
+  "start": 3.7,
+  "end": 3.84
+ },
+ {
+  "text": "buka",
+  "start": 3.9,
+  "end": 4.28
+ },
+ {
+  "text": "jadual",
+  "start": 4.6,
+  "end": 5.04
+ },
+ {
+  "text": "sesi",
+  "start": 5.08,
+  "end": 5.36
+ },
+ {
+  "text": "petang",
+  "start": 5.4,
+  "end": 5.86
+ },
+ {
+  "text": "untuk",
+  "start": 6.053,
+  "end": 6.333
+ },
+ {
+  "text": "kelas",
+  "start": 6.353,
+  "end": 6.593
+ },
+ {
+  "text": "fizikal",
+  "start": 6.633,
+  "end": 7.293
+ },
+ {
+  "text": "dengan",
+  "start": 7.487,
+  "end": 7.747
+ },
+ {
+  "text": "lebih",
+  "start": 7.787,
+  "end": 8.067
+ },
+ {
+  "text": "dua",
+  "start": 8.127,
+  "end": 8.367
+ },
+ {
+  "text": "ribu",
+  "start": 8.447,
+  "end": 8.707
+ },
+ {
+  "text": "tujuh",
+  "start": 8.927,
+  "end": 9.307
+ },
+ {
+  "text": "ratus",
+  "start": 9.327,
+  "end": 9.627
+ },
+ {
+  "text": "orang",
+  "start": 9.697,
+  "end": 9.897
+ },
+ {
+  "text": "pelajar",
+  "start": 9.917,
+  "end": 10.377
+ },
+ {
+  "text": "yang",
+  "start": 10.503,
+  "end": 10.683
+ },
+ {
+  "text": "belajar",
+  "start": 10.703,
+  "end": 11.143
+ },
+ {
+  "text": "membaca",
+  "start": 11.163,
+  "end": 11.583
+ },
+ {
+  "text": "di",
+  "start": 11.643,
+  "end": 11.743
+ },
+ {
+  "text": "minda",
+  "start": 11.803,
+  "end": 12.063
+ },
+ {
+  "text": "optima",
+  "start": 12.103,
+  "end": 12.503
+ },
+ {
+  "text": "kami",
+  "start": 12.743,
+  "end": 13.123
+ },
+ {
+  "text": "telah",
+  "start": 13.377,
+  "end": 13.637
+ },
+ {
+  "text": "tambah",
+  "start": 13.657,
+  "end": 13.997
+ },
+ {
+  "text": "pilihan",
+  "start": 14.017,
+  "end": 14.397
+ },
+ {
+  "text": "jadual",
+  "start": 14.437,
+  "end": 14.897
+ },
+ {
+  "text": "supaya",
+  "start": 15.2,
+  "end": 15.557
+ },
+ {
+  "text": "lebih",
+  "start": 15.617,
+  "end": 15.877
+ },
+ {
+  "text": "ramai",
+  "start": 15.957,
+  "end": 16.577
+ },
+ {
+  "text": "pelajar",
+  "start": 16.597,
+  "end": 17.077
+ },
+ {
+  "text": "boleh",
+  "start": 17.283,
+  "end": 17.583
+ },
+ {
+  "text": "belajar",
+  "start": 17.623,
+  "end": 18.103
+ },
+ {
+  "text": "dalam",
+  "start": 18.223,
+  "end": 18.483
+ },
+ {
+  "text": "waktu",
+  "start": 18.543,
+  "end": 18.863
+ },
+ {
+  "text": "yang",
+  "start": 18.903,
+  "end": 19.043
+ },
+ {
+  "text": "sesuai",
+  "start": 19.043,
+  "end": 19.463
+ },
+ {
+  "text": "kalau",
+  "start": 19.597,
+  "end": 19.997
+ },
+ {
+  "text": "sebelum",
+  "start": 20.037,
+  "end": 20.397
+ },
+ {
+  "text": "ni",
+  "start": 20.457,
+  "end": 20.597
+ },
+ {
+  "text": "ada",
+  "start": 20.777,
+  "end": 20.937
+ },
+ {
+  "text": "jadual",
+  "start": 20.977,
+  "end": 21.457
+ },
+ {
+  "text": "yang",
+  "start": 21.497,
+  "end": 21.637
+ },
+ {
+  "text": "tak",
+  "start": 21.657,
+  "end": 21.777
+ },
+ {
+  "text": "sesuai",
+  "start": 21.857,
+  "end": 22.437
+ },
+ {
+  "text": "cuba",
+  "start": 22.577,
+  "end": 22.977
+ },
+ {
+  "text": "semak",
+  "start": 23.017,
+  "end": 23.337
+ },
+ {
+  "text": "slot",
+  "start": 23.377,
+  "end": 23.767
+ },
+ {
+  "text": "sesi",
+  "start": 23.817,
+  "end": 24.097
+ },
+ {
+  "text": "kelas",
+  "start": 24.137,
+  "end": 24.377
+ },
+ {
+  "text": "petang",
+  "start": 24.4,
+  "end": 24.61
+ },
+ {
+  "text": "yang",
+  "start": 24.67,
+  "end": 24.81
+ },
+ {
+  "text": "ada",
+  "start": 24.87,
+  "end": 25.09
+ },
+ {
+  "text": "sekarang",
+  "start": 25.13,
+  "end": 25.51
+ }
+]

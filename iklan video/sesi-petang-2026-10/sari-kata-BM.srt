@@ -1,0 +1,75 @@
+1
+00:00:00,200 --> 00:00:02,090
+Berita baik parents!
+
+2
+00:00:02,240 --> 00:00:03,170
+Minda Optima
+
+3
+00:00:03,410 --> 00:00:04,440
+Kini dah buka
+
+4
+00:00:04,610 --> 00:00:06,020
+Jadual sesi petang
+
+5
+00:00:06,055 --> 00:00:07,445
+Untuk kelas fizikal
+
+6
+00:00:07,500 --> 00:00:08,120
+Dengan lebih
+
+7
+00:00:08,140 --> 00:00:10,500
+2,700 orang pelajar
+
+8
+00:00:10,520 --> 00:00:11,640
+Yang belajar membaca
+
+9
+00:00:11,660 --> 00:00:12,670
+Di Minda Optima
+
+10
+00:00:12,765 --> 00:00:14,040
+Kami telah tambah
+
+11
+00:00:14,060 --> 00:00:15,090
+Pilihan jadual
+
+12
+00:00:15,240 --> 00:00:16,630
+Supaya lebih ramai
+
+13
+00:00:16,650 --> 00:00:18,245
+Pelajar boleh belajar
+
+14
+00:00:18,265 --> 00:00:19,605
+Dalam waktu yang sesuai
+
+15
+00:00:19,625 --> 00:00:20,775
+Kalau sebelum ni
+
+16
+00:00:20,805 --> 00:00:22,565
+Ada jadual yang tak sesuai
+
+17
+00:00:22,585 --> 00:00:23,805
+Cuba semak slot
+
+18
+00:00:23,825 --> 00:00:24,655
+Sesi kelas petang
+
+19
+00:00:24,675 --> 00:00:25,665
+Yang ada sekarang.
