@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Pantas Baca Showreel</title>
+<style>
+  @font-face { font-family: 'Anton'; src: url(fonts/Anton.ttf); }
+  @font-face { font-family: 'Poppins'; font-weight: 400; src: url(fonts/Poppins_wght_400.ttf); }
+  @font-face { font-family: 'Poppins'; font-weight: 600; src: url(fonts/Poppins_wght_600.ttf); }
+  @font-face { font-family: 'Poppins'; font-weight: 800; src: url(fonts/Poppins_wght_800.ttf); }
+  @font-face { font-family: 'Poppins'; font-weight: 900; src: url(fonts/Poppins_wght_900.ttf); }
+  @font-face { font-family: 'Grotesk'; font-weight: 500; src: url(fonts/Space_Grotesk_wght_500.ttf); }
+  html, body { margin: 0; padding: 0; background: #000; overflow: hidden; }
+  #out { display: block; width: 1080px; height: 1920px; }
+  #gl { display: none; }
+</style>
+<script type="importmap">
+{ "imports": {
+  "three": "./node_modules/three/build/three.module.js",
+  "three/addons/": "./node_modules/three/examples/jsm/"
+} }
+</script>
+</head>
+<body>
+<canvas id="out" width="1080" height="1920"></canvas>
+<canvas id="gl" width="1080" height="1920"></canvas>
+<script type="module" src="main.js"></script>
+</body>
+</html>
