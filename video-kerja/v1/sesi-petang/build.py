@@ -130,12 +130,12 @@ def cap_html(text):
 
 
 videos = "\n".join(
-    f'''      <div class="cam" id="cam-{g['name']}"><video id="v{g['name']}" src="assets/asal.mp4" data-start="{g['out']}" data-duration="{g['dur']}" data-media-start="{g['src']}" data-has-audio="true" data-fade-in="0.03" data-fade-out="0.04" data-track-index="0" playsinline></video></div>'''
+    f'''      <div class="cam" id="cam-{g['name']}"><video id="v{g['name']}" src="assets/asal-suara-studio.mp4" data-start="{g['out']}" data-duration="{g['dur']}" data-media-start="{g['src']}" data-has-audio="true" data-fade-in="0.03" data-fade-out="0.04" data-track-index="0" playsinline></video></div>'''
     for g in segs)
 # Ekor senyap klip G (tanpa bunyi) supaya wipe end card tak nampak skrin hitam
 g = segs[-1]
 videos = videos[: videos.rfind("</div>")] + (
-    f'<video id="vTail" src="assets/asal.mp4" data-start="{VIDEO_END}" data-duration="0.5" '
+    f'<video id="vTail" src="assets/asal-suara-studio.mp4" data-start="{VIDEO_END}" data-duration="0.5" '
     f'data-media-start="{g['end']}" muted data-track-index="1" playsinline></video>') + "</div>"
 
 caps, cap_times = [], []
@@ -154,6 +154,8 @@ html = (tpl.replace("%%TOTAL%%", str(TOTAL))
         .replace("%%SFX%%", sfx)
         .replace("%%T%%", json.dumps(T))
         .replace("%%CAPT%%", json.dumps(cap_times))
+        .replace("%%BGMAUTO%%", json.dumps({"version": 1, "lanes": [{"target": "volume", "points": [
+            {"t": 0, "v": 0.24}, {"t": VIDEO_END - 0.25, "v": 0.24}, {"t": VIDEO_END + 0.1, "v": 0.75}, {"t": TOTAL, "v": 0.75}]}]}))
         .replace("%%SEGS%%", json.dumps([{k: g[k] for k in ("name", "out", "dur")} for g in segs])))
 for k, v in T.items():
     html = html.replace("%%" + k + "%%", str(v))
