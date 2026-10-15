@@ -2,7 +2,7 @@
 
 Video iklan ~42.5s, 1080×1920, diedit dengan **HyperFrames** (HTML + GSAP → MP4).
 
-**Hasil akhir:** `output/minda-optima-cawangan-baru.mp4`
+**Hasil akhir:** `output/Minda Optima Kelas Online Cawangan Dekat Rumah.mp4`
 
 ## Konsep
 "Kami baru buka cawangan di Minda Optima… besar ni je?" → cawangan paling dekat
