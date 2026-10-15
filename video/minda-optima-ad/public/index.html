@@ -17,11 +17,11 @@
       /* ---------- footage ---------- */
       .shot { position: absolute; inset: 0; overflow: hidden; z-index: 1; }
       .shot-clip { position: absolute; inset: 0; z-index: 1; }
-      .shot video, .shot img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: contrast(1.07) saturate(1.16) brightness(1.02); }
+      .shot video, .shot img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
       #grade { position: absolute; inset: 0; z-index: 5; pointer-events: none;
         background: radial-gradient(120% 80% at 50% 42%, rgba(11,16,51,0) 58%, rgba(11,16,51,.42) 100%),
                     linear-gradient(180deg, rgba(11,16,51,.38) 0%, rgba(11,16,51,0) 17%, rgba(11,16,51,0) 64%, rgba(11,16,51,.5) 100%); }
-      #tint { position: absolute; inset: 0; z-index: 6; background: #2346ff; mix-blend-mode: soft-light; opacity: .14; pointer-events: none; }
+      #tint { position: absolute; inset: 0; z-index: 6; background: #2346ff; mix-blend-mode: soft-light; opacity: 0; pointer-events: none; }
 
       /* ---------- shared graphic atoms ---------- */
       .gfx { position: absolute; inset: 0; z-index: 10; }
@@ -67,15 +67,15 @@
   <body>
     <div id="root" data-composition-id="main" data-start="0" data-width="1080" data-height="1920" data-duration="42.5">
       <!-- footage (muted: all sound is in the mastered soundtrack) -->
-      <div id="s1" class="shot"><video id="s1-v" src="media/clips/0816.mp4" data-start="0.0" data-duration="7.25" data-media-start="1.28" data-track-index="1" muted playsinline></video></div>
-      <div id="s2" class="shot"><video id="s2-v" src="media/clips/0817.mp4" data-start="7.25" data-duration="5.75" data-media-start="0.9" data-track-index="1" muted playsinline></video></div>
-      <div id="s5" class="shot"><video id="s5-v" src="media/clips/0824.mp4" data-start="17.3" data-duration="5.45" data-media-start="7.2" data-track-index="1" muted playsinline></video></div>
-      <div id="s6" class="shot"><video id="s6-v" src="media/clips/0822.mp4" data-start="22.75" data-duration="2.3" data-media-start="10.6" data-track-index="1" muted playsinline></video></div>
-      <div id="s7" class="shot"><video id="s7-v" src="media/clips/0823.mp4" data-start="25.05" data-duration="3.95" data-media-start="6.0" data-track-index="1" muted playsinline></video></div>
-      <div id="s8" class="shot"><video id="s8-v" src="media/clips/0820.mp4" data-start="29.0" data-duration="4.04" data-media-start="7.74" data-track-index="1" muted playsinline></video></div>
+      <div id="s1" class="shot"><video id="s1-v" src="media/graded/0816.mp4" data-start="0.0" data-duration="7.25" data-media-start="1.28" data-track-index="1" muted playsinline></video></div>
+      <div id="s2" class="shot"><video id="s2-v" src="media/graded/0817.mp4" data-start="7.25" data-duration="5.75" data-media-start="0.9" data-track-index="1" muted playsinline></video></div>
+      <div id="s5" class="shot"><video id="s5-v" src="media/graded/0824.mp4" data-start="17.3" data-duration="5.45" data-media-start="7.2" data-track-index="1" muted playsinline></video></div>
+      <div id="s6" class="shot"><video id="s6-v" src="media/graded/0822.mp4" data-start="22.75" data-duration="2.3" data-media-start="10.6" data-track-index="1" muted playsinline></video></div>
+      <div id="s7" class="shot"><video id="s7-v" src="media/graded/0823.mp4" data-start="25.05" data-duration="3.95" data-media-start="6.0" data-track-index="1" muted playsinline></video></div>
+      <div id="s8" class="shot"><video id="s8-v" src="media/graded/0820.mp4" data-start="29.0" data-duration="4.04" data-media-start="7.74" data-track-index="1" muted playsinline></video></div>
       <div id="s9-clip" class="shot-clip clip" data-start="33.04" data-duration="0.86" data-track-index="1"><div id="s9" class="shot"><img id="s9-img" src="media/freeze-0820.jpg" alt="" /></div></div>
-      <div id="s10" class="shot"><video id="s10-v" src="media/clips/0820.mp4" data-start="33.9" data-duration="1.6" data-media-start="11.78" data-track-index="1" muted playsinline></video></div>
-      <div id="s11" class="shot"><video id="s11-v" src="media/clips/0821.mp4" data-start="35.5" data-duration="4.1" data-media-start="11.4" data-track-index="1" muted playsinline></video></div>
+      <div id="s10" class="shot"><video id="s10-v" src="media/graded/0820.mp4" data-start="33.9" data-duration="1.6" data-media-start="11.78" data-track-index="1" muted playsinline></video></div>
+      <div id="s11" class="shot"><video id="s11-v" src="media/graded/0821.mp4" data-start="35.5" data-duration="4.1" data-media-start="11.4" data-track-index="1" muted playsinline></video></div>
 
       <div id="grade"></div>
       <div id="tint"></div>
@@ -228,7 +228,7 @@
       <div id="phone-layer" class="gfx">
         <div id="f-phone" class="abs" style="opacity:0; left:560px; top:740px; width:420px; height:620px; border-radius:58px; background:#0b1033; padding:18px; box-sizing:border-box; box-shadow:0 30px 60px rgba(11,16,51,.45);">
           <div style="position:relative; width:100%; height:100%; border-radius:42px; overflow:hidden; background:#000;">
-            <video id="f-pv" src="media/clips/0822.mp4" data-start="26.05" data-duration="2.95" data-media-start="7.2" data-track-index="2" muted playsinline
+            <video id="f-pv" src="media/graded/0822.mp4" data-start="26.05" data-duration="2.95" data-media-start="7.2" data-track-index="2" muted playsinline
               style="position:absolute; left:-60px; top:0; width:504px; height:896px; object-fit:cover;"></video>
             <div id="f-live" class="abs pill bg-coral white mont" style="left:20px; top:22px; height:52px; font-size:26px; padding:8px 18px; gap:10px;"><div id="f-rec" style="width:16px; height:16px; border-radius:50%; background:#fff;"></div>LIVE</div>
             <div class="abs" style="right:22px; top:24px; width:56px; height:48px;"><svg viewBox="0 0 60 40" width="56" height="38"><path d="M2 20 Q30 -8 58 20 Q30 48 2 20 Z" fill="#fff"/><circle cx="30" cy="20" r="10" fill="#2346ff"/></svg></div>

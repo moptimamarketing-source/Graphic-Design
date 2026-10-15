@@ -16,6 +16,7 @@ yang mengira jarak turun ke 0 KM dan bertukar jadi rumah tepat pada beat drop.
 | `scripts/edl.py` | Pilih take terbaik, buang ulangan & jeda, potong ikut grid beat 120 BPM, potong track suara |
 | `scripts/music.py` | Muzik latar asal (disintesis, bebas royalti) 120 BPM |
 | `scripts/audio.py` | SFX (disintesis), ducking muzik bawah suara, master −14 LUFS |
+| `scripts/grade.py` | Colour grade: samakan exposure & white balance semua klip + satu "look" vibrant → `public/media/graded/` |
 | `scripts/template.html` + `scripts/build_comp.py` | Komposisi HyperFrames (motion graphics, caption, transisi) → `public/index.html` |
 | `public/` | Projek HyperFrames (fonts Anton/Montserrat, GSAP, soundtrack) |
 
@@ -24,6 +25,7 @@ Klip raw (DJI_…0816–0823) dari folder Drive → transcode ke `public/media/c
 (1080×1920, 30fps, `-g 15`), audio dibersihkan (DeepFilterNet) ke folder `clean/`, kemudian:
 
 ```bash
+python3 scripts/grade.py public/media/clips public/media/graded
 python3 scripts/edl.py <clean_dir> build
 python3 scripts/audio.py build public/media/soundtrack.wav
 python3 scripts/build_comp.py

@@ -38,7 +38,7 @@ for sid, clip, st, du, si in SHOTS:
             f'<div id="{sid}" class="shot"><img id="{sid}-img" src="media/freeze-0820.jpg" alt="" /></div></div>')
     else:
         shots_html.append(
-            f'<div id="{sid}" class="shot"><video id="{sid}-v" src="media/clips/{clip}.mp4" data-start="{st}" '
+            f'<div id="{sid}" class="shot"><video id="{sid}-v" src="media/graded/{clip}.mp4" data-start="{st}" '
             f'data-duration="{du}" data-media-start="{si}" data-track-index="1" muted playsinline></video></div>')
 
 # captions: split each spoken chunk into screens of <= 3-4 words (TikTok rhythm)
