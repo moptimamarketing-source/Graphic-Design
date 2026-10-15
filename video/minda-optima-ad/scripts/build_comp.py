@@ -16,10 +16,9 @@ SHOTS = [
     # id, clip, start, dur, src_in
     ("s1", "0816", 0.00, 7.25, 1.28),
     ("s2", "0817", 7.25, 5.75, 0.90),
-    ("s3", "0818", 13.00, 3.00, 1.42),
-    ("s4", "0818", 16.00, 1.50, 4.68),
-    ("s5", "0818", 17.50, 5.25, 6.20),
-    ("s6", "0819", 22.75, 2.30, 4.22),
+    # 13.0-17.5: full-screen motion graphics, voice-over only (no shot)
+    ("s5", "0824", 17.30, 5.45, 7.20),   # b-roll: camera orbits the student's desk
+    ("s6", "0822", 22.75, 2.30, 10.60),  # b-roll: student facing the tablet
     ("s7", "0823", 25.05, 3.95, 6.00),   # b-roll: student, close angle
     ("s8", "0820", 29.00, 4.04, 7.74),
     ("s9", "HOLD", 33.04, 0.86, 11.78),  # punchline freeze frame
@@ -27,7 +26,7 @@ SHOTS = [
     ("s11", "0821", 35.50, 4.10, 11.40),
 ]
 for sid, clip, st, du, si in SHOTS:  # sanity: picture matches the edit
-    if clip not in ("HOLD", "0823"):
+    if clip not in ("HOLD", "0822", "0823", "0824"):
         seg = next(g for g in edl["segments"] if g["clip"] == clip and not g.get("hold") and g["src_in"] - 0.01 <= si < g["src_out"])
         assert abs((st - seg["start"]) - (si - seg["src_in"])) < 0.02, (sid, st, seg)
 
@@ -64,6 +63,10 @@ for c in edl["captions"]:
         start = g[0]["s"] - 0.06
         end = groups[i + 1][0]["s"] - 0.06 if i + 1 < len(groups) else c["end"] + 0.18
         screens.append({"start": round(start, 3), "end": round(end, 3), "words": g})
+
+screens.sort(key=lambda s: s["start"])
+for a, nxt in zip(screens, screens[1:]):  # never two caption screens on at once
+    a["end"] = round(min(a["end"], nxt["start"]), 3)
 
 cap_html = []
 cap_data = []

@@ -33,6 +33,7 @@
       .pill { border-radius: 999px; padding: 18px 34px; display: flex; align-items: center; gap: 16px; box-sizing: border-box; }
       .yellow { color: #ffd23f; } .white { color: #fff; } .navy { color: #0b1033; } .coral { color: #ff5a36; }
       .bg-blue { background: #2346ff; } .bg-yellow { background: #ffd23f; } .bg-coral { background: #ff5a36; } .bg-white { background: #fff; } .bg-navy { background: #0b1033; }
+      .m-pin { width: 90px; height: 117px; background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 130'><path d='M50 4C24 4 4 24 4 50c0 34 46 74 46 74s46-40 46-74C96 24 76 4 50 4z' fill='%23ff5a36' stroke='%230b1033' stroke-width='7'/><circle cx='50' cy='48' r='20' fill='%23fff' stroke='%230b1033' stroke-width='5'/><text x='50' y='61' font-family='Arial Black,Arial' font-weight='900' font-size='34' text-anchor='middle' fill='%230b1033'>?</text></svg>") center/contain no-repeat; filter: drop-shadow(0 8px 0 rgba(11,16,51,.35)); }
       .ring { position: absolute; border-radius: 50%; border: 10px solid #ffd23f; box-sizing: border-box; }
       svg { display: block; overflow: visible; }
 
@@ -116,46 +117,84 @@
         <div id="b-cukup" class="abs anton yellow stroke shadow" style="left:300px; top:580px; width:740px; font-size:160px; white-space:nowrap;">DAH CUKUP!</div>
       </div>
 
-      <!-- ===== C: "tak perlu fikir cawangan mana paling dekat" ===== -->
-      <div id="gC" class="gfx clip" data-start="13" data-duration="3.0" data-track-index="3">
-        <div id="c-card" class="abs" style="left:100px; top:850px; width:880px; height:420px; border-radius:40px; background:#f4f7ff; border:8px solid #0b1033; box-sizing:border-box; overflow:hidden;
-          background-image: linear-gradient(rgba(35,70,255,.12) 2px, transparent 2px), linear-gradient(90deg, rgba(35,70,255,.12) 2px, transparent 2px); background-size: 60px 60px;">
-          <svg class="abs" style="left:0; top:0;" viewBox="0 0 880 420" width="880" height="420"><path d="M-20 300 C 160 200, 260 380, 430 260 S 700 120, 900 200" stroke="#cfd6ea" stroke-width="44" fill="none" stroke-linecap="round"/><path d="M-20 300 C 160 200, 260 380, 430 260 S 700 120, 900 200" stroke="#fff" stroke-width="6" fill="none" stroke-dasharray="24 22"/><path d="M300 -20 C 330 120, 250 260, 330 460" stroke="#cfd6ea" stroke-width="34" fill="none"/></svg>
-          <div id="c-p1" class="abs" style="left:150px; top:120px; width:80px; height:104px;"><svg viewBox="0 0 100 130" width="80" height="104"><path d="M50 0C22 0 0 22 0 50c0 36 50 80 50 80s50-44 50-80C100 22 78 0 50 0z" fill="#ff5a36" stroke="#0b1033" stroke-width="7"/><text x="50" y="62" font-family="Anton" font-size="48" text-anchor="middle" fill="#fff">?</text></svg></div>
-          <div id="c-p2" class="abs" style="left:460px; top:170px; width:80px; height:104px;"><svg viewBox="0 0 100 130" width="80" height="104"><path d="M50 0C22 0 0 22 0 50c0 36 50 80 50 80s50-44 50-80C100 22 78 0 50 0z" fill="#2346ff" stroke="#0b1033" stroke-width="7"/><text x="50" y="62" font-family="Anton" font-size="48" text-anchor="middle" fill="#fff">?</text></svg></div>
-          <div id="c-p3" class="abs" style="left:690px; top:70px; width:80px; height:104px;"><svg viewBox="0 0 100 130" width="80" height="104"><path d="M50 0C22 0 0 22 0 50c0 36 50 80 50 80s50-44 50-80C100 22 78 0 50 0z" fill="#ffd23f" stroke="#0b1033" stroke-width="7"/><text x="50" y="62" font-family="Anton" font-size="48" text-anchor="middle" fill="#0b1033">?</text></svg></div>
-        </div>
-        <div id="c-tab" class="abs pill bg-navy white mont" style="left:100px; top:770px; height:100px; font-size:42px;">CAWANGAN MANA PALING DEKAT?</div>
-        <div id="c-strike" class="abs bg-coral" style="left:60px; top:1030px; width:960px; height:34px; border-radius:20px; border:6px solid #0b1033;"></div>
-      </div>
-
-      <!-- ===== D: "tak perlu drive" ===== -->
-      <div id="gD" class="gfx clip" data-start="16" data-duration="1.5" data-track-index="3">
-        <div id="d-t1" class="abs anton white stroke" style="left:80px; top:880px; width:920px; font-size:120px;">TAK PERLU</div>
-        <div id="d-t2" class="abs anton yellow stroke shadow" style="left:80px; top:1000px; width:920px; font-size:230px;">DRIVE</div>
-        <div id="d-car" class="abs" style="left:0; top:1240px; width:300px; height:140px;">
-          <svg viewBox="0 0 300 140" width="300" height="140"><path d="M20 90 L50 40 Q60 24 80 24 H190 Q206 24 218 38 L250 74 H272 Q290 74 290 92 V108 H10 V96 Z" fill="#ff5a36" stroke="#0b1033" stroke-width="8" stroke-linejoin="round"/><path d="M78 40 H130 V74 H58 Z M146 40 H192 L222 74 H146 Z" fill="#bfe9ff" stroke="#0b1033" stroke-width="6"/><circle cx="80" cy="110" r="24" fill="#0b1033"/><circle cx="80" cy="110" r="9" fill="#fff"/><circle cx="226" cy="110" r="24" fill="#0b1033"/><circle cx="226" cy="110" r="9" fill="#fff"/></svg>
-        </div>
-        <div id="d-x" class="abs" style="left:520px; top:930px; width:420px; height:420px;">
-          <svg viewBox="0 0 100 100" width="420" height="420"><path id="d-x1" d="M14 14 L86 86" stroke="#ff5a36" stroke-width="15" stroke-linecap="round"/><path id="d-x2" d="M86 14 L14 86" stroke="#ff5a36" stroke-width="15" stroke-linecap="round"/></svg>
+      <!-- ===== M: full-screen motion graphics (voice-over only) "tak perlu fikir cawangan mana paling dekat. tak perlu drive." ===== -->
+      <div id="gM" class="gfx clip" data-start="13" data-duration="4.55" data-track-index="3" style="z-index:12; overflow:hidden;">
+        <div id="m-wrap" class="abs" style="left:0; top:0; width:1080px; height:1920px;">
+          <div class="abs" style="left:0; top:0; width:1080px; height:1920px; background:radial-gradient(85% 60% at 50% 45%, #3a5cff 0%, #2346ff 50%, #1530c9 100%);"></div>
+          <!-- city map (pins + routes live inside so they move with the camera) -->
+          <div id="m-map" class="abs" style="left:-160px; top:-240px; width:1400px; height:2400px;">
+            <svg class="abs" style="left:0; top:0;" viewBox="0 0 1400 2400" width="1400" height="2400">
+              <g fill="#2f52ff">
+                <rect x="160" y="520" width="300" height="300" rx="34"/><rect x="560" y="560" width="380" height="220" rx="34"/><rect x="1040" y="520" width="260" height="340" rx="34"/>
+                <rect x="120" y="1180" width="240" height="380" rx="34"/><rect x="820" y="1260" width="420" height="200" rx="34"/><rect x="470" y="1640" width="360" height="260" rx="34"/>
+                <rect x="980" y="1600" width="300" height="360" rx="34"/><rect x="140" y="1700" width="240" height="300" rx="34"/>
+              </g>
+              <g fill="none" stroke="#5b7bff" stroke-width="74" stroke-linecap="round">
+                <path d="M-40 900 C 300 860, 600 1000, 1440 900"/><path d="M-40 1580 C 400 1520, 900 1640, 1440 1560"/>
+                <path d="M500 -40 C 470 700, 560 1400, 500 2440"/><path d="M960 -40 C 1000 800, 900 1600, 960 2440"/>
+              </g>
+              <g fill="none" stroke="#fff" stroke-width="8" stroke-dasharray="30 26" opacity=".55">
+                <path d="M-40 900 C 300 860, 600 1000, 1440 900"/><path d="M-40 1580 C 400 1520, 900 1640, 1440 1560"/>
+                <path d="M500 -40 C 470 700, 560 1400, 500 2440"/><path d="M960 -40 C 1000 800, 900 1600, 960 2440"/>
+              </g>
+              <g id="m-routes" fill="none" stroke="#ffd23f" stroke-width="10" stroke-linecap="round">
+                <path class="m-rt" d="M720 1440 C 600 1300, 300 1250, 370 1010"/>
+                <path class="m-rt" d="M720 1440 C 760 1300, 520 1260, 590 1150"/>
+                <path class="m-rt" d="M720 1440 C 980 1300, 700 1100, 860 970"/>
+                <path class="m-rt" d="M720 1440 C 900 1500, 1150 1400, 1040 1230"/>
+                <path class="m-rt" d="M720 1440 C 560 1520, 380 1450, 460 1330"/>
+              </g>
+            </svg>
+            <div id="m-home" class="abs shadow" style="left:650px; top:1400px; width:140px; height:140px;"><svg viewBox="0 0 120 120" width="140" height="140"><path d="M60 6 L114 52 H100 V112 H20 V52 H6 Z" fill="#fff" stroke="#0b1033" stroke-width="7" stroke-linejoin="round"/><rect x="48" y="70" width="24" height="42" rx="3" fill="#ff5a36" stroke="#0b1033" stroke-width="5"/></svg></div>
+            <div id="m-p1" class="abs m-pin" style="left:325px; top:893px;"></div>
+            <div id="m-p2" class="abs m-pin" style="left:545px; top:1033px;"></div>
+            <div id="m-p3" class="abs m-pin" style="left:815px; top:853px;"></div>
+            <div id="m-p4" class="abs m-pin" style="left:995px; top:1113px;"></div>
+            <div id="m-p5" class="abs m-pin" style="left:415px; top:1213px;"></div>
+          </div>
+          <div id="m-h1" class="abs anton white stroke shadow" style="left:0; top:250px; width:1080px; text-align:center; font-size:132px;">CAWANGAN MANA</div>
+          <div id="m-h2" class="abs anton yellow stroke shadow" style="left:0; top:385px; width:1080px; text-align:center; font-size:178px;">PALING DEKAT?</div>
+          <div id="m-strike" class="abs bg-coral" style="left:70px; top:470px; width:940px; height:40px; border-radius:22px; border:7px solid #0b1033;"></div>
+          <!-- road scene -->
+          <div id="m-road-scene" class="abs" style="left:0; top:0; width:1080px; height:1920px; opacity:0;">
+            <div class="abs" style="left:0; top:0; width:1080px; height:1920px; background:radial-gradient(85% 60% at 50% 55%, #3a5cff 0%, #2346ff 50%, #1530c9 100%);"></div>
+            <div id="m-sky" class="abs" style="left:-60px; top:700px; width:1300px; height:500px;">
+              <svg viewBox="0 0 1300 500" width="1300" height="500"><g fill="#1c3be0"><rect x="0" y="180" width="150" height="320" rx="18"/><rect x="170" y="80" width="120" height="420" rx="18"/><rect x="310" y="230" width="190" height="270" rx="18"/><rect x="520" y="120" width="140" height="380" rx="18"/><rect x="680" y="260" width="170" height="240" rx="18"/><rect x="870" y="60" width="130" height="440" rx="18"/><rect x="1020" y="200" width="180" height="300" rx="18"/><rect x="1210" y="140" width="90" height="360" rx="18"/></g><g fill="#ffd23f" opacity=".55"><rect x="200" y="130" width="22" height="22" rx="4"/><rect x="240" y="190" width="22" height="22" rx="4"/><rect x="550" y="170" width="22" height="22" rx="4"/><rect x="600" y="250" width="22" height="22" rx="4"/><rect x="900" y="110" width="22" height="22" rx="4"/><rect x="940" y="220" width="22" height="22" rx="4"/><rect x="1060" y="250" width="22" height="22" rx="4"/></g></svg>
+            </div>
+            <div class="abs" style="left:-40px; top:1180px; width:1160px; height:300px; background:#0b1033; border-top:14px solid #ffd23f; border-bottom:14px solid #ffd23f; overflow:hidden;">
+              <div id="m-lane" class="abs" style="left:0; top:136px; width:4200px; height:16px; background:repeating-linear-gradient(90deg, #fff 0 90px, transparent 90px 170px);"></div>
+            </div>
+            <div id="m-sl1" class="abs bg-white" style="left:1100px; top:1110px; width:260px; height:10px; border-radius:6px; opacity:.7;"></div>
+            <div id="m-sl2" class="abs bg-white" style="left:1100px; top:1220px; width:180px; height:8px; border-radius:6px; opacity:.5;"></div>
+            <div id="m-sl3" class="abs bg-white" style="left:1100px; top:1060px; width:320px; height:12px; border-radius:6px; opacity:.6;"></div>
+            <div id="m-sl4" class="abs bg-yellow" style="left:1100px; top:1170px; width:220px; height:10px; border-radius:6px; opacity:.8;"></div>
+            <div id="m-car" class="abs" style="left:250px; top:1000px; width:580px; height:271px;">
+              <svg viewBox="0 0 300 140" width="580" height="271"><path d="M20 90 L50 40 Q60 24 80 24 H190 Q206 24 218 38 L250 74 H272 Q290 74 290 92 V108 H10 V96 Z" fill="#ff5a36" stroke="#0b1033" stroke-width="7" stroke-linejoin="round"/><path d="M78 40 H130 V74 H58 Z M146 40 H192 L222 74 H146 Z" fill="#bfe9ff" stroke="#0b1033" stroke-width="5"/><rect x="262" y="80" width="18" height="10" rx="3" fill="#ffd23f"/><circle cx="80" cy="110" r="24" fill="#0b1033"/><circle cx="80" cy="110" r="9" fill="#fff"/><circle cx="226" cy="110" r="24" fill="#0b1033"/><circle cx="226" cy="110" r="9" fill="#fff"/></svg>
+            </div>
+            <div id="d-t1" class="abs anton white stroke" style="left:0; top:330px; width:1080px; text-align:center; font-size:140px;">TAK PERLU</div>
+            <div id="d-t2" class="abs anton yellow stroke shadow" style="left:0; top:470px; width:1080px; text-align:center; font-size:270px;">DRIVE</div>
+            <div id="d-x" class="abs" style="left:300px; top:900px; width:480px; height:480px;">
+              <svg viewBox="0 0 100 100" width="480" height="480"><path d="M14 14 L86 86" stroke="#ff5a36" stroke-width="15" stroke-linecap="round"/><path d="M86 14 L14 86" stroke="#ff5a36" stroke-width="15" stroke-linecap="round"/><path d="M14 14 L86 86 M86 14 L14 86" stroke="#0b1033" stroke-width="3" stroke-linecap="round" opacity=".35"/></svg>
+            </div>
+          </div>
         </div>
       </div>
 
       <!-- ===== E: checklist "yang penting" ===== -->
       <div id="gE" class="gfx clip" data-start="17.5" data-duration="5.3" data-track-index="3">
-        <div id="e-card" class="abs" style="left:90px; top:820px; width:900px; height:520px; border-radius:44px; background:rgba(255,255,255,.95); border:8px solid #0b1033; box-sizing:border-box;"></div>
-        <div id="e-head" class="abs pill bg-blue white anton" style="left:60px; top:760px; height:120px; font-size:84px; padding:10px 40px 0;">YANG PENTING</div>
-        <div id="e-r1" class="abs" style="left:130px; top:920px; width:820px; height:120px; display:flex; align-items:center; gap:30px;">
+        <div id="e-card" class="abs" style="left:90px; top:300px; width:900px; height:520px; border-radius:44px; background:rgba(255,255,255,.95); border:8px solid #0b1033; box-sizing:border-box;"></div>
+        <div id="e-head" class="abs pill bg-blue white anton" style="left:60px; top:240px; height:120px; font-size:84px; padding:10px 40px 0;">YANG PENTING</div>
+        <div id="e-r1" class="abs" style="left:130px; top:400px; width:820px; height:120px; display:flex; align-items:center; gap:30px;">
           <div class="bg-yellow" style="width:104px; height:104px; border-radius:30px; display:flex; align-items:center; justify-content:center; border:6px solid #0b1033; box-sizing:border-box;"><svg viewBox="0 0 64 64" width="64" height="64"><rect x="6" y="20" width="52" height="10" rx="3" fill="#0b1033"/><rect x="12" y="30" width="7" height="26" fill="#0b1033"/><rect x="45" y="30" width="7" height="26" fill="#0b1033"/><rect x="18" y="8" width="16" height="12" rx="2" fill="#2346ff"/></svg></div>
           <div class="mont navy" style="font-size:62px; flex:1;">RUANG BELAJAR</div>
           <svg id="e-k1" viewBox="0 0 60 60" width="84" height="84"><circle cx="30" cy="30" r="27" fill="#22c55e"/><path d="M17 31 L26 40 L44 21" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </div>
-        <div id="e-r2" class="abs" style="left:130px; top:1055px; width:820px; height:120px; display:flex; align-items:center; gap:30px;">
+        <div id="e-r2" class="abs" style="left:130px; top:535px; width:820px; height:120px; display:flex; align-items:center; gap:30px;">
           <div class="bg-coral" style="width:104px; height:104px; border-radius:30px; display:flex; align-items:center; justify-content:center; border:6px solid #0b1033; box-sizing:border-box;"><svg viewBox="0 0 64 64" width="62" height="62"><rect x="10" y="8" width="44" height="50" rx="7" fill="#fff" stroke="#0b1033" stroke-width="5"/><rect x="17" y="15" width="30" height="32" rx="2" fill="#2346ff"/><circle cx="32" cy="52" r="3" fill="#0b1033"/></svg></div>
           <div class="mont navy" style="font-size:62px; flex:1;">DEVICE</div>
           <svg id="e-k2" viewBox="0 0 60 60" width="84" height="84"><circle cx="30" cy="30" r="27" fill="#22c55e"/><path d="M17 31 L26 40 L44 21" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </div>
-        <div id="e-r3" class="abs" style="left:130px; top:1190px; width:820px; height:120px; display:flex; align-items:center; gap:30px;">
+        <div id="e-r3" class="abs" style="left:130px; top:670px; width:820px; height:120px; display:flex; align-items:center; gap:30px;">
           <div class="bg-blue" style="width:104px; height:104px; border-radius:30px; display:flex; align-items:center; justify-content:center; border:6px solid #0b1033; box-sizing:border-box;"><svg viewBox="0 0 60 48" width="60" height="48"><path d="M4 18a38 38 0 0 1 52 0" stroke="#fff" stroke-width="7" fill="none" stroke-linecap="round"/><path d="M14 28a24 24 0 0 1 32 0" stroke="#fff" stroke-width="7" fill="none" stroke-linecap="round"/><circle cx="30" cy="40" r="6" fill="#ffd23f"/></svg></div>
           <div class="mont navy" style="font-size:62px; flex:1;">INTERNET</div>
           <svg id="e-k3" viewBox="0 0 60 60" width="84" height="84"><circle cx="30" cy="30" r="27" fill="#22c55e"/><path d="M17 31 L26 40 L44 21" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -164,8 +203,8 @@
 
       <!-- ===== F: one-to-one, bergilir, parent monitor ===== -->
       <div id="gF1" class="gfx clip" data-start="22.75" data-duration="2.3" data-track-index="3">
-        <div id="f-ring" class="ring" style="left:310px; top:900px; width:460px; height:460px; border-width:16px; border-style:dashed; border-color:#ffd23f;"></div>
-        <div id="f-num" class="abs anton white stroke shadow" style="left:0; top:975px; width:1080px; text-align:center; font-size:290px;">1:1</div>
+        <div id="f-ring" class="ring" style="left:310px; top:300px; width:460px; height:460px; border-width:16px; border-style:dashed; border-color:#ffd23f;"></div>
+        <div id="f-num" class="abs anton white stroke shadow" style="left:0; top:375px; width:1080px; text-align:center; font-size:290px;">1:1</div>
       </div>
       <div id="gF2" class="gfx clip" data-start="25.05" data-duration="3.95" data-track-index="3">
         <div id="f-chip" class="abs pill bg-white navy mont" style="left:60px; top:270px; height:110px; font-size:52px; gap:24px;">
@@ -278,12 +317,11 @@
       tl.to("#s2", { scale: 1.3, duration: 5.2, ease: "none" }, 7.55);
       tl.to("#s2", { scale: 2.1, duration: 0.25, ease: "power4.in" }, 12.75);
       // C/D/E: close-up, punch levels hide the jump cuts
-      tl.fromTo("#s3", { transformOrigin: "50% 30%", scale: 1.35 }, { scale: 1.04, duration: 0.45, ease: "expo.out" }, 13.0);
-      tl.to("#s3", { scale: 1.09, duration: 2.5, ease: "none" }, 13.45);
-      tl.fromTo("#s4", { transformOrigin: "50% 28%", scale: 1.24 }, { scale: 1.3, duration: 1.5, ease: "none" }, 16.0);
-      tl.fromTo("#s5", { transformOrigin: "50% 30%", scale: 1.0 }, { scale: 1.08, duration: 5.25, ease: "sine.inOut" }, 17.5);
+      // C/D are full-screen motion graphics (voice-over only); E is b-roll
+      tl.fromTo("#s5", { transformOrigin: "50% 50%", scale: 1.15, y: 120, x: 380, filter: "blur(20px)" }, { x: 0, filter: "blur(0px)", duration: 0.3, ease: "power3.out" }, 17.36);
+      tl.to("#s5", { scale: 1.22, duration: 4.9, ease: "none" }, 17.8);
       // F
-      tl.fromTo("#s6", { transformOrigin: "50% 30%", scale: 1.16 }, { scale: 1.06, duration: 2.3, ease: "power1.out" }, 22.75);
+      tl.fromTo("#s6", { transformOrigin: "50% 0%", scale: 1.36 }, { scale: 1.28, duration: 2.3, ease: "power1.out" }, 22.75);
       tl.fromTo("#s7", { transformOrigin: "40% 55%", scale: 1.32, x: 0 }, { scale: 1.42, x: -40, duration: 3.95, ease: "none" }, 25.05);
       // G: iris reveal, slow push, freeze, drop shake
       tl.fromTo("#s8", { clipPath: "circle(0% at 50% 52%)", transformOrigin: "46% 40%", scale: 1.16 }, { clipPath: "circle(80% at 50% 52%)", duration: 0.42, ease: "power3.out" }, 28.86);
@@ -341,20 +379,35 @@
       tl.fromTo("#b-cukup", { scale: 2.2, opacity: 0 }, { scale: 1, opacity: 1, rotation: -3, duration: 0.24, ease: "power4.out" }, 10.95);
       tl.to(["#b-chip", "#b-frame", "#b-check", "#b-cukup"], { scale: 1.5, opacity: 0, duration: 0.22, ease: "power3.in" }, 12.76);
 
-      // ---------- C ----------
-      tl.fromTo("#c-card", { y: 260, rotation: 6, opacity: 0 }, { y: 0, rotation: -2, opacity: 1, duration: 0.5, ease: "back.out(1.5)" }, 13.08);
-      tl.fromTo("#c-tab", { x: -300, opacity: 0 }, { x: 0, opacity: 1, duration: 0.36, ease: "expo.out" }, 13.18);
-      [["#c-p1", 13.3], ["#c-p2", 13.62], ["#c-p3", 13.94]].forEach(([s, t]) => tl.fromTo(s, { y: -80, scale: 0, opacity: 0 }, { y: 0, scale: 1, opacity: 1, duration: 0.36, ease: "back.out(3)" }, t));
-      [["#c-p1", 0], ["#c-p2", 0.1], ["#c-p3", 0.2]].forEach(([s, d]) => tl.to(s, { y: -14, duration: 0.25, ease: "sine.inOut", yoyo: true, repeat: 1 }, 14.4 + d));
-      tl.fromTo("#c-strike", { scaleX: 0, rotation: -9, transformOrigin: "0% 50%" }, { scaleX: 1, duration: 0.26, ease: "power4.out" }, 15.32);
-      tl.to(["#c-card", "#c-tab", "#c-strike"], { y: 220, opacity: 0, rotation: 6, duration: 0.24, ease: "power3.in" }, 15.74);
-
-      // ---------- D ----------
-      tl.fromTo("#d-t1", { x: -500, opacity: 0 }, { x: 0, opacity: 1, duration: 0.3, ease: "expo.out" }, 16.08);
+      // ---------- M: map motion graphic (13.0-15.9) ----------
+      tl.fromTo("#m-wrap", { scale: 1.25, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.45, ease: "expo.out" }, 13.0);
+      tl.fromTo("#m-map", { scale: 1.5, rotation: -10, transformOrigin: "50% 50%" }, { scale: 1.08, rotation: -3, duration: 0.8, ease: "expo.out" }, 13.0);
+      tl.to("#m-map", { scale: 1.16, rotation: -1, duration: 1.8, ease: "none" }, 13.8);
+      tl.fromTo("#m-home", { scale: 0, transformOrigin: "50% 100%" }, { scale: 1, duration: 0.4, ease: "back.out(2.6)" }, 13.2);
+      [13.3, 13.48, 13.66, 13.84, 14.02].forEach((t, i) => tl.fromTo(`#m-p${i + 1}`, { y: -360, scale: 0.4, opacity: 0, transformOrigin: "50% 100%" }, { y: 0, scale: 1, opacity: 1, duration: 0.42, ease: "bounce.out" }, t));
+      document.querySelectorAll(".m-rt").forEach((p, i) => { const L = p.getTotalLength(); tl.fromTo(p, { strokeDasharray: L, strokeDashoffset: L }, { strokeDashoffset: 0, duration: 0.55, ease: "power2.inOut" }, 13.62 + i * 0.16); });
+      [1, 2, 3, 4, 5].forEach((k, i) => tl.to(`#m-p${k}`, { y: -18, duration: 0.18, ease: "sine.inOut", yoyo: true, repeat: 1 }, 14.5 + i * 0.07));
+      tl.fromTo("#m-h1", { y: -60, opacity: 0 }, { y: 0, opacity: 1, duration: 0.32, ease: "expo.out" }, 14.05);
+      tl.fromTo("#m-h2", { scale: 2.5, opacity: 0, rotation: -10 }, { scale: 1, opacity: 1, rotation: -3, duration: 0.22, ease: "power4.out" }, 14.88);
+      tl.fromTo("#m-strike", { scaleX: 0, rotation: -5, transformOrigin: "0% 50%" }, { scaleX: 1, duration: 0.24, ease: "power4.out" }, 15.32);
+      tl.to(["#m-routes", "#m-p1", "#m-p2", "#m-p3", "#m-p4", "#m-p5"], { opacity: 0.25, duration: 0.25, ease: "power2.out" }, 15.36);
+      // camera dives into the road -> road scene
+      tl.to("#m-map", { scale: 3.2, rotation: 8, duration: 0.3, ease: "power4.in" }, 15.62);
+      tl.to(["#m-h1", "#m-h2", "#m-strike"], { y: -260, opacity: 0, duration: 0.24, ease: "power3.in" }, 15.66);
+      tl.fromTo("#m-road-scene", { opacity: 0, scale: 1.4 }, { opacity: 1, scale: 1, duration: 0.3, ease: "expo.out" }, 15.9);
+      // ---------- road: "tak perlu drive" (15.9-17.55) ----------
+      tl.fromTo("#m-lane", { x: 0 }, { x: -1800, duration: 0.96, ease: "none" }, 15.9);
+      tl.fromTo("#m-sky", { x: 0 }, { x: -160, duration: 1.6, ease: "power1.out" }, 15.9);
+      tl.to("#m-lane", { x: -2050, duration: 0.3, ease: "power3.out" }, 16.86);
+      ["#m-sl1", "#m-sl2", "#m-sl3", "#m-sl4"].forEach((s, i) => tl.fromTo(s, { x: 0 }, { x: -1700, duration: 0.32 + i * 0.05, ease: "none", repeat: 2, immediateRender: false }, 15.92 + i * 0.07));
+      tl.fromTo("#m-car", { x: -900, rotation: 0 }, { x: 0, duration: 0.45, ease: "expo.out" }, 15.92);
+      tl.fromTo("#m-car", { y: 0 }, { y: -8, duration: 0.07, ease: "none", yoyo: true, repeat: 5, immediateRender: false }, 16.37);
+      tl.to("#m-car", { rotation: -5, x: 30, duration: 0.12, ease: "power2.out", yoyo: true, repeat: 1 }, 16.86);
+      tl.fromTo("#d-t1", { x: -600, opacity: 0 }, { x: 0, opacity: 1, duration: 0.3, ease: "expo.out" }, 16.08);
       tl.fromTo("#d-t2", { scale: 2.4, opacity: 0, rotation: -10 }, { scale: 1, opacity: 1, rotation: -4, duration: 0.24, ease: "power4.out" }, 16.72);
-      tl.fromTo("#d-car", { x: -340 }, { x: 1180, duration: 1.05, ease: "power1.inOut" }, 16.05);
       tl.fromTo("#d-x", { scale: 1.8, opacity: 0, rotation: -20 }, { scale: 1, opacity: 1, rotation: 0, duration: 0.2, ease: "power4.out" }, 16.86);
-      tl.to(["#d-t1", "#d-t2", "#d-x"], { opacity: 0, scale: 0.8, duration: 0.14, ease: "power2.in" }, 17.36);
+      // whip out to the b-roll
+      tl.to("#m-wrap", { x: -1180, duration: 0.22, ease: "power3.in" }, 17.33);
 
       // ---------- E ----------
       tl.fromTo("#e-card", { scaleY: 0, transformOrigin: "50% 0%" }, { scaleY: 1, duration: 0.42, ease: "expo.out" }, 17.62);
