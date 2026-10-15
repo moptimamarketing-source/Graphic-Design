@@ -1,0 +1,7 @@
+# large working media (regenerate from the Drive raw clips, see README)
+public/media/clips/
+public/.hyperframes/
+build/
+output/render-raw.mp4
+__pycache__/
+public/media/graded/
