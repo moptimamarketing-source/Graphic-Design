@@ -1,4 +1,4 @@
-import { interpolate, spring, SpringConfig } from "remotion";
+import { Easing, interpolate, spring, SpringConfig } from "remotion";
 import voEnvelope from "../data/voEnvelope.json";
 
 export const clamp = (v: number, min = 0, max = 1) =>
@@ -14,15 +14,21 @@ export const pop = (
   config: Partial<SpringConfig> = SOFT,
 ) => spring({ frame: frame - delay, fps, config });
 
+const SMOOTH = Easing.inOut(Easing.cubic);
+
 // 0 → 1 → 0 over [start, end] with eased edges, for elements that enter and leave.
+
 export const inOut = (frame: number, start: number, end: number, edge = 10) =>
   interpolate(frame, [start, start + edge, end - edge, end], [0, 1, 1, 0], {
+    easing: SMOOTH,
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
 
+// 0 → 1 between two frames, easing in and out so moves start and stop softly.
 export const ramp = (frame: number, start: number, end: number) =>
   interpolate(frame, [start, end], [0, 1], {
+    easing: SMOOTH,
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
