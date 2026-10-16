@@ -1,0 +1,69 @@
+MINDA OPTIMA — PARENTING AWARENESS EPISODE 08
+Title: Anak Nak Masuk Tahun 1, Tapi Belum Bersedia?
+
+ASSETS TO ATTACH IN CLAUDE
+1. Voice-over: ElevenLabs_2026-10-16T02_19_28_Fatimah_ivc_sp95_s50_sb80_se15_b_m2.mp3
+2. The EXACT script pasted into ElevenLabs Text to Speech (paste it below).
+3. Original unmodified Minda Optima logo (attach if available).
+4. Optionally: Digital Signboard Minda Optima.mp4 as a color/branding reference only.
+
+AUDIO DURATION: 60.0816 seconds. At 30 fps, use 1,803 frames (60.10 seconds) to avoid cutting off the recording.
+
+=== MASTER PROMPT TO PASTE INTO CLAUDE OPUS 5.5 ===
+Act as a professional Malaysian motion graphic art director, character animator, video editor, and Remotion/React TypeScript developer.
+
+PROJECT: 60-second Malaysian educational parenting awareness video for Pusat Tuisyen Minda Optima, established 1995.
+
+GOAL
+Create a premium animated story that reassures parents of 5–6-year-old children who are preparing for Year 1. It is an awareness video, not a hard-selling enrollment ad. The core message is that Year 1 readiness includes following instructions, focusing briefly, and having the confidence to try reading, not merely recognizing letters. Avoid implying all children must be fluent readers before entering Year 1.
+
+SOURCE OF TRUTH
+- Attached ElevenLabs Fatimah MP3 is the MASTER AUDIO. Do not re-record, revoice, change speed, truncate, or rearrange its dialogue.
+- The EXACT original TTS script that I provide is the source for captions. Do not invent any voice-over words.
+- Measure or preserve the voice-over duration: 60.0816 seconds.
+- Align visual beats and subtitles to the actual audio. The time windows below are EDITORIAL GUIDELINES, not forced word-level timestamps.
+
+TECHNICAL DELIVERY
+- 1080x1920 vertical, 9:16; 30fps; MP4 H.264; AAC audio; total approximately 60.10 seconds (1803 frames).
+- Use real motion-graphic animation, character acting, facial expression changes, SVG/vector layers, parallax and kinetic typography. A slideshow of static images with zoom transitions is NOT acceptable.
+- Use meaningful animation: mouth movement where feasible, blinks, gestures, body reactions, reading props, floating letters, dynamic camera and gentle shape morphs. Never stretch or distort character faces.
+- Subtitles in accurate Malaysian Bahasa Melayu, maximum two lines, large mobile-legible fonts, with important words occasionally highlighted. Keep inside UI-safe margins.
+- Soft unobtrusive background music at low volume relative to speech. Gentle transition SFX. No sound that masks speech.
+- Use color palette inspired by Minda Optima: blue and white as primary, red and yellow accents. Keep a cohesive premium educational aesthetic.
+
+CHARACTERS / CONSISTENCY
+- Mother: Malaysian Malay woman approximately 30 years old, modest attire, light-blue hijab, kind and approachable.
+- Child: Malaysian Malay boy approximately 6 years old, navy school bag for school shots, simple casual outfit for home scenes.
+- Both must look IDENTICAL in each shot (face, skin tone, hairstyle/headscarf, colors, scale). Create a style/character sheet or reusable component before animating.
+- Supporting objects: Malaysian primary-school gate, books, colorful letter cards, table, puzzle blocks, backpack.
+- No extra/random children; no mismatched anatomy, duplicate arms or warped hands.
+
+PROPOSED EDITORIAL SCENES (refine scene cuts by listening to MP3)
+1) 00:00–00:09 — HOOK: Child stands at Malaysian school gate, unsure; a small book opens, ABC letters bounce; big question text "NAK MASUK TAHUN 1?" and "BELUM LANCAR MEMBACA?". Start immediately with movement and an expressive close-up.
+2) 00:09–00:17 — REASSURANCE: Mother gently reassures child, calming transition, text "JANGAN PANIK DULU!" then ABC letters reassemble into a visual checklist with "BUKAN SEKADAR ABC".
+3) 00:17–00:23.5 — SKILL 1: Child following a simple instruction from mother, puts a book on a table; checklist item 1 activates: "IKUT ARAHAN".
+4) 00:23.5–00:28.7 — SKILL 2: Child focuses on a puzzle for a short moment; animated clock and concentration bubble; checklist item 2 activates: "BOLEH FOKUS".
+5) 00:28.7–00:35 — SKILL 3: Child points to an unfamiliar word and tries; letters light up one at a time; checklist item 3 activates: "BERANI CUBA". Do not depict guaranteed fluency.
+6) 00:35–00:43.2 — EMOTIONAL POINT: Brief split-screen comparison: worried child vs confident child; the unfair comparison crosses out and is replaced by an encouraging parent-child moment. Text: "JANGAN BANDINGKAN ANAK".
+7) 00:43.2–00:52 — PRACTICAL TIP: Mother and son read together for a short, pleasant session; playful tiny stars, page flip, gentle gesture, praise. Text: "LATIHAN RINGKAS + KONSISTEN" and "PUJI USAHA ANAK".
+8) 00:52–01:00.10 — HEARTFELT ENDING: Child confidently holds book and walks toward school with mother. End card shows original official Minda Optima logo, not an invented recreation, plus "BINA KEYAKINAN ANAK" and "SEJAK 1995". Align the logo arrival to the audio ending. Do not shorten the voice-over for the end card.
+
+EDITING REQUIREMENTS
+- Transitions smooth but dynamic (animated wipe, depth/parallax, camera move), no random flashy presets.
+- Each spoken tip gets a visual action, not merely repeated text.
+- Keep main title text concise and correctly spelled.
+- Avoid strong claims like "semua anak mesti lancar membaca sebelum Tahun 1" or "pasti lancar dalam 30 hari".
+- Do not add a spoken call to action, because the original audio must remain unchanged.
+- If the official logo is not attached, reserve a clean space and ask for the real asset rather than recreating it from memory.
+
+WORKFLOW AND OUTPUT
+A) First inspect the attached audio and transcript, then produce a timecoded storyboard with each scene and caption cue.
+B) Create consistent character and prop artwork as reusable vector/illustrative assets or identify missing assets before coding.
+C) Build runnable Remotion/React TypeScript source project with readable reusable components for scenes, character movements, camera, typography and synced captions.
+D) Preview, fix overlapping captions/objects, maintain safe areas, and check exact voice-over sync.
+E) If your environment has file execution and Remotion available, render and provide an actual MP4. Otherwise provide full code, folder structure, commands and honest instructions. Never claim to have rendered a video without an actual output file.
+
+IMPORTANT: Timings above are approximate creative scene ranges. Verify all exact spoken-word timings from the audio before placing subtitles. Preserve MP3 unchanged.
+
+=== PASTE THE ACTUAL ELEVENLABS TEXT-TO-SPEECH SCRIPT BELOW ===
+[PASTE THE EXACT FINAL SCRIPT USED TO GENERATE THE AUDIO HERE]
