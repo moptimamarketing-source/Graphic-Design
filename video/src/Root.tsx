@@ -1,4 +1,5 @@
-import { Composition } from "remotion";
+import { Composition, Folder, Still } from "remotion";
+import { CharacterSheet } from "./CharacterSheet";
 import { MindaOptimaEp08 } from "./MindaOptimaEp08";
 
 export const RemotionRoot: React.FC = () => {
@@ -12,6 +13,9 @@ export const RemotionRoot: React.FC = () => {
         width={1080}
         height={1920}
       />
+      <Folder name="Reference">
+        <Still id="CharacterSheet" component={CharacterSheet} width={1080} height={1920} />
+      </Folder>
     </>
   );
 };
