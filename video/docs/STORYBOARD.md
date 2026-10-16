@@ -3,7 +3,7 @@
 **Anak Nak Masuk Tahun 1, Tapi Belum Bersedia?**
 1080×1920 · 9:16 · 30 fps · 1803 frames (60.10 s) · MP4 H.264 + AAC
 
-Status: **draft for approval. Nothing has been rendered.**
+Status: **approved and built.** See the build revision in §1.
 
 ---
 
@@ -55,9 +55,52 @@ Each cut sits in the middle of a real pause, so no scene change lands mid-word.
 
 Every editorial time in the brief falls within 0.2 s of the next phrase's onset (four of seven within 0.06 s), so the brief's scene ranges hold. I cut slightly earlier, mid-pause, so each new scene is on screen before its first word.
 
-### ⚠ Exact script still needed
+### Voice-over script (transcribed from the MP3)
 
-The brief's script section still holds the placeholder `[PASTE THE EXACT FINAL SCRIPT …]`. I could not transcribe the MP3 here because this container cannot download speech-recognition models. Subtitles must use the exact ElevenLabs script, so the phrase blocks above are the caption slots and the words will be filled in from the script. The on-screen headline text below comes from the brief, not from the audio.
+The brief's script section was still the placeholder, so the words were
+transcribed from the master MP3 with Whisper large-v3, one phrase block at a
+time. **Please check against the original ElevenLabs script.** One spot is
+uncertain: the recording sounds like "anak nak masuk **dan** Tahun 1"; the
+subtitles leave that "dan" out.
+
+| Block | Time (s) | Words |
+|---|---|---|
+| P1–P2 | 0.19–2.26 | Parents, anak nak masuk |
+| P3 | 2.63–7.22 | Tahun 1 tahun depan, tapi masih belum lancar membaca? |
+| P4 | 7.41–8.53 | Jangan panik dulu. |
+| P5–P7 | 8.96–16.38 | Sebenarnya, persediaan ke Tahun 1 bukan sekadar kenal ABC tau. Cuba tengok 3 perkara ni. |
+| P8 | 16.80–19.38 | Pertama, anak boleh ikut arahan mudah. |
+| P9 | 19.57–22.99 | Kedua, anak boleh fokus pada satu aktiviti. |
+| P10–P11 | 23.44–28.29 | Ketiga, anak berani cuba membaca walaupun takut salah. |
+| P12–P13 | 28.70–34.65 | Kalau anak masih belum kuasai semuanya, jangan terus bandingkan dengan anak orang lain. |
+| P14–P15 | 34.97–42.85 | Mulakan dengan aktiviti membaca yang ringkas dan menyeronokkan. Puji setiap usaha kecil mereka. |
+| P16–P19 | 43.21–51.39 | Sebab setiap anak belajar mengikut kemampuan masing-masing. Ingat, parents. Kita bukan sekadar nak anak pandai membaca. |
+| P20 | 51.86–54.34 | Kita nak mereka yakin untuk belajar. |
+| P21–P22 | 54.66–59.80 | Minda Optima, sejak 1995. |
+
+### Build revision: cuts follow the words
+
+The brief's scene ranges were guesses; in the recording the content arrives
+earlier (for example "Jangan panik dulu" at 7.41 s and "Kedua" at 19.57 s).
+The eight approved scenes are kept, but each cut now sits in the pause where
+the spoken topic changes:
+
+| Scene | Time | Frames | Words |
+|---|---|---|---|
+| 1 Hook | 0:00.00–0:07.30 | 0–219 | P1–P3 |
+| 2 Jangan panik | 0:07.30–0:16.59 | 219–498 | P4–P7 |
+| 3 Ikut arahan | 0:16.59–0:19.47 | 498–584 | P8 |
+| 4 Boleh fokus | 0:19.47–0:23.22 | 584–696 | P9 |
+| 5 Berani cuba | 0:23.22–0:28.50 | 696–855 | P10–P11 |
+| 6 Jangan bandingkan | 0:28.50–0:34.81 | 855–1044 | P12–P13 |
+| 7 Tip membaca + puji | 0:34.81–0:43.03 | 1044–1291 | P14–P15 |
+| 8 Penutup + logo | 0:43.03–1:00.10 | 1291–1803 | P16–P22 (logo lands on "Minda Optima", 54.66 s) |
+
+On-screen headlines follow the spoken words (for example "RINGKAS DAN
+MENYERONOKKAN" rather than the brief's "LATIHAN RINGKAS + KONSISTEN", which
+is not said). The Malaysian flag from the style frame was removed on request.
+Scene-by-scene beats below are the original approved plan; `src/timing.ts`
+holds the frame-exact beats used in the build.
 
 ---
 
