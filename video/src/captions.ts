@@ -2,6 +2,7 @@
 // measured phrase blocks in timing.ts. `hi` lists words shown in yellow.
 // Wording to confirm against the original ElevenLabs script: the recording
 // sounds like "anak nak masuk dan Tahun 1"; page 1–2 omit that "dan".
+// "Minda Optima, sejak 1995" is no longer spoken, so it has no subtitle.
 
 export type CaptionPage = {
   text: string;
@@ -101,6 +102,4 @@ export const CAPTIONS: CaptionPage[] = [
     end: 54.5,
     hi: ["yakin"],
   },
-  { text: "Minda Optima,", start: 54.66, end: 56.1, hi: ["Minda", "Optima,"] },
-  { text: "sejak 1995.", start: 56.23, end: 59.95, hi: ["1995."] },
 ];

@@ -4,7 +4,7 @@
 
 - Storyboard and measured audio timings: [`docs/STORYBOARD.md`](docs/STORYBOARD.md)
 - Original brief: [`docs/brief.txt`](docs/brief.txt)
-- Master voice-over and official logo: `public/assets/` (byte-identical copies of the Drive originals; do not edit)
+- Master voice-over and official logo: `public/assets/` (byte-identical copies of the Drive originals; do not edit). `voiceover-fatimah-smooth.wav` is the processed copy used in the video.
 
 Current state: all eight scenes built. Output: `out/minda-optima-ep08.mp4` (not committed; re-render with the command below).
 
@@ -16,8 +16,8 @@ Current state: all eight scenes built. Output: `out/minda-optima-ep08.mp4` (not 
 - `src/props/`: backgrounds (school gate, living room, street) and learning props
 - `src/components/`: kinetic headlines, subtitles, checklist, stage/camera
 - `src/scenes/`: S1–S8
-- `src/audio/Soundtrack.tsx`: voice-over (unchanged), music bed with ducking, SFX
-- `scripts/analyse_audio.py`, `scripts/make_audio.py`: regenerate the voice envelope and the synthesised SFX/music (Python + numpy + ffmpeg)
+- `src/audio/Soundtrack.tsx`: smoothed voice-over (ends after "…yakin untuk belajar"), beat music with ducking, SFX
+- `scripts/analyse_audio.py`, `scripts/make_audio.py`, `scripts/make_beat.py`: regenerate the voice envelope, SFX and music (Python + numpy + ffmpeg)
 
 ## Commands
 

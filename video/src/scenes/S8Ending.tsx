@@ -7,7 +7,7 @@ import { cam, Stage } from "../components/Stage";
 import { lipSync, pop, ramp, wave } from "../lib/anim";
 import { Neighbourhood, SchoolGate } from "../props/Backgrounds";
 import { ClosedBook, Sparkle } from "../props/Items";
-import { BEATS, P } from "../timing";
+import { BEATS, MUSIC_BEAT, P } from "../timing";
 import { colors } from "../theme";
 import { useSceneClock } from "./common";
 
@@ -102,6 +102,11 @@ const EndCard: React.FC<{ frame: number; fps: number; L: (a: number) => number }
   const logoIn = pop(frame, fps, L(BEATS.mindaOptima), { damping: 11, stiffness: 110, mass: 0.9 });
   const settle = 1 - ramp(frame, L(BEATS.mindaOptima) + 30, L(BEATS.mindaOptima) + 90);
   const float = wave(frame, 60, 6) * settle;
+  // A small bump on each music beat after the logo lands, easing off.
+  const sinceHit = frame - L(BEATS.mindaOptima);
+  const beatPhase = (sinceHit % MUSIC_BEAT) / MUSIC_BEAT;
+  const beatPulse =
+    sinceHit > MUSIC_BEAT && sinceHit < MUSIC_BEAT * 8 ? 0.028 * Math.exp(-beatPhase * 6) * (1 - sinceHit / (MUSIC_BEAT * 8)) : 0;
   return (
     <AbsoluteFill style={{ background: "radial-gradient(circle at 50% 42%, #FFFFFF 0%, #EAF6FD 55%, #CDEBFA 100%)" }}>
       <Stage background="transparent">
@@ -129,7 +134,7 @@ const EndCard: React.FC<{ frame: number; fps: number; L: (a: number) => number }
           width: LOGO_W,
           left: 540 - LOGO_CX,
           top: 820 - LOGO_CY + float,
-          transform: `scale(${0.2 + 0.8 * logoIn}) rotate(${(1 - logoIn) * -10}deg)`,
+          transform: `scale(${(0.2 + 0.8 * logoIn) * (1 + beatPulse)}) rotate(${(1 - logoIn) * -10}deg)`,
           transformOrigin: `${LOGO_CX}px ${LOGO_CY}px`,
           opacity: Math.min(1, logoIn * 2),
         }}

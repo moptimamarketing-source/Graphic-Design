@@ -40,6 +40,13 @@ export const PHRASES = [
   [56.23, 59.8], // P22 sejak 1995.
 ] as const;
 
+// The voice is cut in the pause after P20; P21–P22 ("Minda Optima, sejak
+// 1995") are not used. The end card is carried by the music instead.
+export const VO_END = 1636;
+
+// Music: 101 BPM, one beat = 17.82 frames; its big hit is at 54.65 s.
+export const MUSIC_BEAT = (60 / 101) * FPS;
+
 // Absolute frame where phrase n (1-based) starts.
 export const P = (n: number) => f(PHRASES[n - 1][0]);
 
@@ -67,7 +74,7 @@ export const BEATS = {
   ingat: P(18),
   pandaiMembaca: f(50.4),
   yakin: f(52.95),
-  mindaOptima: P(21),
-  sejak1995: P(22),
+  mindaOptima: P(21), // logo lands with the music hit (no longer spoken)
+  sejak1995: P(21) + 36, // two music beats later
   speechEnd: f(59.8),
 };
