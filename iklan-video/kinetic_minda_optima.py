@@ -3,10 +3,10 @@
 Video kinetic typography gaya "got a vision?" untuk Minda Optima.
 
 Latar putih dengan grid titik, teks biru muncul berperingkat (naik + kabur ke jelas),
-logo di penjuru kiri atas. Keluaran: MP4 9:16 (1080x1920, 30fps) dengan bunyi
+logo di penjuru kiri atas, logo besar di penutup. Keluaran: MP4 9:16 (1080x1920, 30fps) dengan bunyi
 latar yang disintesis sendiri (bebas hak cipta).
 
-  python3 kinetic_minda_optima.py                      # guna logo teks sementara
+  python3 kinetic_minda_optima.py                      # guna logo-minda-optima.png di sebelah skrip
   python3 kinetic_minda_optima.py --logo logo.png      # guna logo sebenar
   python3 kinetic_minda_optima.py --out nama.mp4
 
@@ -25,11 +25,13 @@ from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
 W, H, FPS = 1080, 1920, 30
 
-# Warna sementara template (tukar bila warna brand sebenar disahkan)
-BIRU = (29, 78, 216)
-BIRU_LEMBUT = (120, 150, 215)
-KUNING = (255, 200, 61)
-GELAP = (24, 39, 75)
+# Warna diambil dari logo Minda Optima
+BIRU = (10, 119, 187)       # #0A77BB  huruf "Minda"
+BIRU_LEMBUT = (88, 160, 210)
+MERAH = (237, 30, 43)       # #ED1E2B  huruf "Optima"
+OREN = (236, 153, 33)       # #EC9921  huruf "A"
+OREN_LEMBUT = (255, 216, 150)
+GELAP = (20, 45, 75)
 LATAR = (250, 251, 253)
 TITIK = (192, 202, 220)
 
@@ -48,7 +50,7 @@ def font(path, size):
 SCENES = [
     {"start": 0.0, "end": 3.4, "items": [
         {"runs": [("anak ", F_MED, 120, BIRU_LEMBUT), ("lambat", F_BOLD, 120, BIRU)], "y": 860, "t": 0.25},
-        {"runs": [("membaca?", F_BOLD, 150, BIRU)], "y": 1020, "t": 0.75},
+        {"runs": [("membaca", F_BOLD, 150, BIRU), ("?", F_BOLD, 150, MERAH)], "y": 1020, "t": 0.75},
     ]},
     {"start": 3.4, "end": 6.6, "items": [
         {"runs": [("tak perlu ", F_MED, 104, BIRU_LEMBUT), ("eja.", F_BOLD, 104, BIRU)], "y": 860, "t": 3.6},
@@ -56,20 +58,20 @@ SCENES = [
     ]},
     {"start": 6.6, "end": 9.9, "items": [
         {"runs": [("guru beri giliran", F_MED, 84, BIRU_LEMBUT)], "y": 800, "t": 6.8},
-        {"bar": True, "y": 985, "w": 560, "h": 150, "color": KUNING, "t": 7.35},
+        {"bar": True, "y": 985, "w": 560, "h": 150, "color": OREN_LEMBUT, "t": 7.35},
         {"runs": [("1-to-1", F_XB, 190, BIRU)], "y": 975, "t": 7.25, "anim": "pop"},
         {"runs": [("seorang demi seorang", F_MED, 64, GELAP)], "y": 1150, "t": 7.9},
     ]},
     {"start": 9.9, "end": 12.9, "items": [
-        {"runs": [("Pantas Baca", F_BOLD, 112, BIRU)], "y": 830, "t": 10.1},
+        {"runs": [("Pantas Baca", F_BOLD, 112, MERAH)], "y": 830, "t": 10.1},
         {"runs": [("Bahasa Melayu", F_MED, 56, BIRU_LEMBUT)], "y": 930, "t": 10.4},
         {"runs": [("The Victoria Readers", F_BOLD, 92, BIRU)], "y": 1080, "t": 10.9},
         {"runs": [("English", F_MED, 56, BIRU_LEMBUT)], "y": 1170, "t": 11.2},
     ]},
     {"start": 12.9, "end": 16.5, "items": [
-        {"runs": [("Minda ", F_MED, 132, BIRU_LEMBUT), ("Optima", F_XB, 132, BIRU)], "y": 830, "t": 13.1, "anim": "pop"},
-        {"runs": [("program membaca sejak 1995", F_MED, 58, GELAP)], "y": 960, "t": 13.6},
-        {"pill": "Daftar sesi penilaian", "y": 1140, "t": 14.2},
+        {"logo_besar": 780, "y": 800, "t": 13.1, "anim": "pop"},
+        {"runs": [("program membaca sejak 1995", F_MED, 58, GELAP)], "y": 1135, "t": 13.7},
+        {"pill": "Daftar sesi penilaian", "y": 1300, "t": 14.2},
     ]},
 ]
 DURATION = 16.5
@@ -109,8 +111,8 @@ def render_pill(text, pad=40):
     bw, bh = int(tw + 120), 140
     img = Image.new("RGBA", (bw + pad * 2, bh + pad * 2), (0, 0, 0, 0))
     d = ImageDraw.Draw(img)
-    d.rounded_rectangle((pad, pad + 10, pad + bw, pad + bh + 10), radius=bh // 2, fill=(20, 40, 110, 50))
-    d.rounded_rectangle((pad, pad, pad + bw, pad + bh), radius=bh // 2, fill=BIRU + (255,))
+    d.rounded_rectangle((pad, pad + 10, pad + bw, pad + bh + 10), radius=bh // 2, fill=(120, 10, 20, 50))
+    d.rounded_rectangle((pad, pad, pad + bw, pad + bh), radius=bh // 2, fill=MERAH + (255,))
     d.text((pad + bw / 2, pad + bh / 2), text, font=ft, fill=(255, 255, 255, 255), anchor="mm")
     return img
 
@@ -144,25 +146,28 @@ def make_text_logo():
     d = ImageDraw.Draw(img)
     d.rounded_rectangle((0, 8, 70, 78), radius=18, fill=BIRU + (255,))
     d.text((35, 43), "M", font=font(F_XB, 44), fill=(255, 255, 255, 255), anchor="mm")
-    d.rounded_rectangle((52, 60, 76, 84), radius=8, fill=KUNING + (255,))
+    d.rounded_rectangle((52, 60, 76, 84), radius=8, fill=OREN + (255,))
     d.text((92, 46), "Minda Optima", font=ft1, fill=GELAP + (255,), anchor="lm")
     d.text((94, 86), "PROGRAM MEMBACA", font=ft2, fill=BIRU_LEMBUT + (255,), anchor="lm")
     return img
 
 
-def load_logo(path):
+def load_logo(path, width):
     lg = Image.open(path).convert("RGBA")
-    scale = 110 / lg.height
-    return lg.resize((int(lg.width * scale), 110), Image.LANCZOS)
+    lg = lg.crop(lg.getchannel("A").getbbox())
+    return lg.resize((width, int(lg.height * width / lg.width)), Image.LANCZOS)
 
 
-def build_items():
+def build_items(logo_path):
     items = []
     for sc in SCENES:
         for it in sc["items"]:
             e = dict(it, end=sc["end"])
             if it.get("bar"):
                 e["img"] = None
+            elif it.get("logo_besar"):
+                e["img"] = load_logo(logo_path, it["logo_besar"]) if logo_path else render_runs(
+                    [("Minda ", F_MED, 132, BIRU), ("Optima", F_XB, 132, MERAH)])
             elif it.get("pill"):
                 e["img"] = render_pill(it["pill"])
                 e.setdefault("anim", "pop")
@@ -218,13 +223,15 @@ def draw_frame(t, bg, logo, items):
         y = int(e["y"] - img.height / 2 + dy + dy_out)
         frame.alpha_composite(img, (x, y))
 
-    # logo kiri atas (muncul awal, kekal)
-    la = ease_out_cubic(clamp01(t / 0.6))
+    # logo kiri atas: muncul awal, hilang bila logo besar keluar di scene akhir
+    la = min(ease_out_cubic(clamp01(t / 0.6)), clamp01((SCENES[-1]["start"] - t) / 0.35))
+    if la <= 0.01:
+        return frame.convert("RGB")
     lg = logo
     if la < 0.999:
         lg = logo.copy()
         lg.putalpha(logo.getchannel("A").point(lambda v: int(v * la)))
-    frame.alpha_composite(lg, (64, 90))
+    frame.alpha_composite(lg, (56, 70))
     return frame.convert("RGB")
 
 
@@ -265,14 +272,17 @@ def synth_audio(path, sr=44100):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--logo", help="PNG logo (latar lutsinar). Kosong = logo teks sementara")
+    here = os.path.dirname(os.path.abspath(__file__))
+    default_logo = os.path.join(here, "logo-minda-optima.png")
+    ap.add_argument("--logo", default=default_logo if os.path.exists(default_logo) else None,
+                    help="PNG logo (latar lutsinar). Tiada fail = logo teks sementara")
     ap.add_argument("--out", default=os.path.join(os.path.dirname(os.path.abspath(__file__)),
                                                   "minda-optima_kinetic_reels.mp4"))
     args = ap.parse_args()
 
     bg = make_background()
-    logo = load_logo(args.logo) if args.logo else make_text_logo()
-    items = build_items()
+    logo = load_logo(args.logo, 300) if args.logo else make_text_logo()
+    items = build_items(args.logo)
 
     with tempfile.TemporaryDirectory() as tmp:
         wav = os.path.join(tmp, "audio.wav")
