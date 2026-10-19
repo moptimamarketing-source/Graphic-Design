@@ -117,6 +117,7 @@ export const S2Reassure: React.FC = () => {
         start={L(BEATS.janganPanik)}
         stagger={6}
         exitAt={L(P(5)) + 20}
+        underline
       />
       <Pill
         text="PERSEDIAAN TAHUN 1"

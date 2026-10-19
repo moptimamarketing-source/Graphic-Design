@@ -181,3 +181,18 @@ Transitions are 12 frames (0.4 s) centred on each cut. Captions appear in the lo
   full level on the end card. Final mix about −13 LUFS, peak −1.2 dBFS.
 - SFX: synthesised by `scripts/make_audio.py` (pop, ding, whoosh, page, thud,
   click, sparkle, swish), kept quiet and off spoken words.
+
+## 5. Premium finish (HyperFrames + Remotion)
+- Transitions: 16-frame brand wipes (yellow / red / blue bars, alternating
+  direction) centred on each cut, each with a HyperFrames light-sweep
+  overlay screen-blended on top. Cuts stay in the same pauses.
+- Look: glass subtitles and checklist, glowing brand underlines on key
+  headlines, drifting foreground bokeh.
+- Climax (scene 8, 52.95–54.5 s): on "yakin", glowing alphabet tiles spiral
+  out of the boy's book; the camera dives into the book with speed lines and
+  a white flash.
+- Ending (HyperFrames, 54.5–60.1 s): from the white, a shockwave and particle
+  bloom on the music hit (54.65 s); the original logo materialises out of the
+  light with orbit rings around the mascot, holographic grid floor and light
+  rays; "BINA KEYAKINAN ANAK" decodes; "SEJAK 1995" rolls in like an odometer
+  on the next beat; shine pass and glints on the final chord; held to the end.

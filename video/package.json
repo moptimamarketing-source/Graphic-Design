@@ -29,6 +29,9 @@
     "dev": "remotion studio",
     "build": "remotion bundle",
     "upgrade": "remotion upgrade",
-    "lint": "eslint src && tsc"
+    "lint": "eslint src && tsc",
+    "ending:render": "cd hyperframes && npx --yes hyperframes@0.8.163 render . -q delivery -o renders/ending.mp4 && cp renders/ending.mp4 ../public/hyperframes/ending.mp4",
+    "flare:render": "cd hyperframes && npx --yes hyperframes@0.8.163 render . -c compositions/flare-sweep.html -q delivery -o renders/flare-sweep.mp4 && cp renders/flare-sweep.mp4 ../public/hyperframes/flare-sweep.mp4",
+    "ending:check": "cd hyperframes && npx --yes hyperframes@0.8.163 check ."
   }
 }

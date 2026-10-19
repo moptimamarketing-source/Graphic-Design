@@ -18,6 +18,18 @@ Current state: all eight scenes built. Output: `out/minda-optima-ep08.mp4` (not 
 - `src/scenes/`: S1–S8
 - `src/audio/Soundtrack.tsx`: smoothed voice-over (ends after "…yakin untuk belajar"), beat music with ducking, SFX
 - `scripts/analyse_audio.py`, `scripts/make_audio.py`, `scripts/make_beat.py`: regenerate the voice envelope, SFX and music (Python + numpy + ffmpeg)
+- `src/components/BrandWipe.tsx`: brand-colour scene transitions; `src/components/Bokeh.tsx`: foreground light depth
+- `hyperframes/`: HyperFrames (HTML + GSAP) project for the futuristic ending sting (`index.html`) and the light-sweep transition overlay (`compositions/flare-sweep.html`). Their renders live in `public/hyperframes/` and are placed by `src/MindaOptimaEp08.tsx`
+
+## HyperFrames parts
+
+```console
+npm run ending:check    # lint + runtime + layout + contrast checks
+npm run ending:render   # re-render the ending and copy it into public/hyperframes/
+npm run flare:render    # re-render the light-sweep overlay
+```
+
+The ending starts on white at 54.50 s (frame 1635), where scene 8 dives into the boy's book, and its logo hit lands on the music's downbeat at 54.65 s. Agent skills for both frameworks are in `.agents/skills/`.
 
 ## Commands
 

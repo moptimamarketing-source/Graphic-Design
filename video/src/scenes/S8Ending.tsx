@@ -1,21 +1,23 @@
 import React from "react";
-import { AbsoluteFill, Easing, Img, interpolate, staticFile } from "remotion";
+import { AbsoluteFill, Easing, interpolate } from "remotion";
 import { Boy } from "../characters/Boy";
 import { Mother } from "../characters/Mother";
 import { KineticLine, Pill } from "../components/Kinetic";
 import { cam, Stage } from "../components/Stage";
 import { lipSync, pop, ramp, wave } from "../lib/anim";
 import { Neighbourhood, SchoolGate } from "../props/Backgrounds";
-import { ClosedBook, Sparkle } from "../props/Items";
-import { BEATS, MUSIC_BEAT, P } from "../timing";
+import { ClosedBook, LetterTile } from "../props/Items";
+import { BEATS, ENDING_START, P } from "../timing";
 import { colors } from "../theme";
 import { useSceneClock } from "./common";
 
 // 0:43.0 – 1:00.1
 // A  walk to school: "Sebab setiap anak belajar mengikut kemampuan masing-masing.
 //    Ingat, parents. Kita bukan sekadar nak anak pandai membaca."
-// B  at the sunny gate: "Kita nak mereka yakin untuk belajar."
-// C  end card: "Minda Optima, sejak 1995." Logo lands on the spoken name.
+// B  at the sunny gate: "Kita nak mereka yakin untuk belajar." Glowing
+//    letters spiral out of his book, then the camera dives into the book
+//    and everything flashes white.
+// C  the HyperFrames ending takes over from that white (MindaOptimaEp08).
 
 const Walk: React.FC<{ frame: number; abs: number }> = ({ frame, abs }) => {
   const phase = frame / 4.2;
@@ -93,84 +95,118 @@ const Gate: React.FC<{ frame: number; abs: number; local: number }> = ({ frame, 
   );
 };
 
-// The logo PNG has transparent padding; these place its artwork centre.
-const LOGO_W = 1000;
-const LOGO_CX = (1175 / 2250) * LOGO_W;
-const LOGO_CY = (935 / 2250) * LOGO_W;
+// Where the boy's book sits on screen in the gate shot.
+const BOOK = { x: 635, y: 1412 };
+const VORTEX = "ABCDEFGHIJKLMNOPQRSTU".split("");
+const TILE_COLORS = [colors.red, colors.yellow, colors.skyBlue, colors.green, colors.brandBlue, colors.orange];
 
-const EndCard: React.FC<{ frame: number; fps: number; L: (a: number) => number }> = ({ frame, fps, L }) => {
-  const logoIn = pop(frame, fps, L(BEATS.mindaOptima), { damping: 11, stiffness: 110, mass: 0.9 });
-  const settle = 1 - ramp(frame, L(BEATS.mindaOptima) + 30, L(BEATS.mindaOptima) + 90);
-  const float = wave(frame, 60, 6) * settle;
-  // A small bump on each music beat after the logo lands, easing off.
-  const sinceHit = frame - L(BEATS.mindaOptima);
-  const beatPhase = (sinceHit % MUSIC_BEAT) / MUSIC_BEAT;
-  const beatPulse =
-    sinceHit > MUSIC_BEAT && sinceHit < MUSIC_BEAT * 8 ? 0.028 * Math.exp(-beatPhase * 6) * (1 - sinceHit / (MUSIC_BEAT * 8)) : 0;
-  return (
-    <AbsoluteFill style={{ background: "radial-gradient(circle at 50% 42%, #FFFFFF 0%, #EAF6FD 55%, #CDEBFA 100%)" }}>
-      <Stage background="transparent">
-        {Array.from({ length: 14 }).map((_, i) => {
-          const s = pop(frame, fps, L(BEATS.mindaOptima) + i * 2, { damping: 14, stiffness: 90 });
-          const ang = (i / 14) * Math.PI * 2;
-          const dist = 380 + (i % 3) * 60;
-          const tw = 0.75 + 0.25 * Math.sin(frame / 6 + i);
-          return (
-            <Sparkle
-              key={i}
-              x={540 + Math.cos(ang) * dist * s}
-              y={760 + Math.sin(ang) * dist * 0.58 * s}
-              r={14 + (i % 3) * 6}
-              color={[colors.yellow, colors.skyBlue, colors.red][i % 3]}
-              scale={s * tw}
-            />
-          );
-        })}
-      </Stage>
-      <Img
-        src={staticFile("assets/logo-minda-optima.png")}
-        style={{
-          position: "absolute",
-          width: LOGO_W,
-          left: 540 - LOGO_CX,
-          top: 820 - LOGO_CY + float,
-          transform: `scale(${(0.2 + 0.8 * logoIn) * (1 + beatPulse)}) rotate(${(1 - logoIn) * -10}deg)`,
-          transformOrigin: `${LOGO_CX}px ${LOGO_CY}px`,
-          opacity: Math.min(1, logoIn * 2),
-        }}
-      />
-      <KineticLine
-        words={["BINA", "KEYAKINAN", { t: "ANAK", c: colors.red }]}
-        top={1105}
-        size={76}
-        start={L(BEATS.mindaOptima) + 18}
-        stagger={5}
-        color={colors.brandBlue}
-      />
-      <Pill text="SEJAK 1995" top={1215} start={L(BEATS.sejak1995)} size={66} bg={colors.yellow} color={colors.ink} />
-    </AbsoluteFill>
-  );
-};
+// Letters spiral up out of the book; as the camera dives they are pulled back in.
+const Vortex: React.FC<{ t: number; dive: number }> = ({ t, dive }) => (
+  <svg viewBox="0 0 1080 1920" width={1080} height={1920} style={{ position: "absolute", inset: 0 }}>
+    <defs>
+      <filter id="vortexGlow" x="-60%" y="-60%" width="220%" height="220%">
+        <feGaussianBlur stdDeviation="9" result="b" />
+        <feMerge>
+          <feMergeNode in="b" />
+          <feMergeNode in="SourceGraphic" />
+        </feMerge>
+      </filter>
+    </defs>
+    {VORTEX.map((ch, i) => {
+      const age = t - i * 1.3;
+      if (age <= 0) return null;
+      const grow = Math.min(1, age / 18);
+      const ang = i * 2.39996 + age * 0.09;
+      const radius = (60 + grow * (230 + (i % 5) * 42)) * (1 - dive);
+      const rise = grow * (170 + (i % 4) * 70) * (1 - dive);
+      const x = BOOK.x + Math.cos(ang) * radius;
+      const y = BOOK.y - rise + Math.sin(ang) * radius * 0.45;
+      return (
+        <g key={ch} filter="url(#vortexGlow)" opacity={Math.min(1, age / 6)}>
+          <LetterTile
+            ch={ch}
+            color={TILE_COLORS[i % TILE_COLORS.length]}
+            x={x}
+            y={y}
+            size={110}
+            rot={Math.sin(age / 8 + i) * 25}
+            scale={(0.35 + 0.35 * grow) * (1 - dive * 0.6)}
+          />
+        </g>
+      );
+    })}
+  </svg>
+);
+
+// Radial speed lines converging on the book during the dive.
+const SpeedLines: React.FC<{ dive: number }> = ({ dive }) => (
+  <svg viewBox="0 0 1080 1920" width={1080} height={1920} style={{ position: "absolute", inset: 0, opacity: dive }}>
+    {Array.from({ length: 44 }).map((_, i) => {
+      const a = (i / 44) * Math.PI * 2 + (i % 3) * 0.05;
+      const r0 = 140 + (i % 5) * 40 + (1 - dive) * 300;
+      const r1 = r0 + 500 + (i % 4) * 220;
+      return (
+        <line
+          key={i}
+          x1={BOOK.x + Math.cos(a) * r0}
+          y1={BOOK.y + Math.sin(a) * r0}
+          x2={BOOK.x + Math.cos(a) * r1}
+          y2={BOOK.y + Math.sin(a) * r1}
+          stroke={i % 3 === 0 ? colors.yellow : "#FFFFFF"}
+          strokeWidth={3 + (i % 3) * 2}
+          strokeLinecap="round"
+          opacity={0.75}
+        />
+      );
+    })}
+  </svg>
+);
 
 export const S8Ending: React.FC = () => {
-  const { frame, fps, abs, L } = useSceneClock(8);
+  const { frame, abs, L } = useSceneClock(8);
   const toGate = L(P(20)) - 14;
   const gateMix = ramp(frame, toGate, toGate + 12);
-  const toCard = L(BEATS.mindaOptima) - 8;
-  const reveal = Easing.inOut(Easing.cubic)(ramp(frame, toCard, toCard + 16));
+  const end = L(ENDING_START);
+  const vortexStart = L(BEATS.yakin) + 4;
+  const diveStart = end - 22;
+  const dive = interpolate(frame, [diveStart, end], [0, 1], {
+    easing: Easing.in(Easing.cubic),
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+  const flash = interpolate(frame, [end - 10, end], [0, 1], {
+    easing: Easing.in(Easing.quad),
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+
+  // The HyperFrames ending covers the frame from here on.
+  if (frame > end + 2) return null;
 
   return (
     <AbsoluteFill>
       {gateMix < 1 ? <Walk frame={frame} abs={abs} /> : null}
-      {gateMix > 0 && reveal < 1 ? (
-        <AbsoluteFill style={{ opacity: gateMix }}>
+      {gateMix > 0 ? (
+        <AbsoluteFill
+          style={{
+            opacity: gateMix,
+            transform: `scale(${1 + 3.6 * dive})`,
+            transformOrigin: `${BOOK.x}px ${BOOK.y}px`,
+            filter: `blur(${dive * 7}px) brightness(${1 + dive * 0.6})`,
+          }}
+        >
           <Gate frame={frame - toGate} abs={abs} local={L(BEATS.yakin) - toGate} />
+          {frame >= vortexStart ? <Vortex t={frame - vortexStart} dive={dive} /> : null}
         </AbsoluteFill>
       ) : null}
-      {reveal > 0 ? (
-        <AbsoluteFill style={{ clipPath: `circle(${reveal * 75}% at 50% 45%)` }}>
-          <EndCard frame={frame} fps={fps} L={L} />
-        </AbsoluteFill>
+      {dive > 0 ? <SpeedLines dive={dive} /> : null}
+      {flash > 0 ? (
+        <AbsoluteFill
+          style={{
+            background: "radial-gradient(circle at 50% 42%, #FFFFFF 0%, #FFFFFF 55%, #EAF6FD 100%)",
+            opacity: flash,
+          }}
+        />
       ) : null}
 
       {/* A: walk */}
@@ -188,6 +224,7 @@ export const S8Ending: React.FC = () => {
         size={88}
         start={L(BEATS.kemampuan) + 10}
         exitAt={L(P(18)) - 10}
+        underline
       />
       <Pill text="INGAT, PARENTS!" top={265} start={L(BEATS.ingat)} size={62} bg={colors.yellow} color={colors.ink} exitAt={L(P(19)) - 2} />
       <KineticLine words={["BUKAN", "SEKADAR"]} top={235} size={104} start={L(P(19))} stagger={6} exitAt={toGate} />
@@ -197,18 +234,20 @@ export const S8Ending: React.FC = () => {
         size={94}
         start={L(BEATS.pandaiMembaca)}
         exitAt={toGate}
+        underline
       />
       {/* B: gate */}
-      <KineticLine words={["KITA", "NAK", "MEREKA"]} top={235} size={84} start={L(P(20))} stagger={5} exitAt={toCard - 4} />
+      <KineticLine words={["KITA", "NAK", "MEREKA"]} top={235} size={84} start={L(P(20))} stagger={5} exitAt={diveStart} />
       <KineticLine
         words={[{ t: "YAKIN", c: colors.yellow }]}
         top={300}
         size={150}
         start={L(BEATS.yakin)}
         outline={colors.ink}
-        exitAt={toCard - 4}
+        exitAt={diveStart}
+        underline
       />
-      <KineticLine words={["UNTUK", "BELAJAR"]} top={455} size={84} start={L(BEATS.yakin) + 10} stagger={6} exitAt={toCard - 4} />
+      <KineticLine words={["UNTUK", "BELAJAR"]} top={475} size={84} start={L(BEATS.yakin) + 10} stagger={6} exitAt={diveStart} />
     </AbsoluteFill>
   );
 };

@@ -3,7 +3,7 @@
 
 export const FPS = 30;
 export const TOTAL_FRAMES = 1803;
-export const TRANSITION = 12;
+export const TRANSITION = 16;
 
 export const f = (seconds: number) => Math.round(seconds * FPS);
 
@@ -12,7 +12,10 @@ export const CUTS = [219, 498, 584, 696, 855, 1044, 1291];
 
 // Absolute frame where each scene's local frame 0 sits. Transitions are
 // centred on the cut, so a scene starts TRANSITION/2 frames before it.
-export const SCENE_START = [0, 213, 492, 578, 690, 849, 1038, 1285];
+export const SCENE_START = [0, 211, 490, 576, 688, 847, 1036, 1283];
+
+// The HyperFrames ending (hyperframes/index.html) starts here, on white.
+export const ENDING_START = 1635;
 
 // Spoken phrase blocks: onset and end in seconds.
 export const PHRASES = [

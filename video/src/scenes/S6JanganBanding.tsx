@@ -133,7 +133,7 @@ export const S6JanganBanding: React.FC = () => {
         })}
       </Stage>
       <KineticLine words={["JANGAN"]} top={230} size={110} start={L(P(13))} />
-      <KineticLine words={[{ t: "BANDINGKAN", c: colors.red }, "ANAK"]} top={350} size={104} start={xAt} stagger={8} />
+      <KineticLine words={[{ t: "BANDINGKAN", c: colors.red }, "ANAK"]} top={350} size={104} start={xAt} stagger={8} underline />
     </AbsoluteFill>
   );
 };

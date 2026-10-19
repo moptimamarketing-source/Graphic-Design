@@ -106,7 +106,7 @@ export const S7Tip: React.FC = () => {
       <KineticLine words={[{ t: "RINGKAS", c: colors.brandBlue }]} top={235} size={128} start={L(BEATS.ringkas)} exitAt={praise - 8} />
       <KineticLine words={["DAN", { t: "MENYERONOKKAN", c: colors.red }]} top={380} size={84} start={L(BEATS.menyeronokkan)} stagger={5} exitAt={praise - 8} />
       <KineticLine words={[{ t: "PUJI", c: colors.yellow }]} top={225} size={150} start={praise} outline={colors.ink} />
-      <KineticLine words={["USAHA", "KECIL"]} top={405} size={110} start={stamp} stagger={7} />
+      <KineticLine words={["USAHA", "KECIL"]} top={405} size={110} start={stamp} stagger={7} underline />
     </AbsoluteFill>
   );
 };

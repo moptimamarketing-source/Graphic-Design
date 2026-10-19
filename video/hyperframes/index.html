@@ -68,7 +68,7 @@
       #rays {
         position: absolute;
         left: -660px;
-        top: -400px;
+        top: -440px;
         width: 2400px;
         height: 2400px;
         background: repeating-conic-gradient(
@@ -113,8 +113,8 @@
         font-weight: 800;
         font-size: 300px;
         line-height: 1;
-        color: transparent;
-        -webkit-text-stroke: 3px rgba(127, 211, 247, 0.12);
+        color: rgba(127, 211, 247, 0.09);
+        -webkit-text-stroke: 3px rgba(127, 211, 247, 0.14);
       }
       #ghost-a {
         top: 140px;
@@ -131,7 +131,7 @@
       .ring {
         position: absolute;
         left: 440px;
-        top: 700px;
+        top: 660px;
         width: 200px;
         height: 200px;
         border-radius: 50%;
@@ -300,8 +300,8 @@
         top: 905px;
       }
       #glint-3 {
-        left: 880px;
-        top: 1150px;
+        left: 790px;
+        top: 380px;
       }
       #flash {
         position: absolute;
@@ -318,8 +318,8 @@
             <div id="bg" class="layer"></div>
             <canvas id="stars" width="1080" height="1920"></canvas>
             <div id="rays"></div>
-            <div id="ghost-a" class="ghost">MINDA OPTIMA MINDA OPTIMA</div>
-            <div id="ghost-b" class="ghost">BINA KEYAKINAN ANAK BINA</div>
+            <div id="ghost-a" class="ghost" data-layout-allow-occlusion>MINDA OPTIMA MINDA OPTIMA</div>
+            <div id="ghost-b" class="ghost" data-layout-allow-occlusion>BINA KEYAKINAN ANAK BINA</div>
             <div id="floor-wrap"><div id="floor"></div></div>
             <div id="ring-3" class="ring"></div>
             <div id="ring-2" class="ring"></div>
@@ -333,19 +333,19 @@
               </div>
             </div>
             <canvas id="orb-front" width="1080" height="1920"></canvas>
-            <div id="tagline"></div>
+            <div id="tagline" data-layout-allow-occlusion></div>
             <div id="underline"></div>
             <div id="badge">
-              <div id="badge-label">SEJAK</div>
-              <div id="digits"></div>
+              <div id="badge-label" data-layout-allow-occlusion>SEJAK</div>
+              <div id="digits" data-layout-allow-occlusion></div>
             </div>
             <div id="glint-1" class="glint"></div>
             <div id="glint-2" class="glint"></div>
             <div id="glint-3" class="glint"></div>
           </div>
         </div>
-        <canvas id="fx" width="1080" height="1920"></canvas>
-        <div id="flash"></div>
+        <canvas id="fx" width="1080" height="1920" data-layout-allow-occlusion></canvas>
+        <div id="flash" data-layout-allow-occlusion></div>
       </section>
     </div>
     <script>
@@ -357,7 +357,7 @@
           return HIT + n * BEAT;
         };
         var CX = 540;
-        var CY = 800;
+        var CY = 760; // the mascot's circle, so orbits pass behind the wordmark
         var PALETTE = ["#ffffff", "#7fd3f7", "#00a8e4", "#f5b21e", "#e41824"];
 
         // Seeded LCG so every frame is a pure function of time.
@@ -379,6 +379,8 @@
         var tagSpans = [];
         for (var i = 0; i < TAG.length; i++) {
           var s = document.createElement("span");
+          // Intentionally layered under the transparent particle canvas.
+          s.setAttribute("data-layout-allow-occlusion", "");
           s.textContent = TAG[i] === " " ? " " : TAG[i];
           if (i >= 15) s.className = "accent";
           tagEl.appendChild(s);
@@ -396,12 +398,13 @@
           strip.className = "strip";
           for (var k = 0; k < 20; k++) {
             var cell = document.createElement("div");
+            cell.setAttribute("data-layout-allow-occlusion", "");
             cell.textContent = String(k % 10);
             strip.appendChild(cell);
           }
           col.appendChild(strip);
           digitsEl.appendChild(col);
-          strips.push({ el: strip, target: 10 + Number(d) });
+          strips.push({ el: strip, cells: strip.children, target: 10 + Number(d) });
         });
 
         // --- Particle tables (computed once) ----------------------------
@@ -421,9 +424,9 @@
           stars.push({ x: rnd() * 1080, y: rnd() * 1920, r: 0.6 + rnd() * 1.8, ph: rnd() * 6.28, sp: 1 + rnd() * 2.5 });
         }
         var RINGS = [
-          { rx: 470, ry: 118, rot: -16, col: "#7fd3f7", speed: 1.1, dots: [0.4, 3.6], start: 0.38 },
-          { rx: 420, ry: 150, rot: 21, col: "#f5b21e", speed: -0.85, dots: [1.7, 4.9], start: 0.5 },
-          { rx: 510, ry: 86, rot: 3, col: "#e41824", speed: 0.7, dots: [2.6], start: 0.62 },
+          { rx: 450, ry: 104, rot: -14, col: "#7fd3f7", speed: 1.1, dots: [0.4, 3.6], start: 0.38 },
+          { rx: 400, ry: 128, rot: 18, col: "#f5b21e", speed: -0.85, dots: [1.7, 4.9], start: 0.5 },
+          { rx: 490, ry: 76, rot: 3, col: "#e41824", speed: 0.7, dots: [2.6], start: 0.62 },
         ];
 
         var cStars = document.getElementById("stars").getContext("2d");
@@ -456,7 +459,7 @@
               var p1 = pt(a);
               var p2 = pt(b);
               ctx.strokeStyle = r.col;
-              ctx.globalAlpha = front ? 0.9 : 0.4;
+              ctx.globalAlpha = front ? 0.75 : 0.4;
               ctx.lineWidth = front ? 3.5 : 2.5;
               ctx.shadowColor = r.col;
               ctx.shadowBlur = 14;
@@ -559,6 +562,21 @@
           });
         };
 
+        var expoOut = function (x) {
+          x = clamp(x, 0, 1);
+          return x === 1 ? 1 : 1 - Math.pow(2, -10 * x);
+        };
+        var drawDigits = function (t) {
+          strips.forEach(function (s, i) {
+            var start = beat(2) + 0.04 * i;
+            var pos = s.target * expoOut((t - start) / (0.85 + i * 0.12));
+            s.el.style.transform = "translateY(" + (-pos * 84).toFixed(2) + "px)";
+            for (var k = 0; k < s.cells.length; k++) {
+              s.cells[k].style.visibility = Math.abs(k - pos) < 1.05 ? "visible" : "hidden";
+            }
+          });
+        };
+
         var state = { t: 0 };
         var draw = function () {
           var t = state.t;
@@ -566,6 +584,7 @@
           drawRings(t);
           drawFx(t);
           drawTagline(t);
+          drawDigits(t);
         };
 
         var tl = gsap.timeline({ paused: true });
@@ -615,9 +634,8 @@
         tl.fromTo("#underline", { scaleX: 0, opacity: 0 }, { scaleX: 1, opacity: 1, duration: 0.55, ease: "power3.out" }, beat(1) + 0.45);
         tl.fromTo("#badge", { scaleX: 0.15, scaleY: 0.6, opacity: 0 }, { scaleX: 1, scaleY: 1, opacity: 1, duration: 0.5, ease: "back.out(1.8)" }, beat(2) - 0.08);
         tl.fromTo("#badge-label", { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.35, ease: "power2.out" }, beat(2) + 0.1);
-        strips.forEach(function (s, i) {
-          tl.fromTo(s.el, { y: 0 }, { y: -s.target * 84, duration: 0.85 + i * 0.12, ease: "expo.out" }, beat(2) + 0.04 * i);
-        });
+
+        tl.set(".glint", { scale: 0, opacity: 0 }, 0);
 
         // Shine passes across the logo and glints on the final chord.
         tl.fromTo("#logo-core", { "--shine": "-30%" }, { "--shine": "130%", duration: 0.9, ease: "power2.inOut" }, beat(3));

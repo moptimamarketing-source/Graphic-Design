@@ -118,6 +118,7 @@ export const S1Hook: React.FC = () => {
         size={150}
         start={BEATS.tahun1}
         stagger={8}
+        underline
       />
       <Pill text="BELUM LANCAR MEMBACA?" top={640} start={BEATS.belumLancar} size={56} />
     </AbsoluteFill>

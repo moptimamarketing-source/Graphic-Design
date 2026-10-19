@@ -34,7 +34,9 @@ export const Captions: React.FC = () => {
         <div
           style={{
             maxWidth: 900,
-            background: "rgba(18, 53, 91, 0.9)",
+            background: "linear-gradient(180deg, rgba(18, 53, 91, 0.72), rgba(10, 30, 60, 0.82))",
+            backdropFilter: "blur(16px) saturate(1.4)",
+            border: "2px solid rgba(255, 255, 255, 0.28)",
             borderRadius: 30,
             padding: "16px 32px 20px",
             textAlign: "center",
@@ -43,7 +45,7 @@ export const Captions: React.FC = () => {
             fontSize: 52,
             lineHeight: 1.2,
             color: colors.white,
-            boxShadow: "0 10px 30px rgba(10, 30, 60, 0.25)",
+            boxShadow: "0 10px 30px rgba(10, 30, 60, 0.3), inset 0 1px 0 rgba(255,255,255,0.35), 0 0 24px rgba(0,168,228,0.25)",
             transform: `translateY(${(1 - s) * 24}px) scale(${0.94 + 0.06 * s})`,
             opacity: Math.min(1, s * 1.6) * out,
           }}

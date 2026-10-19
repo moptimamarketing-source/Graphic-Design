@@ -99,7 +99,7 @@ export const CAPTIONS: CaptionPage[] = [
   {
     text: "Kita nak mereka yakin untuk belajar.",
     start: 51.86,
-    end: 54.5,
+    end: 54.4,
     hi: ["yakin"],
   },
 ];

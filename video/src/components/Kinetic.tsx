@@ -16,11 +16,14 @@ export const KineticLine: React.FC<{
   exitAt?: number;
   outline?: string;
   rotate?: number;
-}> = ({ words, top, size, start, color = colors.ink, stagger = 4, exitAt, outline = "#FFFFFF", rotate = 0 }) => {
+  underline?: boolean;
+}> = ({ words, top, size, start, color = colors.ink, stagger = 4, exitAt, outline = "#FFFFFF", rotate = 0, underline = false }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const exit = exitAt === undefined ? 0 : ramp(frame, exitAt, exitAt + 8);
   if (frame < start) return null;
+  // Glowing brand underline that sweeps out from the centre once the words land.
+  const lineIn = ramp(frame, start + words.length * stagger + 4, start + words.length * stagger + 16);
   return (
     <div
       style={{
@@ -34,8 +37,24 @@ export const KineticLine: React.FC<{
         columnGap: size * 0.28,
         transform: `rotate(${rotate}deg) translateY(${-exit * 50}px)`,
         opacity: 1 - exit,
+        paddingBottom: underline ? size * 0.28 : 0,
       }}
     >
+      {underline ? (
+        <div
+          style={{
+            position: "absolute",
+            left: "22%",
+            right: "22%",
+            bottom: 0,
+            height: Math.max(8, size * 0.07),
+            borderRadius: size,
+            background: `linear-gradient(90deg, rgba(0,168,228,0), ${colors.skyBlue} 18%, #FFFFFF 50%, ${colors.yellow} 82%, rgba(245,178,30,0))`,
+            boxShadow: `0 0 ${size * 0.25}px ${colors.skyBlue}`,
+            transform: `scaleX(${lineIn})`,
+          }}
+        />
+      ) : null}
       {words.map((w, i) => {
         const word = typeof w === "string" ? { t: w } : w;
         const s = pop(frame, fps, start + i * stagger, { damping: 11, stiffness: 170, mass: 0.7 });
