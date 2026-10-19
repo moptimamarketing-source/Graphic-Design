@@ -1,0 +1,20 @@
+{
+  "name": "5-tanda-anak-perlukan-sokongan",
+  "version": "1.0.0",
+  "description": "Motion graphic 9:16 — 5 Tanda Anak Perlukan Sokongan Membaca (Minda Optima)",
+  "scripts": {
+    "build": "node build.mjs",
+    "check": "node build.mjs --no-audio && hyperframes check",
+    "preview": "hyperframes preview",
+    "snapshot": "hyperframes snapshot",
+    "render": "node build.mjs && hyperframes render -o renders/5-tanda-anak-perlukan-sokongan.mp4"
+  },
+  "devDependencies": {
+    "@fontsource/archivo-black": "^5.3.0",
+    "@fontsource/nunito": "^5.3.0",
+    "gsap": "^3.15.0",
+    "hyperframes": "^0.8.174"
+  },
+  "type": "module",
+  "private": true
+}
