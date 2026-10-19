@@ -1,0 +1,642 @@
+<!doctype html>
+<!--
+  Minda Optima · Episod 08 — ending sting (5.6 s, 1080×1920, silent).
+
+  Embedded by the Remotion film at 54.50 s. The music's big hit lands at
+  0.153 s here (54.653 s in the film); every later accent sits on the
+  101 BPM beat grid: 0.153, 0.747, 1.341, 1.935, 2.529 (final chord) …
+
+  Opens on white (the film dives into the boy's book and flashes), the
+  logo bursts out of the light on the hit with a shockwave and particle
+  bloom, orbit rings draw around it ("minda" as a mind in orbit), the
+  tagline decodes, the SEJAK 1995 counter rolls in, then the frame breathes
+  with a shine pass and glints until the last frame.
+
+  Deterministic: every canvas is redrawn from the timeline time only
+  (seeded LCG, no Math.random, no clocks).
+-->
+<html lang="ms" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Minda Optima Ending</title>
+    <script src="assets/vendor/gsap.min.js"></script>
+    <style>
+      @font-face {
+        font-family: "Baloo 2";
+        src: url("assets/fonts/baloo-2-latin-800-normal.woff2") format("woff2");
+        font-weight: 800;
+      }
+      @font-face {
+        font-family: "Nunito";
+        src: url("assets/fonts/nunito-latin-900-normal.woff2") format("woff2");
+        font-weight: 900;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: #020812;
+      }
+      #root {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+      .clip {
+        position: absolute;
+        inset: 0;
+      }
+      .layer {
+        position: absolute;
+        inset: 0;
+      }
+      #bg {
+        background:
+          radial-gradient(circle at 50% 42%, rgba(0, 168, 228, 0.55) 0%, rgba(11, 108, 180, 0.35) 22%, rgba(6, 22, 49, 0) 55%),
+          radial-gradient(circle at 15% 85%, rgba(228, 24, 36, 0.22) 0%, rgba(228, 24, 36, 0) 40%),
+          radial-gradient(circle at 88% 12%, rgba(245, 178, 30, 0.2) 0%, rgba(245, 178, 30, 0) 38%),
+          linear-gradient(180deg, #04122a 0%, #061a3a 50%, #020812 100%);
+      }
+      #rays {
+        position: absolute;
+        left: -660px;
+        top: -400px;
+        width: 2400px;
+        height: 2400px;
+        background: repeating-conic-gradient(
+          from 0deg,
+          rgba(127, 211, 247, 0) 0deg 5deg,
+          rgba(127, 211, 247, 0.22) 6.5deg 8deg,
+          rgba(127, 211, 247, 0) 9.5deg 15deg
+        );
+        -webkit-mask-image: radial-gradient(circle at 50% 50%, black 0%, rgba(0, 0, 0, 0.6) 22%, transparent 48%);
+        mask-image: radial-gradient(circle at 50% 50%, black 0%, rgba(0, 0, 0, 0.6) 22%, transparent 48%);
+      }
+      #floor-wrap {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 760px;
+        perspective: 520px;
+        perspective-origin: 50% 0%;
+        overflow: hidden;
+        -webkit-mask-image: linear-gradient(to top, black 25%, transparent 92%);
+        mask-image: linear-gradient(to top, black 25%, transparent 92%);
+      }
+      #floor {
+        position: absolute;
+        left: -1400px;
+        right: -1400px;
+        top: 40px;
+        height: 2400px;
+        transform: rotateX(76deg);
+        transform-origin: 50% 0%;
+        background-image:
+          linear-gradient(rgba(0, 168, 228, 0.65) 3px, transparent 3px),
+          linear-gradient(90deg, rgba(0, 168, 228, 0.65) 3px, transparent 3px);
+        background-size: 96px 96px;
+      }
+      .ghost {
+        position: absolute;
+        left: 0;
+        white-space: nowrap;
+        font-family: "Baloo 2", sans-serif;
+        font-weight: 800;
+        font-size: 300px;
+        line-height: 1;
+        color: transparent;
+        -webkit-text-stroke: 3px rgba(127, 211, 247, 0.12);
+      }
+      #ghost-a {
+        top: 140px;
+      }
+      #ghost-b {
+        top: 1500px;
+      }
+      canvas {
+        position: absolute;
+        inset: 0;
+        width: 1080px;
+        height: 1920px;
+      }
+      .ring {
+        position: absolute;
+        left: 440px;
+        top: 700px;
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+      }
+      #ring-1 {
+        border: 10px solid #ffffff;
+        box-shadow: 0 0 40px #7fd3f7, inset 0 0 40px #7fd3f7;
+      }
+      #ring-2 {
+        border: 6px solid #00a8e4;
+        box-shadow: 0 0 30px #00a8e4;
+      }
+      #ring-3 {
+        border: 4px solid #f5b21e;
+        box-shadow: 0 0 24px #f5b21e;
+      }
+      #logo-pulse {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1080px;
+        height: 1640px;
+      }
+      #logo-core {
+        position: absolute;
+        left: -47.5px;
+        top: 352.5px;
+        width: 1125px;
+        height: 1125px;
+      }
+      #logo-core img,
+      #logo-glow img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+      }
+      #logo-glow {
+        position: absolute;
+        left: -47.5px;
+        top: 352.5px;
+        width: 1125px;
+        height: 1125px;
+        filter: blur(34px) brightness(1.8) saturate(1.4);
+      }
+      #logo-shine {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          112deg,
+          transparent 0%,
+          transparent calc(var(--shine, -30%) - 9%),
+          rgba(255, 255, 255, 0.95) var(--shine, -30%),
+          transparent calc(var(--shine, -30%) + 9%),
+          transparent 100%
+        );
+        -webkit-mask-image: url("assets/logo-minda-optima.png");
+        -webkit-mask-size: 100% 100%;
+        mask-image: url("assets/logo-minda-optima.png");
+        mask-size: 100% 100%;
+        mix-blend-mode: screen;
+      }
+      #tagline {
+        position: absolute;
+        left: 60px;
+        right: 60px;
+        top: 1200px;
+        display: flex;
+        justify-content: center;
+        font-family: "Baloo 2", sans-serif;
+        font-weight: 800;
+        font-size: 66px;
+        letter-spacing: 0.05em;
+        line-height: 1;
+        color: #ffffff;
+        text-shadow:
+          0 0 22px rgba(0, 168, 228, 0.9),
+          0 0 2px rgba(255, 255, 255, 0.9);
+      }
+      #tagline span {
+        display: inline-block;
+        min-width: 0.3em;
+        text-align: center;
+      }
+      #tagline span.accent {
+        color: #f5b21e;
+        text-shadow:
+          0 0 22px rgba(245, 178, 30, 0.85),
+          0 0 2px rgba(255, 255, 255, 0.9);
+      }
+      #underline {
+        position: absolute;
+        left: 190px;
+        width: 700px;
+        top: 1292px;
+        height: 6px;
+        border-radius: 3px;
+        background: linear-gradient(90deg, rgba(0, 168, 228, 0), #00a8e4 20%, #ffffff 50%, #f5b21e 80%, rgba(245, 178, 30, 0));
+        box-shadow: 0 0 18px #00a8e4;
+      }
+      #badge {
+        position: absolute;
+        left: 300px;
+        top: 1352px;
+        width: 480px;
+        height: 118px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 24px;
+        border-radius: 59px;
+        border: 4px solid transparent;
+        background:
+          linear-gradient(rgba(8, 30, 66, 0.82), rgba(8, 30, 66, 0.82)) padding-box,
+          linear-gradient(90deg, #00a8e4, #ffffff, #f5b21e, #e41824) border-box;
+        box-shadow:
+          0 0 38px rgba(0, 168, 228, 0.55),
+          inset 0 0 26px rgba(0, 168, 228, 0.25);
+      }
+      #badge-label {
+        font-family: "Nunito", sans-serif;
+        font-weight: 900;
+        font-size: 44px;
+        letter-spacing: 0.14em;
+        color: #7fd3f7;
+      }
+      #digits {
+        display: flex;
+        gap: 2px;
+      }
+      .digit {
+        position: relative;
+        width: 46px;
+        height: 84px;
+        overflow: hidden;
+      }
+      .strip {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 46px;
+        font-family: "Baloo 2", sans-serif;
+        font-weight: 800;
+        font-size: 80px;
+        line-height: 84px;
+        text-align: center;
+        color: #ffffff;
+        text-shadow: 0 0 18px rgba(245, 178, 30, 0.9);
+      }
+      .strip div {
+        height: 84px;
+      }
+      .glint {
+        position: absolute;
+        width: 120px;
+        height: 120px;
+        background: radial-gradient(circle, #ffffff 0%, rgba(255, 255, 255, 0.9) 8%, rgba(127, 211, 247, 0) 60%);
+        clip-path: polygon(50% 0%, 56% 44%, 100% 50%, 56% 56%, 50% 100%, 44% 56%, 0% 50%, 44% 44%);
+      }
+      #glint-1 {
+        left: 245px;
+        top: 545px;
+      }
+      #glint-2 {
+        left: 735px;
+        top: 905px;
+      }
+      #glint-3 {
+        left: 880px;
+        top: 1150px;
+      }
+      #flash {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at 50% 42%, #ffffff 0%, #ffffff 55%, #eaf6fd 100%);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="ending" data-start="0" data-duration="5.6" data-width="1080" data-height="1920">
+      <section id="scene" class="clip" data-start="0" data-duration="5.6" data-track-index="0">
+        <div id="camera" class="layer">
+          <div id="drift" class="layer">
+            <div id="bg" class="layer"></div>
+            <canvas id="stars" width="1080" height="1920"></canvas>
+            <div id="rays"></div>
+            <div id="ghost-a" class="ghost">MINDA OPTIMA MINDA OPTIMA</div>
+            <div id="ghost-b" class="ghost">BINA KEYAKINAN ANAK BINA</div>
+            <div id="floor-wrap"><div id="floor"></div></div>
+            <div id="ring-3" class="ring"></div>
+            <div id="ring-2" class="ring"></div>
+            <div id="ring-1" class="ring"></div>
+            <canvas id="orb-back" width="1080" height="1920"></canvas>
+            <div id="logo-pulse">
+              <div id="logo-glow"><img src="assets/logo-minda-optima.png" alt="" /></div>
+              <div id="logo-core">
+                <img src="assets/logo-minda-optima.png" alt="Minda Optima" />
+                <div id="logo-shine"></div>
+              </div>
+            </div>
+            <canvas id="orb-front" width="1080" height="1920"></canvas>
+            <div id="tagline"></div>
+            <div id="underline"></div>
+            <div id="badge">
+              <div id="badge-label">SEJAK</div>
+              <div id="digits"></div>
+            </div>
+            <div id="glint-1" class="glint"></div>
+            <div id="glint-2" class="glint"></div>
+            <div id="glint-3" class="glint"></div>
+          </div>
+        </div>
+        <canvas id="fx" width="1080" height="1920"></canvas>
+        <div id="flash"></div>
+      </section>
+    </div>
+    <script>
+      (function () {
+        var D = 5.6;
+        var HIT = 0.153;
+        var BEAT = 60 / 101;
+        var beat = function (n) {
+          return HIT + n * BEAT;
+        };
+        var CX = 540;
+        var CY = 800;
+        var PALETTE = ["#ffffff", "#7fd3f7", "#00a8e4", "#f5b21e", "#e41824"];
+
+        // Seeded LCG so every frame is a pure function of time.
+        var seed = 0x1995;
+        var rnd = function () {
+          seed = (seed * 1664525 + 1013904223) >>> 0;
+          return seed / 4294967296;
+        };
+        var clamp = function (v, a, b) {
+          return Math.max(a, Math.min(b, v));
+        };
+        var easeOut = function (x) {
+          return 1 - Math.pow(1 - clamp(x, 0, 1), 3);
+        };
+
+        // --- Tagline: one span per character, decoded over time ---------
+        var TAG = "BINA KEYAKINAN ANAK";
+        var tagEl = document.getElementById("tagline");
+        var tagSpans = [];
+        for (var i = 0; i < TAG.length; i++) {
+          var s = document.createElement("span");
+          s.textContent = TAG[i] === " " ? " " : TAG[i];
+          if (i >= 15) s.className = "accent";
+          tagEl.appendChild(s);
+          tagSpans.push(s);
+        }
+        var GLYPHS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+#";
+
+        // --- Odometer digits -------------------------------------------
+        var digitsEl = document.getElementById("digits");
+        var strips = [];
+        "1995".split("").forEach(function (d) {
+          var col = document.createElement("div");
+          col.className = "digit";
+          var strip = document.createElement("div");
+          strip.className = "strip";
+          for (var k = 0; k < 20; k++) {
+            var cell = document.createElement("div");
+            cell.textContent = String(k % 10);
+            strip.appendChild(cell);
+          }
+          col.appendChild(strip);
+          digitsEl.appendChild(col);
+          strips.push({ el: strip, target: 10 + Number(d) });
+        });
+
+        // --- Particle tables (computed once) ----------------------------
+        var burst = [];
+        for (var p = 0; p < 190; p++) {
+          burst.push({
+            a: rnd() * Math.PI * 2,
+            v: 260 + rnd() * 880,
+            size: 1.4 + rnd() * 4.2,
+            col: PALETTE[Math.floor(rnd() * PALETTE.length)],
+            ph: rnd() * 6.28,
+            swirl: (rnd() - 0.5) * 0.5,
+          });
+        }
+        var stars = [];
+        for (var q = 0; q < 140; q++) {
+          stars.push({ x: rnd() * 1080, y: rnd() * 1920, r: 0.6 + rnd() * 1.8, ph: rnd() * 6.28, sp: 1 + rnd() * 2.5 });
+        }
+        var RINGS = [
+          { rx: 470, ry: 118, rot: -16, col: "#7fd3f7", speed: 1.1, dots: [0.4, 3.6], start: 0.38 },
+          { rx: 420, ry: 150, rot: 21, col: "#f5b21e", speed: -0.85, dots: [1.7, 4.9], start: 0.5 },
+          { rx: 510, ry: 86, rot: 3, col: "#e41824", speed: 0.7, dots: [2.6], start: 0.62 },
+        ];
+
+        var cStars = document.getElementById("stars").getContext("2d");
+        var cBack = document.getElementById("orb-back").getContext("2d");
+        var cFront = document.getElementById("orb-front").getContext("2d");
+        var cFx = document.getElementById("fx").getContext("2d");
+
+        var drawRings = function (t) {
+          cBack.clearRect(0, 0, 1080, 1920);
+          cFront.clearRect(0, 0, 1080, 1920);
+          var spin = (t - HIT) * 4;
+          RINGS.forEach(function (r) {
+            var prog = easeOut((t - r.start) / 0.75);
+            if (prog <= 0) return;
+            var rot = ((r.rot + spin) * Math.PI) / 180;
+            var cos = Math.cos(rot);
+            var sin = Math.sin(rot);
+            var pt = function (th) {
+              var ex = r.rx * Math.cos(th);
+              var ey = r.ry * Math.sin(th);
+              return [CX + ex * cos - ey * sin, CY + ex * sin + ey * cos];
+            };
+            var N = 160;
+            var th0 = -Math.PI / 2;
+            for (var k = 0; k < N * prog; k++) {
+              var a = th0 + (k / N) * Math.PI * 2;
+              var b = th0 + ((k + 1) / N) * Math.PI * 2;
+              var front = Math.sin((a + b) / 2) > 0;
+              var ctx = front ? cFront : cBack;
+              var p1 = pt(a);
+              var p2 = pt(b);
+              ctx.strokeStyle = r.col;
+              ctx.globalAlpha = front ? 0.9 : 0.4;
+              ctx.lineWidth = front ? 3.5 : 2.5;
+              ctx.shadowColor = r.col;
+              ctx.shadowBlur = 14;
+              ctx.beginPath();
+              ctx.moveTo(p1[0], p1[1]);
+              ctx.lineTo(p2[0], p2[1]);
+              ctx.stroke();
+            }
+            r.dots.forEach(function (d0) {
+              var th = d0 + r.speed * Math.max(0, t - r.start);
+              var front = Math.sin(th) > 0;
+              var ctx = front ? cFront : cBack;
+              var p0 = pt(th);
+              var g = ctx.createRadialGradient(p0[0], p0[1], 0, p0[0], p0[1], 22);
+              g.addColorStop(0, "rgba(255,255,255,1)");
+              g.addColorStop(0.25, r.col);
+              g.addColorStop(1, "rgba(0,0,0,0)");
+              ctx.globalAlpha = prog * (front ? 1 : 0.5);
+              ctx.shadowBlur = 0;
+              ctx.fillStyle = g;
+              ctx.beginPath();
+              ctx.arc(p0[0], p0[1], 22, 0, Math.PI * 2);
+              ctx.fill();
+            });
+          });
+          cBack.globalAlpha = 1;
+          cFront.globalAlpha = 1;
+        };
+
+        var drawStars = function (t) {
+          cStars.clearRect(0, 0, 1080, 1920);
+          var vis = clamp((t - HIT) / 0.6, 0, 1);
+          stars.forEach(function (s) {
+            cStars.globalAlpha = vis * (0.35 + 0.35 * Math.sin(s.ph + t * s.sp));
+            cStars.fillStyle = "#cfefff";
+            cStars.beginPath();
+            cStars.arc(s.x, s.y - t * 6, s.r, 0, Math.PI * 2);
+            cStars.fill();
+          });
+          cStars.globalAlpha = 1;
+        };
+
+        var drawFx = function (t) {
+          cFx.clearRect(0, 0, 1080, 1920);
+          var dt = t - HIT;
+          if (dt <= 0) return;
+          cFx.globalCompositeOperation = "lighter";
+          burst.forEach(function (b) {
+            var travel = function (x) {
+              return (b.v * (1 - Math.exp(-2.3 * x))) / 2.3;
+            };
+            var ang = b.a + b.swirl * dt;
+            var r = travel(dt);
+            var x = CX + Math.cos(ang) * r;
+            var y = CY + Math.sin(ang) * r - dt * 22;
+            var alpha = Math.min(1, dt / 0.05) * (0.28 + 0.72 * Math.exp(-dt * 1.4)) * (0.65 + 0.35 * Math.sin(b.ph + dt * 4));
+            cFx.globalAlpha = clamp(alpha, 0, 1);
+            if (dt < 0.6) {
+              var r0 = travel(Math.max(0, dt - 0.05));
+              cFx.strokeStyle = b.col;
+              cFx.lineWidth = b.size * 0.9;
+              cFx.lineCap = "round";
+              cFx.beginPath();
+              cFx.moveTo(CX + Math.cos(ang) * r0, CY + Math.sin(ang) * r0 - (dt - 0.05) * 22);
+              cFx.lineTo(x, y);
+              cFx.stroke();
+            }
+            var g = cFx.createRadialGradient(x, y, 0, x, y, b.size * 3);
+            g.addColorStop(0, "rgba(255,255,255,0.95)");
+            g.addColorStop(0.35, b.col);
+            g.addColorStop(1, "rgba(0,0,0,0)");
+            cFx.fillStyle = g;
+            cFx.beginPath();
+            cFx.arc(x, y, b.size * 3, 0, Math.PI * 2);
+            cFx.fill();
+          });
+          cFx.globalAlpha = 1;
+          cFx.globalCompositeOperation = "source-over";
+        };
+
+        var drawTagline = function (t) {
+          var start = beat(1);
+          tagSpans.forEach(function (s, i) {
+            var ch = TAG[i];
+            if (ch === " ") return;
+            var settle = start + 0.12 + i * 0.03;
+            if (t < start + i * 0.012) {
+              s.style.opacity = "0";
+              return;
+            }
+            s.style.opacity = "1";
+            if (t >= settle) {
+              s.textContent = ch;
+              s.style.color = "";
+            } else {
+              var k = Math.floor(t * 30) * 31 + i * 17;
+              s.textContent = GLYPHS[k % GLYPHS.length];
+              s.style.color = "#7fd3f7";
+            }
+          });
+        };
+
+        var state = { t: 0 };
+        var draw = function () {
+          var t = state.t;
+          drawStars(t);
+          drawRings(t);
+          drawFx(t);
+          drawTagline(t);
+        };
+
+        var tl = gsap.timeline({ paused: true });
+        tl.to(state, { t: D, duration: D, ease: "none", onUpdate: draw }, 0);
+
+        // Out of the white: the film's flash resolves as the logo hits.
+        tl.fromTo("#flash", { opacity: 1 }, { opacity: 0, duration: 0.5, ease: "power2.out" }, 0.08);
+
+        // Camera: settles in from the dive, then a slow push to the end.
+        tl.fromTo("#camera", { scale: 1.14 }, { scale: 1, duration: 1.3, ease: "expo.out" }, 0);
+        tl.fromTo("#drift", { scale: 1, y: 0 }, { scale: 1.04, y: -14, duration: D - 1.2, ease: "sine.inOut" }, 1.2);
+
+        // Shockwave on the hit.
+        tl.fromTo("#ring-1", { scale: 0.2, opacity: 1 }, { scale: 6.5, opacity: 0, duration: 0.75, ease: "expo.out" }, HIT);
+        tl.fromTo("#ring-2", { scale: 0.2, opacity: 1 }, { scale: 8.5, opacity: 0, duration: 1.0, ease: "power3.out" }, HIT + 0.05);
+        tl.fromTo("#ring-3", { scale: 0.2, opacity: 0.9 }, { scale: 10, opacity: 0, duration: 1.25, ease: "power2.out" }, HIT + 0.1);
+
+        // Light rays flare on the hit, then breathe.
+        tl.fromTo("#rays", { opacity: 0, rotation: -8 }, { opacity: 1, rotation: 4, duration: 0.6, ease: "power3.out" }, HIT);
+        tl.to("#rays", { opacity: 0.45, rotation: 22, duration: D - HIT - 0.6, ease: "none" }, HIT + 0.6);
+
+        // Holographic floor and ghost type.
+        tl.fromTo("#floor-wrap", { opacity: 0 }, { opacity: 1, duration: 0.9, ease: "power2.out" }, HIT + 0.1);
+        tl.fromTo("#floor", { backgroundPosition: "0px 0px" }, { backgroundPosition: "0px 600px", duration: D, ease: "none" }, 0);
+        tl.fromTo("#ghost-a", { x: 0, opacity: 0 }, { x: -520, opacity: 1, duration: D, ease: "none" }, 0);
+        tl.fromTo("#ghost-b", { x: -700, opacity: 0 }, { x: -180, opacity: 1, duration: D, ease: "none" }, 0);
+
+        // Logo materialises out of the light.
+        tl.fromTo(
+          "#logo-core",
+          { scale: 0.5, opacity: 0, filter: "blur(28px) brightness(3)" },
+          { scale: 1, opacity: 1, filter: "blur(0px) brightness(1)", duration: 0.95, ease: "expo.out" },
+          HIT,
+        );
+        tl.fromTo("#logo-glow", { opacity: 0, scale: 0.6 }, { opacity: 0.9, scale: 1.08, duration: 0.5, ease: "power4.out" }, HIT);
+        tl.to("#logo-glow", { opacity: 0.35, scale: 1, duration: 1.6, ease: "sine.inOut" }, HIT + 0.5);
+
+        // Logo answers each beat with a small, decaying bump.
+        [1, 2, 3, 4, 5, 6].forEach(function (n) {
+          var amp = n === 4 ? 1.05 : 1 + 0.03 / (1 + (n - 1) * 0.35);
+          tl.fromTo("#logo-pulse", { scale: amp }, { scale: 1, duration: 0.42, ease: "power2.out" }, beat(n));
+        });
+        tl.fromTo("#logo-glow", { opacity: 0.85 }, { opacity: 0.35, duration: 0.9, ease: "power2.out" }, beat(4));
+
+        // Tagline underline and badge.
+        tl.fromTo("#tagline", { y: 26 }, { y: 0, duration: 0.6, ease: "back.out(2)" }, beat(1));
+        tl.fromTo("#underline", { scaleX: 0, opacity: 0 }, { scaleX: 1, opacity: 1, duration: 0.55, ease: "power3.out" }, beat(1) + 0.45);
+        tl.fromTo("#badge", { scaleX: 0.15, scaleY: 0.6, opacity: 0 }, { scaleX: 1, scaleY: 1, opacity: 1, duration: 0.5, ease: "back.out(1.8)" }, beat(2) - 0.08);
+        tl.fromTo("#badge-label", { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.35, ease: "power2.out" }, beat(2) + 0.1);
+        strips.forEach(function (s, i) {
+          tl.fromTo(s.el, { y: 0 }, { y: -s.target * 84, duration: 0.85 + i * 0.12, ease: "expo.out" }, beat(2) + 0.04 * i);
+        });
+
+        // Shine passes across the logo and glints on the final chord.
+        tl.fromTo("#logo-core", { "--shine": "-30%" }, { "--shine": "130%", duration: 0.9, ease: "power2.inOut" }, beat(3));
+        tl.fromTo("#logo-core", { "--shine": "-30%" }, { "--shine": "130%", duration: 1.1, ease: "power2.inOut", immediateRender: false }, 4.1);
+        [
+          ["#glint-1", beat(4)],
+          ["#glint-2", beat(4) + 0.12],
+          ["#glint-3", beat(5) + 0.2],
+          ["#glint-1", 4.35],
+          ["#glint-2", 4.5],
+        ].forEach(function (g) {
+          tl.fromTo(g[0], { scale: 0, rotation: -45, opacity: 1 }, { scale: 1.2, rotation: 45, opacity: 1, duration: 0.25, ease: "power3.out", immediateRender: false }, g[1]);
+          tl.to(g[0], { scale: 0, rotation: 90, duration: 0.35, ease: "power2.in" }, g[1] + 0.25);
+        });
+
+        tl.seek(0);
+        draw();
+        window.__timelines["ending"] = tl;
+      })();
+    </script>
+  </body>
+</html>
