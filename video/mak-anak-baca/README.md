@@ -7,7 +7,7 @@
 ## Apa yang diubah
 - Suara mak diganti dengan Qwen Audio TTS (voice "Talent Minda Optima - Sesi Petang", `language: ms`),
   dipotong ikut frasa dan diletak pada gerak mulut asal:
-  `vo1` 1.00s, `vo2a` 6.75s, `vo2b` 9.76s, `vo2c` 12.22s, `vo2d` 13.54s.
+  `vo1a` 1.00s, `vo1b` 2.84s, `vo2a1` 6.72s, `vo2a2` 8.53s, `vo2b` 9.76s, `vo2c` 12.22s, `vo2d` 13.54s.
 - Bunyi asal shot budak (4.0–6.33s) dikekalkan.
 - Snap zoom pada "dengan mata tertutup" (2.56s) dan "haa, sama la kita" (13.5s), slow push-in, goyang handheld.
 - SFX whoosh/punch + room tone, loudness akhir -14 LUFS.
