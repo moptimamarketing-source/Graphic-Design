@@ -1,2 +1,5 @@
 .hyperframes/
 node_modules/
+assets/music-src/
+# derived from the licensed Envato track; rebuild with tools/edit_music.py
+assets/music.wav
