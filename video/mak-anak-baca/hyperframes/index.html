@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="ms" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=720, height=1280" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        width: 720px;
+        height: 1280px;
+        overflow: hidden;
+        background: #000;
+      }
+      #root {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: #000;
+      }
+      /* Kamera maya: wrapper tak bertimer, video bertimer di dalamnya */
+      .cam {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+      }
+      .cam video {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      #cam1 {
+        transform-origin: 46% 30%;
+      }
+      #cam2 {
+        transform-origin: 50% 45%;
+      }
+      #cam3 {
+        transform-origin: 50% 34%;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="15.07"
+      data-width="720"
+      data-height="1280"
+    >
+      <!-- Shot 1 (0–4s): Mak tunjuk buku, deadpan, snap zoom "dengan mata tertutup" -->
+      <div id="cam1" class="cam">
+        <video
+          id="shot1"
+          class="clip"
+          src="assets/asal.mp4"
+          data-start="0"
+          data-duration="4"
+          data-media-start="0"
+          data-track-index="0"
+          playsinline
+          muted
+        ></video>
+      </div>
+
+      <!-- Shot 2 (4–6.33s): Anak "baca" mata tertutup, handheld. Bunyi asal dikekalkan -->
+      <div id="cam2" class="cam">
+        <video
+          id="shot2"
+          class="clip"
+          src="assets/asal.mp4"
+          data-start="4"
+          data-duration="2.3333"
+          data-media-start="4"
+          data-track-index="0"
+          playsinline
+          data-has-audio="true"
+          data-volume="0.9"
+          data-automation='{"version":1,"lanes":[{"target":"volume","points":[{"t":0,"v":0},{"t":0.06,"v":1},{"t":2.25,"v":1},{"t":2.3333,"v":0}]}]}'
+        ></video>
+      </div>
+
+      <!-- Shot 3 (6.33–15.07s): Mak bisik rahsia, slow push-in, snap zoom pada smirk -->
+      <div id="cam3" class="cam">
+        <video
+          id="shot3"
+          class="clip"
+          src="assets/asal.mp4"
+          data-start="6.3333"
+          data-duration="8.7367"
+          data-media-start="6.3333"
+          data-track-index="0"
+          playsinline
+          muted
+        ></video>
+      </div>
+
+      <!-- Suara mak baru (BM loghat Malaysia), diselaraskan dengan gerak mulut asal -->
+      <audio id="vo1" src="assets/vo1.wav" data-start="1.0" data-duration="2.78" data-track-index="1" data-volume="1"></audio>
+      <audio id="vo2a" src="assets/vo2a.wav" data-start="6.75" data-duration="2.1" data-track-index="1" data-volume="1"></audio>
+      <audio id="vo2b" src="assets/vo2b.wav" data-start="9.76" data-duration="2.08" data-track-index="1" data-volume="1"></audio>
+      <audio id="vo2c" src="assets/vo2c.wav" data-start="12.22" data-duration="0.92" data-track-index="1" data-volume="1"></audio>
+      <audio id="vo2d" src="assets/vo2d.wav" data-start="13.54" data-duration="1.15" data-track-index="1" data-volume="1"></audio>
+
+      <!-- Bunyi bilik supaya tak senyap mati bila suara asal dibuang -->
+      <audio id="roomtone" src="assets/roomtone.wav" data-start="0" data-duration="15.07" data-track-index="2" data-volume="1"></audio>
+
+      <!-- SFX snap zoom -->
+      <audio id="sfx-whoosh1" src="assets/whoosh.wav" data-start="2.3" data-duration="0.35" data-track-index="3" data-volume="0.7"></audio>
+      <audio id="sfx-punch1" src="assets/punch.wav" data-start="2.56" data-duration="0.18" data-track-index="4" data-volume="0.8"></audio>
+      <audio id="sfx-whoosh2" src="assets/whoosh.wav" data-start="3.72" data-duration="0.35" data-track-index="3" data-volume="0.6"></audio>
+      <audio id="sfx-punch2" src="assets/punch.wav" data-start="4.0" data-duration="0.18" data-track-index="4" data-volume="0.6"></audio>
+      <audio id="sfx-whoosh3" src="assets/whoosh.wav" data-start="13.22" data-duration="0.35" data-track-index="3" data-volume="0.6"></audio>
+      <audio id="sfx-punch3" src="assets/punch.wav" data-start="13.5" data-duration="0.18" data-track-index="4" data-volume="0.55"></audio>
+    </div>
+
+    <script>
+      const tl = gsap.timeline({ paused: true });
+
+      // Shot 1: push-in perlahan, kemudian snap zoom pada "dengan mata tertutup"
+      tl.fromTo("#cam1", { scale: 1, x: 0, y: 0 }, { scale: 1.06, duration: 2.5, ease: "sine.inOut" }, 0);
+      tl.to("#cam1", { scale: 1.2, duration: 0.12, ease: "power4.out" }, 2.56);
+      tl.to("#cam1", { keyframes: [{ x: -6, duration: 0.04 }, { x: 5, duration: 0.04 }, { x: -3, duration: 0.04 }, { x: 0, duration: 0.05 }] }, 2.6);
+      // Sumber dah cut ke close-up pada 3.0s: reset zoom, creep perlahan
+      tl.set("#cam1", { scale: 1.02 }, 3.0);
+      tl.to("#cam1", { scale: 1.07, duration: 1.0, ease: "none" }, 3.0);
+
+      // Shot 2: handheld goyang + kepala angguk bangga
+      tl.fromTo(
+        "#cam2",
+        { scale: 1.16, x: 0, y: 0, rotation: 0 },
+        {
+          keyframes: [
+            { scale: 1.08, x: 0, y: 0, rotation: 0, duration: 0.14, ease: "power3.out" },
+            { x: -8, y: 5, rotation: -0.8, duration: 0.33, ease: "sine.inOut" },
+            { x: 7, y: -4, rotation: 0.7, duration: 0.36, ease: "sine.inOut" },
+            { x: -5, y: 6, rotation: -0.5, duration: 0.34, ease: "sine.inOut" },
+            { x: 9, y: -3, rotation: 0.9, duration: 0.38, ease: "sine.inOut" },
+            { x: -6, y: 4, rotation: -0.6, duration: 0.35, ease: "sine.inOut" },
+            { x: 3, y: -2, rotation: 0.3, duration: 0.43, ease: "sine.inOut" },
+          ],
+        },
+        4.0
+      );
+
+      // Shot 3: slow push-in masa "bisik rahsia"
+      tl.fromTo("#cam3", { scale: 1, x: 0, y: 0 }, { scale: 1.12, duration: 7.1, ease: "sine.inOut" }, 6.3333);
+      // Snap zoom pada "haa, sama la kita" + smirk
+      tl.to("#cam3", { scale: 1.34, duration: 0.12, ease: "power4.out" }, 13.5);
+      tl.to("#cam3", { keyframes: [{ x: 7, duration: 0.04 }, { x: -6, duration: 0.04 }, { x: 3, duration: 0.04 }, { x: 0, duration: 0.05 }] }, 13.54);
+      tl.to("#cam3", { scale: 1.38, duration: 1.4, ease: "none" }, 13.67);
+
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>
