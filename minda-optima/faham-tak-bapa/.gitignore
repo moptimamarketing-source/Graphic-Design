@@ -1,0 +1,5 @@
+# fail kerja & aset yang dijana semula oleh tools/build.py
+kerja/
+hyperframes/assets/*.mp4
+hyperframes/assets/mix.wav
+hyperframes/.hyperframes/

@@ -1,0 +1,388 @@
+<!doctype html>
+<!-- Dijana oleh tools/build.py daripada tools/index.template.html — edit template, bukan fail ini -->
+<html lang="ms" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <link rel="stylesheet" href="fonts/emoji.css" />
+    <script src="vendor/gsap.min.js"></script>
+    <script src="timing.js"></script>
+    <style>
+      @font-face { font-family: "Lilita One"; src: url(fonts/files/lilita-one-latin-400-normal.woff2) format("woff2"); font-weight: 400; }
+      @font-face { font-family: "Baloo 2"; src: url(fonts/files/baloo-2-latin-700-normal.woff2) format("woff2"); font-weight: 700; }
+      @font-face { font-family: "Baloo 2"; src: url(fonts/files/baloo-2-latin-800-normal.woff2) format("woff2"); font-weight: 800; }
+      :root {
+        --blue: #0b6fb8;
+        --sky: #1fb3ea;
+        --orange: #f5961f;
+        --red: #e6202f;
+        --yellow: #ffd43b;
+        --green: #22b35e;
+        --navy: #0a2d57;
+        --cream: #fff7e8;
+        --emoji: "Noto Color Emoji";
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000; }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; font-family: "Baloo 2", var(--emoji), sans-serif; }
+      .layer { position: absolute; inset: 0; }
+      .emo { font-family: var(--emoji); -webkit-text-stroke: 0; text-shadow: 0 8px 14px rgba(0, 0, 0, 0.35); font-weight: 400; }
+
+      /* video penuh skrin */
+      .vwrap { position: absolute; inset: 0; overflow: hidden; }
+      .vwrap video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+      /* teks 3D bertingkat (extrude) */
+      .t3d {
+        position: absolute; left: 0; right: 0; text-align: center;
+        font-family: "Lilita One", var(--emoji), sans-serif; line-height: 0.98; letter-spacing: 1px;
+        color: #fff; -webkit-text-stroke: 12px var(--navy); paint-order: stroke fill;
+        text-shadow: 0 3px 0 var(--navy), 0 6px 0 var(--navy), 0 9px 0 var(--navy), 0 12px 0 var(--navy),
+          0 15px 0 var(--navy), 0 18px 0 var(--navy), 0 24px 30px rgba(0, 0, 0, 0.45);
+      }
+      .t3d .y { color: var(--yellow); }
+      .t3d .o { color: var(--orange); }
+      .t3d .r { color: #ff5a5f; }
+
+      /* ---------- Babak A ---------- */
+      #bubble {
+        position: absolute; left: 70px; top: 830px; padding: 26px 46px 30px; background: #fff; border-radius: 60px;
+        border: 9px solid var(--navy); box-shadow: 0 16px 0 var(--navy), 0 28px 40px rgba(0, 0, 0, 0.35);
+        font-family: "Lilita One", var(--emoji), sans-serif; font-size: 104px; color: var(--blue); white-space: nowrap;
+        transform-origin: 70% 0%;
+      }
+      #bubble .q { color: #e87400; }
+      #bubble::before, #bubble::after { content: ""; position: absolute; width: 0; height: 0; border-style: solid; }
+      #bubble::before { right: 150px; top: -78px; border-width: 0 0 78px 70px; border-color: transparent transparent var(--navy) transparent; }
+      #bubble::after { right: 160px; top: -56px; border-width: 0 0 60px 52px; border-color: transparent transparent #fff transparent; }
+      #nod { position: absolute; left: 50px; top: 300px; width: 220px; text-align: center; }
+      #nod .face { font-family: var(--emoji); font-size: 150px; line-height: 1; display: inline-block; transform-origin: 50% 85%; }
+      #nod .lbl {
+        display: inline-block; margin-top: 6px; padding: 4px 18px; border-radius: 30px; background: var(--yellow);
+        color: var(--navy); font-weight: 800; font-size: 34px; border: 5px solid var(--navy);
+      }
+      #takfaham { top: 1000px; font-size: 140px; }
+      #flash { position: absolute; inset: 0; background: #fff; opacity: 0; }
+
+      /* ---------- Babak B ---------- */
+      #bgB { position: absolute; inset: 0; background: linear-gradient(170deg, var(--sky) 0%, var(--blue) 70%, #085a97 100%); overflow: hidden; }
+      #rays {
+        position: absolute; left: -900px; top: -500px; width: 2880px; height: 2880px; opacity: 0.18;
+        background: repeating-conic-gradient(from 0deg at 50% 50%, #fff 0deg 9deg, transparent 9deg 22.5deg);
+      }
+      #dots { position: absolute; inset: -80px; opacity: 0.16; background-image: radial-gradient(#fff 5px, transparent 6px); background-size: 64px 64px; }
+      .doodle { position: absolute; font-family: "Lilita One", var(--emoji); font-size: 120px; color: rgba(255, 255, 255, 0.22); }
+      .doodle.e { font-family: var(--emoji); opacity: 0.55; font-size: 96px; }
+      #cardB {
+        position: absolute; left: 120px; top: 150px; width: 840px; height: 820px; border-radius: 56px; overflow: hidden;
+        border: 12px solid #fff; box-shadow: 0 22px 0 var(--navy), 0 40px 60px rgba(0, 0, 0, 0.35); background: #222;
+      }
+      #cardB video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 20%; }
+      #qFaham {
+        position: absolute; left: 140px; width: 800px; top: 1090px; padding: 22px 0 26px; text-align: center; background: #fff;
+        border-radius: 44px; border: 9px solid var(--navy); box-shadow: 0 16px 0 var(--navy);
+        font-family: "Lilita One", var(--emoji); font-size: 120px; color: var(--blue);
+      }
+      #qFaham .q { color: #e87400; }
+      .ya {
+        position: absolute; padding: 8px 30px 12px; border-radius: 999px; background: var(--green); color: #fff;
+        font-family: "Lilita One", var(--emoji); border: 7px solid #fff; box-shadow: 0 10px 0 #127a3d, 0 18px 26px rgba(0, 0, 0, 0.3);
+        white-space: nowrap;
+      }
+      #terbuka { top: 1060px; font-size: 128px; }
+      #terbuka .emo { font-size: 120px; }
+      .qcard {
+        position: absolute; left: 70px; width: 880px; height: 138px; display: flex; align-items: center; gap: 22px; padding: 0 26px;
+        background: #fff; border-radius: 40px; border: 8px solid var(--navy); box-shadow: 0 13px 0 var(--navy);
+        font-weight: 800; font-size: 60px; color: var(--navy); white-space: nowrap;
+      }
+      .qcard .ic {
+        flex: none; width: 100px; height: 100px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+        font-family: var(--emoji); font-size: 60px; border: 6px solid var(--navy);
+      }
+      .qcard .k { color: #e06d00; }
+      #q1 { top: 1110px; }
+      #q1 .ic { background: var(--yellow); }
+      #q2 { top: 1278px; }
+      #q2 .ic { background: var(--sky); font-size: 46px; letter-spacing: -6px; }
+      #tagSoalan {
+        position: absolute; left: 140px; top: 1012px; padding: 4px 26px 8px; border-radius: 26px; background: var(--orange);
+        color: #fff; font-family: "Lilita One"; font-size: 54px; border: 6px solid var(--navy); white-space: nowrap;
+      }
+
+      /* ---------- Babak C ---------- */
+      .pill {
+        position: absolute; padding: 8px 30px 14px; border-radius: 26px; font-weight: 800; white-space: nowrap;
+        border: 7px solid var(--navy); box-shadow: 0 12px 0 var(--navy), 0 20px 30px rgba(0, 0, 0, 0.3);
+      }
+      #pIsteri { left: 60px; top: 880px; font-size: 58px; background: #fff; color: var(--navy); }
+      #pIsteri .k { color: var(--red); }
+      #pPada { left: 300px; top: 1010px; font-size: 64px; background: var(--red); color: #fff; }
+      #krik { position: absolute; left: 600px; top: 640px; font-style: italic; font-weight: 700; font-size: 44px; color: #fff; text-shadow: 0 3px 8px rgba(0, 0, 0, 0.7); }
+      #krik .emo { font-style: normal; font-size: 64px; }
+      #hasil { top: 960px; font-size: 132px; }
+      #sama { top: 1110px; font-size: 176px; }
+      #vignette { position: absolute; inset: 0; background: radial-gradient(ellipse at 48% 34%, transparent 40%, rgba(0, 0, 0, 0.6) 100%); opacity: 0; }
+
+      /* ---------- Babak D ---------- */
+      #endBg { position: absolute; inset: 0; background: var(--cream); overflow: hidden; }
+      #endRays {
+        position: absolute; left: -900px; top: -760px; width: 2880px; height: 2880px; opacity: 0.12;
+        background: repeating-conic-gradient(from 0deg at 50% 50%, var(--sky) 0deg 8deg, transparent 8deg 20deg);
+      }
+      #iris { position: absolute; left: 540px; top: 860px; width: 200px; height: 200px; margin: -100px 0 0 -100px; border-radius: 50%; background: var(--blue); }
+      #logo { position: absolute; left: 110px; top: 470px; width: 860px; }
+      #tagline { position: absolute; left: 60px; right: 60px; top: 1100px; text-align: center; font-weight: 800; font-size: 70px; line-height: 1.12; color: var(--navy); }
+      #tagline .k { color: #e06d00; }
+      #tagline .bar { display: block; width: 360px; height: 14px; border-radius: 10px; margin: 26px auto 0; background: linear-gradient(90deg, var(--blue), var(--sky), var(--orange), var(--red)); }
+      .conf { position: absolute; width: 26px; height: 26px; border-radius: 6px; }
+
+      /* ---------- Caption ---------- */
+      .cap {
+        position: absolute; left: 50px; width: 900px; text-align: center; font-weight: 800; font-size: 76px; line-height: 1.08;
+        color: #fff; -webkit-text-stroke: 13px var(--navy); paint-order: stroke fill; text-shadow: 0 8px 16px rgba(0, 0, 0, 0.45);
+      }
+      .cap .w { display: inline-block; margin: 0 9px; }
+      .cap .w.key { color: var(--yellow); }
+      .cap .w.key.b { color: #ffb02e; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="{{TOTAL}}" data-width="1080" data-height="1920">
+      <!-- Babak B: latar brand -->
+      <div id="bgB" class="layer">
+        <div id="rays"></div>
+        <div id="dots"></div>
+        <div class="doodle" style="left: 40px; top: 1050px">A</div>
+        <div class="doodle" style="left: 930px; top: 1180px">B</div>
+        <div class="doodle" style="left: 860px; top: 1500px">C</div>
+        <div class="doodle e" style="left: 30px; top: 1500px">📚</div>
+        <div class="doodle e" style="left: 930px; top: 980px">✏️</div>
+      </div>
+
+      <!-- Video -->
+      <div id="vA" class="vwrap">
+        <video id="clipA" class="clip" src="assets/hook.mp4" muted playsinline data-start="0" data-duration="{{A_END}}" data-track-index="1"></video>
+      </div>
+      <div id="cardB">
+        <video id="clipB" class="clip" src="assets/tip.mp4" muted playsinline data-start="{{B0}}" data-duration="{{B_DUR}}" data-track-index="1"></video>
+      </div>
+      <div id="vC" class="vwrap">
+        <video id="clipC" class="clip" src="assets/punchline.mp4" muted playsinline data-start="{{C0}}" data-duration="{{C_DUR}}" data-track-index="1"></video>
+      </div>
+      <div id="vignette"></div>
+
+      <!-- Overlay Babak A -->
+      <div id="nod"><span class="face">😊</span><br /><span class="lbl">angguk!</span></div>
+      <div id="bubble">FAHAM TAK<span class="q">?</span> <span class="emo">🤔</span></div>
+      <div id="takfaham" class="t3d">DIA TAK<br /><span class="y">FAHAM</span> <span class="emo">😑</span></div>
+
+      <!-- Overlay Babak B -->
+      <div id="qFaham">FAHAM TAK<span class="q">?</span></div>
+      <div id="yaLayer" class="layer"></div>
+      <div id="terbuka" class="t3d">SOALAN<br /><span class="y">TERBUKA</span> <span class="emo">💬</span></div>
+      <div id="tagSoalan">SOALAN TERBUKA <span class="emo" style="text-shadow: none">💬</span></div>
+      <div id="q1" class="qcard"><span class="ic">👦</span><span>“<span class="k">Siapa</span> dalam cerita ni?”</span></div>
+      <div id="q2" class="qcard"><span class="ic">➡️📖</span><span>“Lepas tu, <span class="k">apa jadi?</span>”</span></div>
+
+      <!-- Overlay Babak C -->
+      <div id="pIsteri" class="pill"><span class="k">ISTERI</span> PUN GUNA TEKNIK NI...</div>
+      <div id="pPada" class="pill">PADA SAYA <span class="emo">👀</span></div>
+      <div id="krik"><span class="emo">🦗</span> krik... krik...</div>
+      <div id="hasil" class="t3d">HASILNYA...</div>
+      <div id="sama" class="t3d"><span class="r">SAMA</span> <span class="emo">🙃</span></div>
+
+      <!-- Babak D: end card -->
+      <div id="endBg" class="layer">
+        <div id="endRays"></div>
+        <div id="iris"></div>
+        <div id="confLayer" class="layer"></div>
+        <img id="logo" src="assets/logo.png" alt="Minda Optima" />
+        <div id="tagline">Bantu anak <span class="k">membaca</span>,<br />langkah demi langkah<span class="bar"></span></div>
+      </div>
+
+      <div id="capLayer" class="layer"></div>
+      <div id="flash"></div>
+
+      <audio id="mix" src="assets/mix.wav" data-start="0" data-duration="{{TOTAL}}" data-volume="1" data-track-index="2"></audio>
+    </div>
+
+    <script>
+      (function () {
+        const T = window.TIMING;
+        const E = T.ev;
+        const S = T.scenes;
+        const q = (s) => document.querySelector(s);
+        const tl = gsap.timeline({ paused: true });
+        const show = (el, t) => tl.set(el, { autoAlpha: 1 }, t);
+        const hide = (el, t) => tl.set(el, { autoAlpha: 0 }, t);
+        const flash = (t, o, d) => { tl.set("#flash", { opacity: o }, t); tl.to("#flash", { opacity: 0, duration: d }, t + 0.01); };
+        // pseudo-rawak deterministik
+        let seed = 11;
+        const rnd = () => ((seed = (seed * 9301 + 49297) % 233280) / 233280);
+
+        // keadaan awal
+        gsap.set(["#bgB", "#cardB", "#vC", "#vignette", "#nod", "#bubble", "#takfaham", "#qFaham", "#terbuka", "#tagSoalan",
+                "#q1", "#q2", "#pIsteri", "#pPada", "#krik", "#hasil", "#sama", "#endBg"], { autoAlpha: 0 });
+
+        /* ================= Babak A — Hook ================= */
+        tl.fromTo("#vA", { scale: 1.06 }, { scale: 1, duration: 0.5, ease: "power3.out" }, 0);
+        // "Faham tak?" -> bubble pop
+        show("#bubble", E.bubble);
+        tl.fromTo("#bubble", { scale: 0, rotation: -12 }, { scale: 1, rotation: -3, duration: 0.42, ease: "back.out(2.6)" }, E.bubble);
+        tl.to("#bubble", { y: -10, duration: 0.35, yoyo: true, repeat: 3, ease: "sine.inOut" }, E.bubble + 0.42);
+        // "Dia angguk laju" -> emoji mengangguk laju
+        show("#nod", E.nod - 0.05);
+        tl.fromTo("#nod", { scale: 0 }, { scale: 1, duration: 0.25, ease: "back.out(3)" }, E.nod - 0.05);
+        tl.to("#nod .face", { rotationX: 0, y: 26, rotation: 6, duration: 0.09, yoyo: true, repeat: 13, ease: "sine.inOut" }, E.nod);
+        tl.to("#bubble", { scale: 0.86, y: 60, autoAlpha: 0, duration: 0.25, ease: "power2.in" }, E.takfaham - 0.3);
+        // "Dia tak faham." -> record scratch, snap zoom, teks 3D
+        tl.to("#nod", { autoAlpha: 0, scale: 0.5, duration: 0.15 }, E.takfaham - 0.1);
+        flash(E.takfaham, 0.85, 0.18);
+        gsap.set("#vA", { transformOrigin: "52% 30%" });
+        tl.to("#vA", { scale: 1.28, duration: 0.14, ease: "power4.out" }, E.takfaham);
+        tl.to("#vA", { x: 10, duration: 0.04, yoyo: true, repeat: 5, ease: "none" }, E.takfaham + 0.14);
+        show("#takfaham", E.takfaham + 0.06);
+        tl.fromTo("#takfaham", { scale: 2.4, rotation: -6 }, { scale: 1, rotation: -3, duration: 0.3, ease: "back.out(1.8)" }, E.takfaham + 0.06);
+        tl.to("#takfaham", { scale: 1.04, duration: 0.25, yoyo: true, repeat: 1 }, E.takfaham + 0.4);
+        hide("#takfaham", S.B[0]);
+
+        /* ================= Babak B — Typography ================= */
+        const B0 = S.B[0];
+        show("#bgB", B0 - 0.14);
+        tl.fromTo("#bgB", { xPercent: 100 }, { xPercent: 0, duration: 0.18, ease: "power3.out" }, B0 - 0.14);
+        tl.fromTo("#rays", { rotation: 0 }, { rotation: 40, duration: S.B[1] - B0 + 0.4, ease: "none" }, B0 - 0.14);
+        tl.fromTo("#dots", { x: 0, y: 0 }, { x: -64, y: 64, duration: S.B[1] - B0, ease: "none" }, B0);
+        document.querySelectorAll(".doodle").forEach((d, i) => {
+          tl.fromTo(d, { y: 0, rotation: -8 }, { y: -40, rotation: 8, duration: 1.1 + i * 0.17, yoyo: true, repeat: 7, ease: "sine.inOut" }, B0);
+        });
+        show("#cardB", B0);
+        tl.fromTo("#cardB", { scale: 0.5, rotation: 8, y: 200 }, { scale: 1, rotation: -2, y: 0, duration: 0.42, ease: "back.out(1.7)" }, B0);
+        // "Soalan 'faham tak'" -> kad soalan
+        show("#qFaham", E.card_faham - 0.04);
+        tl.fromTo("#qFaham", { scale: 0, rotation: 10 }, { scale: 1, rotation: 2, duration: 0.36, ease: "back.out(2.4)" }, E.card_faham - 0.04);
+        // "memang akan dapat jawapan 'ya'" -> YA bertimbun
+        const yaLayer = q("#yaLayer");
+        const yaEls = [];
+        E.ya_times.forEach((t, k) => {
+          const el = document.createElement("div");
+          el.className = "ya";
+          el.innerHTML = 'YA <span class="emo" style="text-shadow:none">✅</span>';
+          const size = 84 + Math.round(rnd() * 70) + k * 3;
+          el.style.fontSize = size + "px";
+          el.style.left = Math.round(20 + rnd() * 600) + "px";
+          el.style.top = Math.round(170 + rnd() * 1110) + "px";
+          yaLayer.appendChild(el);
+          yaEls.push(el);
+          gsap.set(el, { autoAlpha: 0 });
+          show(el, t);
+          tl.fromTo(el, { scale: 0, rotation: (rnd() - 0.5) * 60 }, { scale: 1, rotation: (rnd() - 0.5) * 30, duration: 0.22, ease: "back.out(3)" }, t);
+        });
+        tl.to("#qFaham", { x: 12, duration: 0.05, yoyo: true, repeat: 15, ease: "none" }, E.ya_start);
+        // "Cuba tanya soalan terbuka" -> sapu keluar semua YA, teks 3D
+        tl.to([...yaEls, "#qFaham"], { x: -1400, rotation: -25, duration: 0.3, ease: "power3.in", stagger: 0.012 }, E.terbuka - 0.12);
+        show("#terbuka", E.terbuka_txt - 0.1);
+        tl.fromTo("#terbuka", { scale: 2.3, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.28, ease: "back.out(1.6)" }, E.terbuka_txt - 0.1);
+        tl.to("#terbuka", { rotation: -2, duration: 0.3, yoyo: true, repeat: 1, ease: "sine.inOut" }, E.terbuka_txt + 0.2);
+        // "Siapa dalam cerita ni?" -> kad soalan 1
+        tl.to("#terbuka", { scale: 0.3, y: -120, autoAlpha: 0, duration: 0.2, ease: "power2.in" }, E.q1 - 0.2);
+        show("#tagSoalan", E.q1 - 0.05);
+        tl.fromTo("#tagSoalan", { scale: 0, rotation: -10 }, { scale: 1, rotation: -3, duration: 0.3, ease: "back.out(2.5)" }, E.q1 - 0.05);
+        show("#q1", E.q1);
+        tl.fromTo("#q1", { x: -900, rotation: -6 }, { x: 0, rotation: -1, duration: 0.32, ease: "back.out(1.6)" }, E.q1);
+        tl.fromTo("#q1 .ic", { scale: 0 }, { scale: 1, duration: 0.3, ease: "back.out(3)" }, E.q1 + 0.12);
+        // "Lepas tu, apa jadi?" -> kad soalan 2
+        show("#q2", E.q2);
+        tl.fromTo("#q2", { x: 900, rotation: 6 }, { x: 0, rotation: 1, duration: 0.32, ease: "back.out(1.6)" }, E.q2);
+        tl.fromTo("#q2 .ic", { scale: 0 }, { scale: 1, duration: 0.3, ease: "back.out(3)" }, E.q2 + 0.12);
+        tl.to("#q2 .ic", { x: 8, duration: 0.25, yoyo: true, repeat: 3, ease: "sine.inOut" }, E.q2 + 0.45);
+        ["#bgB", "#cardB", "#tagSoalan", "#q1", "#q2"].forEach((s) => hide(s, S.B[1]));
+
+        /* ================= Babak C — Punchline ================= */
+        const C0 = S.C[0];
+        show("#vC", C0);
+        flash(C0, 0.7, 0.16);
+        tl.fromTo("#vC", { scale: 1.18 }, { scale: 1, duration: 0.3, ease: "power3.out", immediateRender: false }, C0);
+        show("#pIsteri", E.isteri);
+        tl.fromTo("#pIsteri", { scale: 0, rotation: -8 }, { scale: 1, rotation: -2, duration: 0.32, ease: "back.out(2.2)" }, E.isteri);
+        show("#pPada", E.padasaya);
+        tl.fromTo("#pPada", { scale: 0, rotation: 10 }, { scale: 1, rotation: 3, duration: 0.3, ease: "back.out(2.6)" }, E.padasaya);
+        // cengkerik
+        show("#krik", E.crickets);
+        tl.fromTo("#krik", { autoAlpha: 0, x: 30 }, { autoAlpha: 1, x: 0, duration: 0.25 }, E.crickets);
+        tl.to("#krik", { y: -14, duration: 0.18, yoyo: true, repeat: 3, ease: "sine.inOut" }, E.crickets + 0.25);
+        tl.to("#krik", { autoAlpha: 0, duration: 0.2 }, E.hasilnya + 0.2);
+        // "Hasilnya... sama."
+        tl.to(["#pIsteri", "#pPada"], { y: -60, autoAlpha: 0, duration: 0.2, ease: "power2.in" }, E.hasilnya - 0.12);
+        show("#hasil", E.hasilnya);
+        tl.fromTo("#hasil", { scale: 0.4, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.3, ease: "back.out(2)" }, E.hasilnya);
+        show("#sama", E.sama);
+        tl.fromTo("#sama", { scale: 3, rotation: -12, autoAlpha: 0 }, { scale: 1, rotation: -4, autoAlpha: 1, duration: 0.22, ease: "power4.out" }, E.sama);
+        // freeze frame + snap zoom + dun dun
+        gsap.set("#vC", { transformOrigin: "47% 30%" });
+        flash(E.freeze, 0.9, 0.2);
+        tl.to("#vC", { scale: 1.22, duration: 0.12, ease: "power4.out" }, E.freeze);
+        tl.to("#vC", { scale: 1.34, duration: 0.12, ease: "power4.out" }, E.freeze + 0.5);
+        show("#vignette", E.freeze);
+        tl.fromTo("#vignette", { opacity: 0 }, { opacity: 1, duration: 0.2 }, E.freeze);
+        tl.to("#sama", { scale: 1.12, duration: 0.1, yoyo: true, repeat: 1 }, E.freeze + 0.5);
+        tl.to("#root", { x: 12, duration: 0.035, yoyo: true, repeat: 5, ease: "none" }, E.freeze + 0.5);
+        ["#vC", "#vignette", "#hasil", "#sama"].forEach((s) => hide(s, S.D[0]));
+
+        /* ================= Babak D — End card ================= */
+        const D0 = S.D[0];
+        show("#endBg", D0);
+        tl.fromTo("#iris", { scale: 0 }, { scale: 14, duration: 0.35, ease: "power3.in" }, D0 - 0.02);
+        tl.to("#iris", { autoAlpha: 0, duration: 0.25 }, D0 + 0.33);
+        tl.fromTo("#endRays", { rotation: 0 }, { rotation: 30, duration: S.D[1] - D0, ease: "none" }, D0);
+        tl.fromTo("#logo", { scale: 0, rotation: -10 }, { scale: 1, rotation: 0, duration: 0.5, ease: "back.out(1.9)" }, D0 + 0.12);
+        tl.to("#logo", { y: -14, duration: 0.5, yoyo: true, repeat: 1, ease: "sine.inOut" }, D0 + 0.62);
+        tl.fromTo("#tagline", { y: 60, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.35, ease: "back.out(1.6)" }, D0 + 0.35);
+        tl.fromTo("#tagline .bar", { scaleX: 0 }, { scaleX: 1, duration: 0.4, ease: "power2.out" }, D0 + 0.55);
+        const confColors = ["#0b6fb8", "#1fb3ea", "#f5961f", "#e6202f", "#ffd43b"];
+        for (let i = 0; i < 26; i++) {
+          const c = document.createElement("div");
+          c.className = "conf";
+          c.style.background = confColors[i % 5];
+          c.style.left = Math.round(rnd() * 1040) + "px";
+          c.style.top = "-60px";
+          q("#confLayer").appendChild(c);
+          tl.fromTo(c, { y: 0, rotation: 0 }, { y: 900 + rnd() * 1100, rotation: (rnd() - 0.5) * 720, duration: 1.4, ease: "power1.in" }, D0 + 0.1 + rnd() * 0.3);
+        }
+
+        /* ================= Caption (subtitle penuh BM) ================= */
+        const capLayer = q("#capLayer");
+        const capTop = (t) => (t >= S.B[0] && t < S.B[1] ? 1452 : 1365);
+        const files = ["bapa-1", "bapa-2", "bapa-3"];
+        files.forEach((f) => {
+          const ch = T.chunks[f];
+          ch.forEach((c, i) => {
+            const el = document.createElement("div");
+            el.className = "cap";
+            el.style.top = capTop(c.t0) + "px";
+            c.words.forEach((w, j) => {
+              const s = document.createElement("span");
+              s.className = "w" + (w.key ? " key" : "") + (w.key && f === "bapa-3" ? " b" : "");
+              s.textContent = w.w;
+              el.appendChild(s);
+            });
+            capLayer.appendChild(el);
+            const next = i + 1 < ch.length ? ch[i + 1].t0 : c.t1 + 0.45;
+            const end = Math.min(next, c.t1 + 0.6);
+            gsap.set(el, { autoAlpha: 0 });
+            show(el, c.t0);
+            el.querySelectorAll(".w").forEach((s, j) => {
+              tl.fromTo(s, { scale: 0.55, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.14, ease: "back.out(2.5)" }, c.words[j].t0 - 0.03);
+            });
+            hide(el, end);
+          });
+        });
+
+        tl.to({}, { duration: 0.01 }, T.total - 0.01);
+        window.__timelines = window.__timelines || {};
+        window.__timelines["main"] = tl;
+        tl.seek(0);
+      })();
+    </script>
+  </body>
+</html>
