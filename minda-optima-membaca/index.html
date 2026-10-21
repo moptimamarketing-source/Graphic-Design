@@ -1,0 +1,1161 @@
+<!doctype html>
+<html lang="ms" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Minda Optima — Setiap Anak Mampu Membaca</title>
+    <script src="assets/vendor/gsap.min.js"></script>
+    <style>
+      @font-face {
+        font-family: "Jakarta";
+        src: url("assets/fonts/plus-jakarta-sans-latin-600-normal.woff2") format("woff2");
+        font-weight: 600;
+      }
+      @font-face {
+        font-family: "Jakarta";
+        src: url("assets/fonts/plus-jakarta-sans-latin-700-normal.woff2") format("woff2");
+        font-weight: 700;
+      }
+      @font-face {
+        font-family: "Jakarta";
+        src: url("assets/fonts/plus-jakarta-sans-latin-800-normal.woff2") format("woff2");
+        font-weight: 800;
+      }
+
+      :root {
+        --blue: #0976ba;
+        --sky: #00aaeb;
+        --navy: #062b52;
+        --deep: #031a33;
+        --orange: #f28c28;
+        --red: #ed1e2a;
+        --sun: #ffc94a;
+        --ink: #0b2540;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: #000;
+      }
+      body {
+        font-family: "Jakarta", sans-serif;
+        font-weight: 700;
+        -webkit-font-smoothing: antialiased;
+      }
+      #root {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+
+      /* ---------- scene scaffolding ---------- */
+      .scene {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+      }
+      .cam {
+        position: absolute;
+        inset: 0;
+        transform-origin: 50% 50%;
+      }
+      .bg {
+        position: absolute;
+        inset: 0;
+      }
+      .bg-light {
+        background: #ffffff;
+      }
+      .bg-dark {
+        background: radial-gradient(120% 80% at 50% 78%, #0d63ad 0%, #073c70 32%, #042446 62%, #021327 100%);
+      }
+      .blob {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(90px);
+      }
+      .blob.sky {
+        background: rgba(0, 170, 235, 0.55);
+      }
+      .blob.blue {
+        background: rgba(9, 118, 186, 0.45);
+      }
+      .blob.orange {
+        background: rgba(242, 140, 40, 0.42);
+      }
+      .blob.glow {
+        background: rgba(64, 170, 255, 0.55);
+      }
+      .blob.warm {
+        background: rgba(255, 201, 74, 0.28);
+      }
+
+      /* ---------- typography ---------- */
+      .stack {
+        position: absolute;
+        left: 60px;
+        right: 60px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 6px;
+      }
+      .line {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        column-gap: 0.26em;
+        row-gap: 0.1em;
+        line-height: 1.12;
+        letter-spacing: -0.02em;
+      }
+      .w {
+        display: inline-block;
+        opacity: 0;
+      }
+      .on-light {
+        color: var(--ink);
+      }
+      .on-dark {
+        color: #ffffff;
+      }
+      .acc {
+        color: var(--sun);
+      }
+      .accb {
+        color: var(--blue);
+      }
+      .soft {
+        opacity: 0.75;
+      }
+      .xxl {
+        font-size: 150px;
+        font-weight: 800;
+      }
+      .xl {
+        font-size: 124px;
+        font-weight: 800;
+      }
+      .lg {
+        font-size: 100px;
+        font-weight: 800;
+      }
+      .md {
+        font-size: 78px;
+        font-weight: 700;
+      }
+      .sm {
+        font-size: 60px;
+        font-weight: 600;
+      }
+
+      /* highlight box with a typing cursor, as in the reference */
+      .hl {
+        position: relative;
+        display: inline-block;
+        padding: 0.02em 0.22em 0.08em;
+      }
+      .hl-bg {
+        position: absolute;
+        inset: 0;
+        border-radius: 14px;
+        transform-origin: 0% 50%;
+      }
+      .hl-bar {
+        position: absolute;
+        top: -6%;
+        right: -14px;
+        width: 9px;
+        height: 112%;
+        border-radius: 5px;
+      }
+      .hl-tx {
+        position: relative;
+        display: inline-block;
+        opacity: 0;
+      }
+      .hl.sky .hl-bg {
+        background: #cdeefc;
+      }
+      .hl.sky .hl-bar {
+        background: var(--sky);
+      }
+      .hl.sky .hl-tx {
+        color: var(--blue);
+      }
+      .hl.sun .hl-bg {
+        background: var(--sun);
+      }
+      .hl.sun .hl-bar {
+        background: #ffffff;
+      }
+      .hl.sun .hl-tx {
+        color: var(--navy);
+      }
+      .hl.red .hl-bg {
+        background: var(--red);
+      }
+      .hl.red .hl-bar {
+        background: #ffffff;
+      }
+      .hl.red .hl-tx {
+        color: #ffffff;
+      }
+
+      /* ---------- shared UI pieces ---------- */
+      .abs {
+        position: absolute;
+      }
+      .pill {
+        position: absolute;
+        padding: 18px 34px;
+        border-radius: 22px;
+        font-size: 40px;
+        font-weight: 700;
+        white-space: nowrap;
+      }
+      .pill.glass-light {
+        background: rgba(0, 170, 235, 0.16);
+        border: 2px solid rgba(0, 170, 235, 0.35);
+        color: #075e94;
+      }
+      .card {
+        position: absolute;
+        background: #ffffff;
+        border-radius: 34px;
+        box-shadow: 0 30px 80px rgba(2, 20, 45, 0.28), 0 6px 16px rgba(2, 20, 45, 0.12);
+        color: var(--ink);
+      }
+      .emoji {
+        position: absolute;
+        display: block;
+      }
+      .tile {
+        position: absolute;
+        width: 150px;
+        height: 150px;
+        border-radius: 38px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 92px;
+        font-weight: 800;
+        color: #ffffff;
+        box-shadow: inset 0 -12px 0 rgba(0, 0, 0, 0.16), inset 0 10px 0 rgba(255, 255, 255, 0.28), 0 24px 50px rgba(2, 20, 45, 0.3);
+      }
+      .tile img {
+        width: 92px;
+        height: 92px;
+      }
+      .t-blue {
+        background: linear-gradient(160deg, #27b4f0, #0976ba);
+      }
+      .t-orange {
+        background: linear-gradient(160deg, #ffad4d, #e0711a);
+      }
+      .t-red {
+        background: linear-gradient(160deg, #ff5a63, #d0121d);
+      }
+      .t-sun {
+        background: linear-gradient(160deg, #ffe07a, #f5b316);
+      }
+      .t-white {
+        background: linear-gradient(160deg, #ffffff, #dfeaf3);
+      }
+
+      /* S2 chat bubbles */
+      .chat {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        gap: 22px;
+        padding: 26px 34px 26px 26px;
+        background: #ffffff;
+        border-radius: 34px;
+        box-shadow: 0 30px 70px rgba(0, 0, 0, 0.35);
+        white-space: nowrap;
+      }
+      .chat .av {
+        width: 84px;
+        height: 84px;
+        border-radius: 50%;
+        background: #e6f5fd;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: none;
+      }
+      .chat .av img {
+        width: 58px;
+        height: 58px;
+      }
+      .chat .who {
+        font-size: 26px;
+        font-weight: 600;
+        color: #6b7c8f;
+      }
+      .chat .msg {
+        font-size: 40px;
+        font-weight: 700;
+        color: var(--ink);
+      }
+      .chat .tag {
+        position: absolute;
+        right: 28px;
+        top: 20px;
+        font-size: 22px;
+        font-weight: 600;
+        color: #9aa8b6;
+      }
+
+      /* S3 strike */
+      .strike-wrap {
+        position: relative;
+        display: inline-block;
+      }
+      .strike {
+        position: absolute;
+        left: -3%;
+        top: 52%;
+        width: 106%;
+        height: 16px;
+        border-radius: 8px;
+        background: var(--red);
+        transform-origin: 0% 50%;
+      }
+
+      /* S5 progress card */
+      .prog-title {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        font-size: 44px;
+        font-weight: 800;
+      }
+      .prog-title img {
+        width: 56px;
+        height: 56px;
+      }
+      .prog-pct {
+        margin-left: auto;
+        font-size: 56px;
+        color: var(--blue);
+      }
+      .track {
+        position: relative;
+        width: 100%;
+        height: 34px;
+        border-radius: 17px;
+        background: #e8eef4;
+        overflow: hidden;
+      }
+      .fill {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 17px;
+        transform-origin: 0% 50%;
+      }
+      .fill.blue {
+        background: linear-gradient(90deg, #00aaeb, #0976ba);
+      }
+      .fill.orange {
+        background: linear-gradient(90deg, #ffc94a, #f28c28);
+      }
+      .steps {
+        display: flex;
+        justify-content: space-between;
+        gap: 14px;
+      }
+      .step {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        font-size: 28px;
+        font-weight: 700;
+        color: #7a8a9b;
+      }
+      .dot {
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        background: #e8eef4;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+      }
+      .dot-on {
+        position: absolute;
+        inset: 0;
+        border-radius: 50%;
+        background: linear-gradient(160deg, #27b4f0, #0976ba);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+      }
+      .dot-on svg {
+        width: 34px;
+        height: 34px;
+      }
+
+      /* S6 orbit avatars */
+      .avatar {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 130px;
+        height: 130px;
+        border-radius: 50%;
+        background: radial-gradient(circle at 35% 30%, #ffffff, #cfe9f8 70%);
+        box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.18), 0 18px 40px rgba(0, 0, 0, 0.35);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .avatar img {
+        width: 84px;
+        height: 84px;
+      }
+
+      /* S7 lanes */
+      .lane {
+        position: absolute;
+        left: 90px;
+        width: 900px;
+        padding: 36px 40px;
+        display: flex;
+        flex-direction: column;
+        gap: 22px;
+      }
+      .lane-head {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        font-size: 44px;
+        font-weight: 800;
+      }
+      .lane-head img {
+        width: 72px;
+        height: 72px;
+      }
+      .lane-head .end {
+        margin-left: auto;
+        width: 60px;
+        height: 60px;
+      }
+
+      /* S8 streak + coach */
+      .days {
+        display: flex;
+        justify-content: space-between;
+      }
+      .day {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        font-size: 28px;
+        font-weight: 700;
+        color: #7a8a9b;
+      }
+      .day .dot {
+        width: 92px;
+        height: 92px;
+      }
+      .day .dot-on {
+        background: linear-gradient(160deg, #ffc94a, #f28c28);
+      }
+      .day .dot-on svg {
+        width: 46px;
+        height: 46px;
+      }
+
+      /* S9 compare */
+      .kid {
+        position: absolute;
+        width: 380px;
+        height: 470px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 26px;
+      }
+      .kid .face {
+        width: 210px;
+        height: 210px;
+        border-radius: 50%;
+        background: #e6f5fd;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .kid .face img {
+        width: 150px;
+        height: 150px;
+      }
+      .kid .lbl {
+        font-size: 40px;
+        font-weight: 800;
+      }
+      .vs {
+        position: absolute;
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        background: var(--orange);
+        color: #fff;
+        font-size: 58px;
+        font-weight: 800;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 18px 40px rgba(242, 140, 40, 0.45);
+      }
+
+      /* S10 bars */
+      .bars {
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        gap: 90px;
+        height: 430px;
+      }
+      .barcol {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 18px;
+        height: 100%;
+        justify-content: flex-end;
+      }
+      .bar {
+        width: 190px;
+        border-radius: 26px 26px 12px 12px;
+        transform-origin: 50% 100%;
+      }
+      .bar.old {
+        height: 170px;
+        background: #cfdbe6;
+      }
+      .bar.new {
+        height: 340px;
+        background: linear-gradient(180deg, #ffc94a, #f28c28);
+      }
+      .barlbl {
+        font-size: 38px;
+        font-weight: 800;
+      }
+
+      /* S11 end card */
+      .logo {
+        position: absolute;
+        left: 140px;
+        top: 330px;
+        width: 800px;
+      }
+      .cta {
+        position: absolute;
+        left: 50%;
+        top: 1420px;
+        padding: 34px 76px;
+        border-radius: 999px;
+        background: linear-gradient(180deg, #19a6e8, #0976ba);
+        color: #fff;
+        font-size: 50px;
+        font-weight: 800;
+        white-space: nowrap;
+        box-shadow: 0 22px 50px rgba(9, 118, 186, 0.4);
+      }
+      .foot {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 1580px;
+        text-align: center;
+        font-size: 34px;
+        font-weight: 600;
+        color: #6b7c8f;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="34" data-width="1080" data-height="1920">
+      <!-- ============ S1 · "Ramai ibu bapa kata..." (light) ============ -->
+      <section id="s1" class="scene clip" data-start="0" data-duration="2.12" data-track-index="1">
+        <div class="cam">
+          <div class="bg bg-light"></div>
+          <div class="blob sky drift" style="left: -220px; top: -160px; width: 760px; height: 760px"></div>
+          <div class="blob orange drift" style="left: 560px; top: 1280px; width: 700px; height: 700px"></div>
+          <div class="blob blue drift" style="left: 620px; top: 120px; width: 420px; height: 420px"></div>
+
+          <div class="pill glass-light float" style="left: 90px; top: 300px; filter: blur(3px)">Lambat membaca?</div>
+          <div class="pill glass-light float" style="left: 600px; top: 470px; filter: blur(1px)">Susah mengeja</div>
+          <div class="pill glass-light float" style="left: 120px; top: 1330px; filter: blur(1px)">Keliru huruf</div>
+          <div class="pill glass-light float" style="left: 560px; top: 1520px; filter: blur(4px)">Tak minat baca</div>
+
+          <div class="stack" style="top: 770px">
+            <div class="line on-light xl">
+              <span class="w" data-t="0.08">Ramai</span>
+            </div>
+            <div class="line on-light xl">
+              <span class="hl sky" data-t="0.5"><span class="hl-bg"></span><span class="hl-bar"></span><span class="hl-tx">ibu bapa</span></span>
+              <span class="w" data-t="1.1">kata...</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ S2 · "Anak saya memang lambat membaca." (dark) ============ -->
+      <section id="s2" class="scene clip" data-start="2.12" data-duration="2.36" data-track-index="1">
+        <div class="cam">
+          <div class="bg bg-dark"></div>
+          <div class="blob glow drift" style="left: 200px; top: 1150px; width: 700px; height: 600px"></div>
+
+          <div class="chat pop-in" data-t="2.2" style="left: 70px; top: 250px">
+            <div class="av"><img src="assets/emoji/1f61f.svg" alt="" /></div>
+            <div><div class="who">Ibu bapa</div><div class="msg">Anak saya lambat membaca...</div></div>
+          </div>
+          <div class="chat pop-in" data-t="2.55" style="left: 230px; top: 470px; filter: blur(2px)">
+            <div class="av"><img src="assets/emoji/1f914.svg" alt="" /></div>
+            <div><div class="who">Ibu bapa</div><div class="msg">Kenapa dia masih mengeja?</div></div>
+          </div>
+          <div class="chat pop-in" data-t="2.9" style="left: 110px; top: 1330px">
+            <div class="av"><img src="assets/emoji/1f61f.svg" alt="" /></div>
+            <div><div class="who">Ibu bapa</div><div class="msg">Kawan dia dah lancar baca...</div></div>
+          </div>
+
+          <div class="stack" style="top: 760px">
+            <div class="line on-dark lg">
+              <span class="w acc" data-t="2.14">“Anak</span>
+              <span class="w" data-t="2.5">saya</span>
+              <span class="w" data-t="2.9">memang</span>
+            </div>
+            <div class="line on-dark lg">
+              <span class="hl red" data-t="3.3"><span class="hl-bg"></span><span class="hl-bar"></span><span class="hl-tx">lambat</span></span>
+              <span class="w" data-t="3.72">membaca.”</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ S3 · "Tapi sebenarnya, membaca bukan bakat semula jadi." (dark, curves) ============ -->
+      <section id="s3" class="scene clip" data-start="4.48" data-duration="3.62" data-track-index="1">
+        <div class="cam">
+          <div class="bg bg-dark"></div>
+          <div class="abs curve" style="left: -620px; top: 380px; width: 900px; height: 1200px; border-radius: 50%; background: #031a33"></div>
+          <div class="abs curve" style="left: 800px; top: 380px; width: 900px; height: 1200px; border-radius: 50%; background: #031a33"></div>
+          <div class="blob glow drift" style="left: 240px; top: 1300px; width: 600px; height: 500px"></div>
+
+          <div class="stack" style="top: 640px; gap: 10px">
+            <div class="line on-dark sm soft">
+              <span class="w" data-t="4.56">Tapi</span>
+              <span class="w" data-t="4.9">sebenarnya,</span>
+            </div>
+            <div class="line on-dark xxl">
+              <span class="w" data-t="5.66">membaca</span>
+            </div>
+            <div class="line xl">
+              <span class="w acc" data-t="6.22">bukan</span>
+            </div>
+            <div class="line on-dark lg">
+              <span class="strike-wrap">
+                <span class="w" data-t="6.6">bakat</span>
+                <span class="w" data-t="6.96">semula</span>
+                <span class="w" data-t="7.5">jadi.</span>
+                <span id="s3-strike" class="strike"></span>
+              </span>
+            </div>
+          </div>
+          <img id="s3-x" class="emoji" src="assets/emoji/274c.svg" alt="" style="left: 800px; top: 1360px; width: 150px; height: 150px" />
+        </div>
+      </section>
+
+      <!-- ============ S4 · "Ia satu kemahiran." (light) ============ -->
+      <section id="s4" class="scene clip" data-start="8.1" data-duration="1.65" data-track-index="1">
+        <div class="cam">
+          <div class="bg bg-light"></div>
+          <div class="blob sky drift" style="left: 500px; top: -200px; width: 800px; height: 800px"></div>
+          <div class="blob orange drift" style="left: -260px; top: 1250px; width: 760px; height: 760px"></div>
+
+          <div class="tile t-blue float pop-in" data-t="8.15" style="left: 110px; top: 330px">A</div>
+          <div class="tile t-orange float pop-in" data-t="8.25" style="left: 800px; top: 420px; filter: blur(2px)">B</div>
+          <div class="tile t-red float pop-in" data-t="8.35" style="left: 150px; top: 1380px; filter: blur(1px)">C</div>
+          <div class="tile t-white float pop-in" data-t="8.3" style="left: 790px; top: 1300px"><img src="assets/emoji/1f4d6.svg" alt="" /></div>
+          <div class="tile t-sun float pop-in" data-t="8.45" style="left: 470px; top: 220px; width: 120px; height: 120px; filter: blur(3px)"><img src="assets/emoji/270f.svg" alt="" style="width: 70px; height: 70px" /></div>
+
+          <div class="stack" style="top: 760px">
+            <div class="line on-light lg">
+              <span class="w" data-t="8.2">Ia</span>
+              <span class="w" data-t="8.5">satu</span>
+            </div>
+            <div class="line on-light xxl">
+              <span class="hl sky" data-t="8.85"><span class="hl-bg"></span><span class="hl-bar"></span><span class="hl-tx">kemahiran.</span></span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ S5 · "Dan setiap kemahiran... boleh dilatih." (dark + progress card) ============ -->
+      <section id="s5" class="scene clip" data-start="9.75" data-duration="2.6" data-track-index="1">
+        <div class="cam">
+          <div class="bg bg-dark"></div>
+          <div class="blob glow drift" style="left: -100px; top: 1250px; width: 800px; height: 600px"></div>
+          <div class="blob warm drift" style="left: 650px; top: 100px; width: 500px; height: 500px"></div>
+
+          <div class="stack" style="top: 330px">
+            <div class="line on-dark md">
+              <span class="w" data-t="9.85">Dan</span>
+              <span class="w" data-t="10.0">setiap</span>
+              <span class="w" data-t="10.38">kemahiran...</span>
+            </div>
+            <div class="line xl" style="margin-top: 14px">
+              <span class="w acc" data-t="11.18">boleh</span>
+              <span class="w acc" data-t="11.56">dilatih.</span>
+            </div>
+          </div>
+
+          <div id="s5-card" class="card" style="left: 90px; top: 900px; width: 900px; padding: 48px 50px; display: flex; flex-direction: column; gap: 40px">
+            <div class="prog-title">
+              <img src="assets/emoji/1f4c8.svg" alt="" />
+              <span>Kemahiran Membaca</span>
+              <span id="s5-pct" class="prog-pct">15%</span>
+            </div>
+            <div class="track"><div id="s5-fill" class="fill blue"></div></div>
+            <div class="steps">
+              <div class="step"><div class="dot"><div class="dot-on s5-dot"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" /></svg></div></div>Huruf</div>
+              <div class="step"><div class="dot"><div class="dot-on s5-dot"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" /></svg></div></div>Suku kata</div>
+              <div class="step"><div class="dot"><div class="dot-on s5-dot"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" /></svg></div></div>Perkataan</div>
+              <div class="step"><div class="dot"><div class="dot-on s5-dot"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" /></svg></div></div>Ayat</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ S6 · "Setiap anak ada rentak sendiri." (dark orbit) ============ -->
+      <section id="s6" class="scene clip" data-start="12.35" data-duration="2.3" data-track-index="1">
+        <div class="cam">
+          <div class="bg bg-dark"></div>
+          <div class="blob glow drift" style="left: 190px; top: 660px; width: 700px; height: 600px"></div>
+          <svg class="abs" width="1080" height="1920" viewBox="0 0 1080 1920" style="left: 0; top: 0">
+            <ellipse cx="540" cy="960" rx="480" ry="600" fill="none" stroke="rgba(255,255,255,0.28)" stroke-width="3" stroke-dasharray="14 16" />
+            <ellipse cx="540" cy="960" rx="580" ry="780" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="3" stroke-dasharray="14 16" />
+            <ellipse cx="540" cy="960" rx="680" ry="920" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="3" stroke-dasharray="14 16" />
+          </svg>
+          <div class="avatar orbit" data-rx="480" data-ry="600" data-a0="-100" data-speed="70"><img src="assets/emoji/1f9d2.svg" alt="" /></div>
+          <div class="avatar orbit" data-rx="480" data-ry="600" data-a0="80" data-speed="70"><img src="assets/emoji/1f467.svg" alt="" /></div>
+          <div class="avatar orbit" data-rx="580" data-ry="780" data-a0="-30" data-speed="-38"><img src="assets/emoji/1f466.svg" alt="" /></div>
+          <div class="avatar orbit" data-rx="580" data-ry="780" data-a0="150" data-speed="-38"><img src="assets/emoji/1f9d2.svg" alt="" /></div>
+          <div class="avatar orbit" data-rx="680" data-ry="920" data-a0="-140" data-speed="18"><img src="assets/emoji/1f467.svg" alt="" /></div>
+          <div class="avatar orbit" data-rx="680" data-ry="920" data-a0="40" data-speed="18"><img src="assets/emoji/1f466.svg" alt="" /></div>
+
+          <div class="stack" style="top: 800px">
+            <div class="line xl">
+              <span class="w acc" data-t="12.44">Setiap</span>
+              <span class="w acc" data-t="12.96">anak</span>
+            </div>
+            <div class="line on-dark md">
+              <span class="w" data-t="13.32">ada</span>
+              <span class="w" data-t="13.66">rentak</span>
+              <span class="w" data-t="14.0">sendiri.</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ S7 · "Ada yang cepat, ada yang perlukan sedikit masa." (light lanes) ============ -->
+      <section id="s7" class="scene clip" data-start="14.65" data-duration="3.05" data-track-index="1">
+        <div class="cam">
+          <div class="bg bg-light"></div>
+          <div class="blob sky drift" style="left: -200px; top: 200px; width: 700px; height: 700px"></div>
+          <div class="blob orange drift" style="left: 600px; top: 1300px; width: 700px; height: 700px"></div>
+
+          <div class="stack" style="top: 300px">
+            <div class="line on-light lg">
+              <span class="w" data-t="14.7">Ada</span>
+              <span class="w" data-t="14.9">yang</span>
+              <span class="w accb" data-t="15.08">cepat,</span>
+            </div>
+            <div class="line on-light md">
+              <span class="w" data-t="15.8">ada</span>
+              <span class="w" data-t="16.08">yang</span>
+              <span class="w" data-t="16.25">perlukan</span>
+            </div>
+            <div class="line on-light md">
+              <span class="w" data-t="16.72">sedikit</span>
+              <span class="w" style="color: var(--orange)" data-t="17.15">masa.</span>
+            </div>
+          </div>
+
+          <div id="s7-l1" class="card lane" style="top: 860px">
+            <div class="lane-head"><img src="assets/emoji/1f407.svg" alt="" /><span>Cepat</span><img id="s7-star1" class="end" src="assets/emoji/2b50.svg" alt="" /></div>
+            <div class="track"><div id="s7-f1" class="fill blue"></div></div>
+          </div>
+          <div id="s7-l2" class="card lane" style="top: 1170px">
+            <div class="lane-head"><img src="assets/emoji/1f422.svg" alt="" /><span>Perlahan-lahan</span><img id="s7-star2" class="end" src="assets/emoji/2b50.svg" alt="" /></div>
+            <div class="track"><div id="s7-f2" class="fill orange"></div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ S8 · "Yang penting, latihan yang konsisten. Dan bimbingan yang betul." (dark, scroll) ============ -->
+      <section id="s8" class="scene clip" data-start="17.7" data-duration="4.2" data-track-index="1">
+        <div class="cam">
+          <div class="bg bg-dark"></div>
+          <div class="blob glow drift" style="left: 300px; top: 1200px; width: 700px; height: 600px"></div>
+          <div class="blob warm drift" style="left: -150px; top: 200px; width: 500px; height: 500px"></div>
+
+          <div id="s8-col" class="abs" style="left: 0; top: 0; width: 1080px; height: 2900px">
+            <div class="stack" style="top: 330px">
+              <div class="line on-dark md soft">
+                <span class="w" data-t="17.78">Yang</span>
+                <span class="w" data-t="18.0">penting,</span>
+              </div>
+              <div class="line on-dark lg">
+                <span class="w" data-t="18.6">latihan</span>
+                <span class="w" data-t="19.0">yang</span>
+              </div>
+              <div class="line lg">
+                <span class="hl sun" data-t="19.3"><span class="hl-bg"></span><span class="hl-bar"></span><span class="hl-tx">konsisten.</span></span>
+              </div>
+            </div>
+
+            <div id="s8-streak" class="card" style="left: 90px; top: 960px; width: 900px; padding: 44px 46px; display: flex; flex-direction: column; gap: 34px">
+              <div class="prog-title"><img src="assets/emoji/1f525.svg" alt="" /><span>Latihan setiap hari</span></div>
+              <div class="days">
+                <div class="day"><div class="dot"><div class="dot-on s8-day"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" /></svg></div></div>Isn</div>
+                <div class="day"><div class="dot"><div class="dot-on s8-day"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" /></svg></div></div>Sel</div>
+                <div class="day"><div class="dot"><div class="dot-on s8-day"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" /></svg></div></div>Rab</div>
+                <div class="day"><div class="dot"><div class="dot-on s8-day"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" /></svg></div></div>Kha</div>
+                <div class="day"><div class="dot"><div class="dot-on s8-day"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" /></svg></div></div>Jum</div>
+              </div>
+            </div>
+
+            <div class="stack" style="top: 1500px">
+              <div class="line on-dark lg">
+                <span class="w" data-t="20.29">Dan</span>
+                <span class="w" data-t="20.48">bimbingan</span>
+              </div>
+              <div class="line lg">
+                <span class="w on-dark" data-t="21.08">yang</span>
+                <span class="hl sun" data-t="21.3"><span class="hl-bg"></span><span class="hl-bar"></span><span class="hl-tx">betul.</span></span>
+              </div>
+            </div>
+
+            <div id="s8-coach" class="card" style="left: 90px; top: 1910px; width: 900px; padding: 40px 46px; display: flex; align-items: center; gap: 34px">
+              <div style="width: 150px; height: 150px; border-radius: 50%; background: #e6f5fd; display: flex; align-items: center; justify-content: center; flex: none">
+                <img src="assets/emoji/1f469-200d-1f3eb.svg" alt="" style="width: 104px; height: 104px" />
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 10px">
+                <div style="font-size: 44px; font-weight: 800">Dibimbing guru</div>
+                <div style="font-size: 32px; font-weight: 600; color: #6b7c8f">Langkah demi langkah</div>
+              </div>
+              <img id="s8-check" src="assets/emoji/2705.svg" alt="" style="width: 84px; height: 84px; margin-left: auto" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ S9 · "Jangan bandingkan anak dengan orang lain." (light compare) ============ -->
+      <section id="s9" class="scene clip" data-start="21.9" data-duration="2.55" data-track-index="1">
+        <div class="cam">
+          <div class="bg bg-light"></div>
+          <div class="blob sky drift" style="left: 520px; top: -150px; width: 750px; height: 750px"></div>
+          <div class="blob orange drift" style="left: -250px; top: 1300px; width: 700px; height: 700px"></div>
+
+          <div class="stack" style="top: 300px">
+            <div class="line on-light lg">
+              <span class="w" data-t="21.97">Jangan</span>
+            </div>
+            <div class="line on-light lg">
+              <span class="hl red" data-t="22.34"><span class="hl-bg"></span><span class="hl-bar"></span><span class="hl-tx">bandingkan</span></span>
+              <span class="w" data-t="22.92">anak</span>
+            </div>
+            <div class="line on-light md">
+              <span class="w" data-t="23.3">dengan</span>
+              <span class="w" data-t="23.7">orang</span>
+              <span class="w" data-t="24.05">lain.</span>
+            </div>
+          </div>
+
+          <div id="s9-a" class="card kid" style="left: 70px; top: 960px">
+            <div class="face"><img src="assets/emoji/1f466.svg" alt="" /></div>
+            <div class="lbl">Anak anda</div>
+          </div>
+          <div id="s9-b" class="card kid" style="left: 630px; top: 960px">
+            <div class="face"><img src="assets/emoji/1f467.svg" alt="" /></div>
+            <div class="lbl">Orang lain</div>
+          </div>
+          <div id="s9-vs" class="vs" style="left: 465px; top: 1120px">VS</div>
+          <img id="s9-x" class="emoji" src="assets/emoji/274c.svg" alt="" style="left: 440px; top: 1095px; width: 200px; height: 200px" />
+        </div>
+      </section>
+
+      <!-- ============ S10 · "Bandingkan dia... dengan dirinya semalam." (dark bars) ============ -->
+      <section id="s10" class="scene clip" data-start="24.45" data-duration="2.5" data-track-index="1">
+        <div class="cam">
+          <div class="bg bg-dark"></div>
+          <div class="blob glow drift" style="left: 150px; top: 1100px; width: 800px; height: 700px"></div>
+          <div class="blob warm drift" style="left: 600px; top: 150px; width: 500px; height: 500px"></div>
+
+          <div class="stack" style="top: 330px">
+            <div class="line on-dark lg">
+              <span class="w" data-t="24.52">Bandingkan</span>
+              <span class="w" data-t="25.08">dia...</span>
+            </div>
+            <div class="line on-dark md">
+              <span class="w" data-t="25.52">dengan</span>
+              <span class="w" data-t="25.84">dirinya</span>
+            </div>
+            <div class="line xl">
+              <span class="hl sun" data-t="26.24"><span class="hl-bg"></span><span class="hl-bar"></span><span class="hl-tx">semalam.</span></span>
+            </div>
+          </div>
+
+          <div id="s10-card" class="card" style="left: 140px; top: 1000px; width: 800px; padding: 50px 40px 40px">
+            <div class="bars">
+              <div class="barcol"><div id="s10-old" class="bar old"></div><div class="barlbl" style="color: #7a8a9b">Semalam</div></div>
+              <div class="barcol"><img id="s10-star" src="assets/emoji/1f31f.svg" alt="" style="width: 80px; height: 80px" /><div id="s10-new" class="bar new"></div><div class="barlbl" style="color: var(--orange)">Hari ini</div></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ S11 · "Minda Optima. Setiap anak mampu belajar membaca." (end card) ============ -->
+      <section id="s11" class="scene clip" data-start="26.95" data-duration="7.05" data-track-index="1">
+        <div class="cam">
+          <div class="bg bg-light"></div>
+          <div class="blob sky drift" style="left: -250px; top: -200px; width: 800px; height: 800px"></div>
+          <div class="blob orange drift" style="left: 580px; top: 1350px; width: 750px; height: 750px"></div>
+          <div class="blob blue drift" style="left: 650px; top: 300px; width: 420px; height: 420px"></div>
+
+          <img class="emoji float pop-in" data-t="27.1" src="assets/emoji/1f4da.svg" alt="" style="left: 60px; top: 230px; width: 130px; height: 130px" />
+          <img class="emoji float pop-in" data-t="27.2" src="assets/emoji/2b50.svg" alt="" style="left: 880px; top: 200px; width: 110px; height: 110px" />
+          <img class="emoji float pop-in" data-t="27.3" src="assets/emoji/1f60a.svg" alt="" style="left: 900px; top: 880px; width: 120px; height: 120px; filter: blur(2px)" />
+          <img class="emoji float pop-in" data-t="27.4" src="assets/emoji/2728.svg" alt="" style="left: 50px; top: 900px; width: 100px; height: 100px" />
+          <img class="emoji float pop-in" data-t="27.5" src="assets/emoji/1f970.svg" alt="" style="left: 70px; top: 1640px; width: 120px; height: 120px; filter: blur(2px)" />
+          <img class="emoji float pop-in" data-t="27.6" src="assets/emoji/1f31f.svg" alt="" style="left: 880px; top: 1660px; width: 110px; height: 110px" />
+          <img class="emoji float pop-in" data-t="27.7" src="assets/emoji/1f4d6.svg" alt="" style="left: 470px; top: 120px; width: 100px; height: 100px; filter: blur(3px)" />
+
+          <img id="s11-logo" class="logo" src="assets/logo.png" alt="Minda Optima" />
+
+          <div class="stack" style="top: 940px">
+            <div class="line on-light lg">
+              <span class="w" data-t="28.38">Setiap</span>
+              <span class="w" data-t="28.96">anak</span>
+              <span class="hl sky" data-t="29.36"><span class="hl-bg"></span><span class="hl-bar"></span><span class="hl-tx">mampu</span></span>
+            </div>
+            <div class="line on-light lg">
+              <span class="w" data-t="29.78">belajar</span>
+              <span class="w accb" data-t="30.36">membaca.</span>
+            </div>
+          </div>
+
+          <div id="s11-cta" class="cta">Daftar Sekarang</div>
+          <div id="s11-foot" class="foot">Program membaca kanak-kanak</div>
+        </div>
+      </section>
+
+      <!-- ============ audio ============ -->
+      <audio id="vo" src="assets/vo.mp3" data-start="0" data-duration="31.24" data-track-index="2" data-volume="1"></audio>
+
+      <audio id="sfx-w1" src="assets/sfx/whoosh.wav" data-start="1.82" data-duration="0.55" data-track-index="3" data-volume="0.35"></audio>
+      <audio id="sfx-w2" src="assets/sfx/whoosh.wav" data-start="4.2" data-duration="0.55" data-track-index="3" data-volume="0.35"></audio>
+      <audio id="sfx-w3" src="assets/sfx/whoosh.wav" data-start="7.82" data-duration="0.55" data-track-index="3" data-volume="0.35"></audio>
+      <audio id="sfx-w4" src="assets/sfx/whoosh.wav" data-start="9.47" data-duration="0.55" data-track-index="3" data-volume="0.35"></audio>
+      <audio id="sfx-w5" src="assets/sfx/whoosh.wav" data-start="12.07" data-duration="0.55" data-track-index="3" data-volume="0.35"></audio>
+      <audio id="sfx-w6" src="assets/sfx/whoosh.wav" data-start="14.37" data-duration="0.55" data-track-index="3" data-volume="0.35"></audio>
+      <audio id="sfx-w7" src="assets/sfx/whoosh.wav" data-start="17.42" data-duration="0.55" data-track-index="3" data-volume="0.35"></audio>
+      <audio id="sfx-w8" src="assets/sfx/whoosh.wav" data-start="19.85" data-duration="0.55" data-track-index="3" data-volume="0.3"></audio>
+      <audio id="sfx-w9" src="assets/sfx/whoosh.wav" data-start="21.62" data-duration="0.55" data-track-index="3" data-volume="0.35"></audio>
+      <audio id="sfx-w10" src="assets/sfx/whoosh.wav" data-start="24.17" data-duration="0.55" data-track-index="3" data-volume="0.35"></audio>
+      <audio id="sfx-w11" src="assets/sfx/whoosh.wav" data-start="26.67" data-duration="0.55" data-track-index="3" data-volume="0.35"></audio>
+
+      <audio id="sfx-p1" src="assets/sfx/pop.wav" data-start="0.5" data-duration="0.2" data-track-index="4" data-volume="0.35"></audio>
+      <audio id="sfx-p2" src="assets/sfx/pop.wav" data-start="3.3" data-duration="0.2" data-track-index="4" data-volume="0.35"></audio>
+      <audio id="sfx-p3" src="assets/sfx/pop.wav" data-start="7.78" data-duration="0.2" data-track-index="4" data-volume="0.35"></audio>
+      <audio id="sfx-p4" src="assets/sfx/pop.wav" data-start="8.85" data-duration="0.2" data-track-index="4" data-volume="0.35"></audio>
+      <audio id="sfx-p5" src="assets/sfx/pop.wav" data-start="19.3" data-duration="0.2" data-track-index="4" data-volume="0.35"></audio>
+      <audio id="sfx-p6" src="assets/sfx/pop.wav" data-start="21.3" data-duration="0.2" data-track-index="4" data-volume="0.35"></audio>
+      <audio id="sfx-p7" src="assets/sfx/pop.wav" data-start="23.4" data-duration="0.2" data-track-index="4" data-volume="0.4"></audio>
+      <audio id="sfx-p8" src="assets/sfx/pop.wav" data-start="26.24" data-duration="0.2" data-track-index="4" data-volume="0.35"></audio>
+      <audio id="sfx-p9" src="assets/sfx/pop.wav" data-start="29.36" data-duration="0.2" data-track-index="4" data-volume="0.35"></audio>
+      <audio id="sfx-p10" src="assets/sfx/pop.wav" data-start="31.1" data-duration="0.2" data-track-index="4" data-volume="0.4"></audio>
+
+      <audio id="sfx-t1" src="assets/sfx/tick.wav" data-start="11.3" data-duration="0.1" data-track-index="5" data-volume="0.3"></audio>
+      <audio id="sfx-t2" src="assets/sfx/tick.wav" data-start="11.6" data-duration="0.1" data-track-index="5" data-volume="0.3"></audio>
+      <audio id="sfx-t3" src="assets/sfx/tick.wav" data-start="11.9" data-duration="0.1" data-track-index="5" data-volume="0.3"></audio>
+      <audio id="sfx-t4" src="assets/sfx/tick.wav" data-start="12.2" data-duration="0.1" data-track-index="5" data-volume="0.3"></audio>
+      <audio id="sfx-t5" src="assets/sfx/tick.wav" data-start="19.45" data-duration="0.1" data-track-index="5" data-volume="0.3"></audio>
+      <audio id="sfx-t6" src="assets/sfx/tick.wav" data-start="19.6" data-duration="0.1" data-track-index="5" data-volume="0.3"></audio>
+      <audio id="sfx-t7" src="assets/sfx/tick.wav" data-start="19.75" data-duration="0.1" data-track-index="5" data-volume="0.3"></audio>
+      <audio id="sfx-t8" src="assets/sfx/tick.wav" data-start="19.9" data-duration="0.1" data-track-index="5" data-volume="0.3"></audio>
+      <audio id="sfx-t9" src="assets/sfx/tick.wav" data-start="20.05" data-duration="0.1" data-track-index="5" data-volume="0.3"></audio>
+
+      <audio id="sfx-chime" src="assets/sfx/chime.wav" data-start="27.0" data-duration="1.6" data-track-index="6" data-volume="0.4"></audio>
+    </div>
+
+    <script>
+      (function () {
+        const tl = gsap.timeline({ paused: true });
+        const $ = (s, r = document) => r.querySelector(s);
+        const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+
+        // seeded PRNG so every render floats identically
+        let seed = 7;
+        const rnd = () => ((seed = (seed * 16807) % 2147483647) - 1) / 2147483646;
+
+        const span = (el) => {
+          const sc = el.closest(".scene");
+          const s = parseFloat(sc.dataset.start);
+          return { s, e: s + parseFloat(sc.dataset.duration) };
+        };
+        const loops = (len, cycle) => Math.max(0, Math.floor(len / cycle) - 1);
+
+        // ---- camera: zoom-blur in, slow push, zoom-blur out ----
+        $$(".scene").forEach((sc, i, all) => {
+          const cam = $(".cam", sc);
+          const s = parseFloat(sc.dataset.start);
+          const d = parseFloat(sc.dataset.duration);
+          const last = i === all.length - 1;
+          tl.fromTo(cam, { scale: i === 0 ? 1.06 : 1.16, filter: "blur(14px)" }, { scale: 1, filter: "blur(0px)", duration: 0.42, ease: "expo.out" }, s);
+          tl.to(cam, { scale: last ? 1.03 : 1.045, duration: d - (last ? 0.42 : 0.62), ease: "none" }, s + 0.42);
+          if (!last) tl.to(cam, { scale: 1.12, filter: "blur(10px)", duration: 0.2, ease: "power2.in" }, s + d - 0.2);
+        });
+
+        // ---- word reveals ----
+        $$(".w").forEach((w) => {
+          const t = parseFloat(w.dataset.t);
+          tl.fromTo(w, { opacity: 0, y: 46, filter: "blur(12px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.42, ease: "power3.out" }, t);
+        });
+
+        // ---- highlight boxes: box wipes, text lands, cursor blinks ----
+        $$(".hl").forEach((h) => {
+          const t = parseFloat(h.dataset.t);
+          const { e } = span(h);
+          const bg = $(".hl-bg", h);
+          const bar = $(".hl-bar", h);
+          const tx = $(".hl-tx", h);
+          tl.fromTo(h, { y: 30 }, { y: 0, duration: 0.4, ease: "back.out(2)" }, t);
+          tl.fromTo(bg, { scaleX: 0 }, { scaleX: 1, duration: 0.32, ease: "power3.out" }, t);
+          tl.fromTo(tx, { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.3, ease: "power2.out" }, t + 0.08);
+          tl.fromTo(bar, { opacity: 0 }, { opacity: 1, duration: 0.05 }, t);
+          const blinkLen = e - t - 0.3;
+          tl.to(bar, { opacity: 0, duration: 0.28, ease: "steps(1)", yoyo: true, repeat: loops(blinkLen, 0.28) }, t + 0.3);
+        });
+
+        // ---- things that pop in on cue ----
+        $$(".pop-in").forEach((el) => {
+          const t = parseFloat(el.dataset.t);
+          tl.fromTo(el, { opacity: 0, scale: 0.4, rotation: -8 + rnd() * 16 }, { opacity: 1, scale: 1, rotation: 0, duration: 0.5, ease: "back.out(2.2)" }, t);
+        });
+
+        // ---- gentle floating for decoratives ----
+        $$(".float").forEach((el) => {
+          const { s, e } = span(el);
+          const cyc = 1.3 + rnd() * 0.9;
+          const yAmp = 14 + rnd() * 18;
+          const rAmp = -4 + rnd() * 8;
+          tl.fromTo(el, { y: -yAmp / 2, rotation: -rAmp / 2 }, { y: yAmp / 2, rotation: rAmp / 2, duration: cyc, ease: "sine.inOut", yoyo: true, repeat: loops(e - s, cyc) }, s);
+        });
+        $$(".drift").forEach((el) => {
+          const { s, e } = span(el);
+          tl.fromTo(el, { x: -40 + rnd() * 80, y: -40 + rnd() * 80 }, { x: -60 + rnd() * 120, y: -60 + rnd() * 120, duration: e - s, ease: "sine.inOut" }, s);
+        });
+
+        // ---- S2: chat bubbles drift apart ----
+        $$("#s2 .chat").forEach((c, i) => {
+          tl.to(c, { x: i % 2 ? 40 : -30, duration: 2.2, ease: "sine.inOut" }, 2.6);
+        });
+
+        // ---- S3: curves breathe, strike-through + X ----
+        $$("#s3 .curve").forEach((c, i) => {
+          tl.fromTo(c, { x: i ? 160 : -160 }, { x: 0, duration: 1.1, ease: "power3.out" }, 4.48);
+        });
+        tl.fromTo("#s3-strike", { scaleX: 0 }, { scaleX: 1, duration: 0.3, ease: "power2.inOut" }, 7.72);
+        tl.fromTo("#s3-x", { opacity: 0, scale: 0.2, rotation: -30 }, { opacity: 1, scale: 1, rotation: 0, duration: 0.4, ease: "back.out(2.5)" }, 7.78);
+
+        // ---- S5: card rises, bar fills, steps tick ----
+        tl.fromTo("#s5-card", { opacity: 0, y: 120, rotationX: 18, transformPerspective: 1400 }, { opacity: 1, y: 0, rotationX: 0, duration: 0.6, ease: "power3.out" }, 9.95);
+        tl.fromTo("#s5-fill", { scaleX: 0.15 }, { scaleX: 0.92, duration: 1.05, ease: "power2.inOut" }, 11.2);
+        const pct = { v: 15 };
+        tl.to(pct, { v: 92, duration: 1.05, ease: "power2.inOut", onUpdate: () => ($("#s5-pct").textContent = Math.round(pct.v) + "%") }, 11.2);
+        $$(".s5-dot").forEach((d, i) => {
+          tl.fromTo(d, { opacity: 0, scale: 0.3 }, { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(3)" }, 11.3 + i * 0.3);
+        });
+
+        // ---- S6: avatars orbit on ellipses (time-driven, seek-safe) ----
+        $$("#s6 .orbit").forEach((av) => {
+          const rx = +av.dataset.rx;
+          const ry = +av.dataset.ry;
+          const a0 = +av.dataset.a0;
+          const sp = +av.dataset.speed;
+          const st = { a: a0 };
+          const place = () => {
+            const r = (st.a * Math.PI) / 180;
+            gsap.set(av, { x: 540 + rx * Math.cos(r) - 65, y: 960 + ry * Math.sin(r) - 65 });
+          };
+          place();
+          tl.to(st, { a: a0 + sp * 2.3, duration: 2.3, ease: "none", onUpdate: place }, 12.35);
+          tl.fromTo(av, { scale: 0 }, { scale: 1, duration: 0.45, ease: "back.out(2.5)" }, 12.38 + rnd() * 0.35);
+        });
+
+        // ---- S7: lanes — fast finishes early, slow finishes too ----
+        tl.fromTo("#s7-l1", { opacity: 0, x: -140 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, 14.7);
+        tl.fromTo("#s7-l2", { opacity: 0, x: 140 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, 15.6);
+        tl.fromTo("#s7-f1", { scaleX: 0 }, { scaleX: 1, duration: 0.75, ease: "power2.out" }, 14.9);
+        tl.fromTo("#s7-star1", { scale: 0, rotation: -90 }, { scale: 1, rotation: 0, duration: 0.4, ease: "back.out(3)" }, 15.6);
+        tl.fromTo("#s7-f2", { scaleX: 0 }, { scaleX: 1, duration: 1.55, ease: "sine.inOut" }, 15.85);
+        tl.fromTo("#s7-star2", { scale: 0, rotation: -90 }, { scale: 1, rotation: 0, duration: 0.4, ease: "back.out(3)" }, 17.35);
+
+        // ---- S8: streak ticks, then the column scrolls to "bimbingan" ----
+        tl.fromTo("#s8-streak", { opacity: 0, y: 120 }, { opacity: 1, y: 0, duration: 0.55, ease: "power3.out" }, 18.5);
+        $$(".s8-day").forEach((d, i) => {
+          tl.fromTo(d, { opacity: 0, scale: 0.3 }, { opacity: 1, scale: 1, duration: 0.28, ease: "back.out(3)" }, 19.45 + i * 0.15);
+        });
+        tl.to("#s8-col", { y: -1300, duration: 0.6, ease: "power3.inOut" }, 19.95);
+        tl.fromTo("#s8-coach", { opacity: 0, x: 160 }, { opacity: 1, x: 0, duration: 0.55, ease: "power3.out" }, 20.6);
+        tl.fromTo("#s8-check", { scale: 0, rotation: -60 }, { scale: 1, rotation: 0, duration: 0.45, ease: "back.out(3)" }, 21.35);
+
+        // ---- S9: two kids face off, then the comparison gets crossed out ----
+        tl.fromTo("#s9-a", { opacity: 0, x: -200, rotation: -6 }, { opacity: 1, x: 0, rotation: -3, duration: 0.55, ease: "power3.out" }, 22.0);
+        tl.fromTo("#s9-b", { opacity: 0, x: 200, rotation: 6 }, { opacity: 1, x: 0, rotation: 3, duration: 0.55, ease: "power3.out" }, 22.15);
+        tl.fromTo("#s9-vs", { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(3)" }, 22.5);
+        tl.fromTo("#s9-x", { opacity: 0, scale: 2.2, rotation: 25 }, { opacity: 1, scale: 1, rotation: 0, duration: 0.35, ease: "back.out(2)" }, 23.4);
+        tl.to("#s9-b", { opacity: 0.35, filter: "grayscale(1) blur(3px)", x: 20, duration: 0.5, ease: "power2.out" }, 23.5);
+
+        // ---- S10: yesterday vs today ----
+        tl.fromTo("#s10-card", { opacity: 0, y: 140 }, { opacity: 1, y: 0, duration: 0.55, ease: "power3.out" }, 24.6);
+        tl.fromTo("#s10-old", { scaleY: 0 }, { scaleY: 1, duration: 0.5, ease: "power3.out" }, 25.0);
+        tl.fromTo("#s10-new", { scaleY: 0 }, { scaleY: 1, duration: 0.8, ease: "back.out(1.4)" }, 25.85);
+        tl.fromTo("#s10-star", { opacity: 0, scale: 0, y: 60 }, { opacity: 1, scale: 1, y: 0, duration: 0.45, ease: "back.out(3)" }, 26.35);
+
+        // ---- S11: logo, tagline, CTA ----
+        tl.fromTo("#s11-logo", { opacity: 0, scale: 0.55, y: 60 }, { opacity: 1, scale: 1, y: 0, duration: 0.7, ease: "back.out(1.8)" }, 27.0);
+        tl.to("#s11-logo", { y: -14, duration: 1.4, ease: "sine.inOut", yoyo: true, repeat: 3 }, 27.8);
+        tl.fromTo("#s11-cta", { opacity: 0, xPercent: -50, y: 60, scale: 0.7 }, { opacity: 1, xPercent: -50, y: 0, scale: 1, duration: 0.55, ease: "back.out(2.4)" }, 31.1);
+        tl.to("#s11-cta", { scale: 1.05, duration: 0.45, ease: "sine.inOut", yoyo: true, repeat: 3 }, 31.8);
+        tl.fromTo("#s11-foot", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, 31.35);
+
+        window.__timelines["main"] = tl;
+      })();
+    </script>
+  </body>
+</html>
