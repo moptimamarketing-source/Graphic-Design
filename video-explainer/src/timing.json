@@ -25,8 +25,8 @@
     { "start": 45.34, "phrases": [["Ibu ayah,", 45.34], ["WhatsApp kami sekarang.", 46.25], ["Link di bio.", 47.41]] }
   ],
   "sfx": [
-    [0.15, "pop"], [1.15, "tick"], [2.3, "ding"],
-    [2.7, "tick"], [3.9, "ding"],
+    [0.0, "boom"], [0.03, "rattle"], [1.1, "hit"], [1.15, "tick"], [2.3, "ding"],
+    [2.53, "hit"], [2.7, "tick"], [3.78, "hit"], [3.9, "ding"],
     [6.5, "glitch"],
     [7.7, "swing"], [9.85, "pop"],
     [10.9, "pop"], [11.76, "pop"], [12.38, "pop"],

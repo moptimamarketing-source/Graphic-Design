@@ -1,5 +1,5 @@
 import React from "react";
-import { AbsoluteFill, Easing } from "remotion";
+import { AbsoluteFill, Easing, random, useCurrentFrame } from "remotion";
 import { F } from "./fonts";
 import {
   big,
@@ -12,6 +12,7 @@ import {
   CuttingMat,
   Damask,
   FallingTiles,
+  Flash,
   Felt,
   GridPaper,
   Handwrite,
@@ -29,6 +30,8 @@ import {
   Stamp,
   Swirl,
   Tile,
+  TileBurst,
+  useImpact,
   useShake,
   useSpring,
   useT,
@@ -43,54 +46,89 @@ import {
 const shadow = "0 10px 0 rgba(0,0,0,.35), 0 18px 30px rgba(0,0,0,.35)";
 const outline = (c: string, w = 6) => `${w}px ${w}px 0 ${c}, -2px -2px 0 ${c}, 2px -2px 0 ${c}, -2px 2px 0 ${c}`;
 
-// 1 — "Anak dah kenal A sampai Z..."
-const S1: React.FC = () => (
-  <AbsoluteFill>
-    <GridPaper />
-    <Pencil x={-60} y={1500} rotate={-28} />
-    <Block letter="B" color="#e63946" rotate={-12} style={{ left: 760, top: 120 }} />
-    <Block letter="C" color="#2a9d8f" rotate={9} size={140} style={{ left: 880, top: 330 }} />
-    <Block letter="A" color="#f4a261" rotate={14} size={150} style={{ left: 40, top: 160 }} />
-    <Pop at={0.05} style={centerX(520)}>
-      <div style={big(120, "#161616", F.anton)}>ANAK DAH KENAL</div>
-    </Pop>
-    <Pop at={1.1} style={{ ...centerX(720), alignItems: "center", gap: 40 }}>
-      <div style={{ display: "flex", alignItems: "center", gap: 40 }}>
-        <div style={{ background: "#1d4ed8", borderRadius: 26, padding: "0 40px", boxShadow: shadow }}>
-          <div style={big(260, "#fff", F.heavy, { lineHeight: "312px" })}>A</div>
+// 1 — "Anak dah kenal A sampai Z..." (hook: hentakan, huruf mesin slot, letupan jubin)
+const SLOT_COLORS = ["#1d4ed8", "#e11d2e", "#111111", "#0f766e"];
+const S1: React.FC = () => {
+  const t = useT();
+  const f = useCurrentFrame();
+  const shake = useImpact([0, 1.1], 40);
+  const idx = Math.min(25, Math.floor(f / 2));
+  const zoom = ramp(t, 0, 0.22, 1.6, 1, Easing.out(Easing.back(1.4)));
+  return (
+    <AbsoluteFill style={{ transform: `translate(${shake.x}px, ${shake.y}px) rotate(${shake.rot}deg) scale(1.04)` }}>
+      <GridPaper />
+      <Pencil x={-60} y={1560} rotate={-24} />
+      <Block letter="B" color="#e63946" rotate={-12} size={150} style={{ left: 800, top: 1530 }} />
+      <Block letter="C" color="#2a9d8f" rotate={9} size={120} style={{ left: 660, top: 1700 }} />
+      <Stamp at={0} rotate={-2} style={centerX(400)}>
+        <div style={big(128, "#161616", F.anton)}>ANAK DAH KENAL</div>
+      </Stamp>
+      {t < 1.1 ? (
+        <div style={{ position: "absolute", ...centerX(600), transform: `scale(${zoom})` }}>
+          <div
+            style={{
+              width: 560,
+              height: 560,
+              borderRadius: 48,
+              background: SLOT_COLORS[idx % SLOT_COLORS.length],
+              boxShadow: shadow,
+              transform: `rotate(${(random(`sr${idx}`) - 0.5) * 14}deg)`,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <div style={big(470, "#fff", F.heavy, { lineHeight: 1 })}>{"ABCDEFGHIJKLMNOPQRSTUVWXYZ"[idx]}</div>
+          </div>
         </div>
-        <div style={big(150, "#161616", F.anton)}>→</div>
-        <div style={{ background: "#e11d2e", borderRadius: 26, padding: "0 30px", boxShadow: shadow }}>
-          <LetterRoll at={1.15} dur={1.1} size={260} />
-        </div>
-      </div>
-    </Pop>
-  </AbsoluteFill>
-);
+      ) : (
+        <Stamp at={1.1} rotate={0} style={{ ...centerX(660), alignItems: "center" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 40 }}>
+            <div style={{ background: "#1d4ed8", borderRadius: 26, padding: "0 40px", boxShadow: shadow }}>
+              <div style={big(260, "#fff", F.heavy, { lineHeight: "312px" })}>A</div>
+            </div>
+            <div style={big(150, "#161616", F.anton)}>→</div>
+            <div style={{ background: "#e11d2e", borderRadius: 26, padding: "0 30px", boxShadow: shadow }}>
+              <LetterRoll at={1.15} dur={1.1} size={260} />
+            </div>
+          </div>
+        </Stamp>
+      )}
+      <TileBurst at={1.1} cy={760} />
+      <Flash at={0} dur={0.28} />
+      <Flash at={1.1} dur={0.16} strength={0.7} />
+    </AbsoluteFill>
+  );
+};
 
-// 2 — "semua dua puluh enam huruf."
-const S2: React.FC = () => (
-  <AbsoluteFill>
-    <Swirl />
-    <Handwrite text="semua huruf!" at={0.1} dur={0.7} size={150} color="#ffd21f" style={{ left: 170, top: 230, transform: "rotate(-6deg)", textShadow: "0 6px 10px rgba(0,0,0,.35)" }} />
-    <Pop at={0.05} style={centerX(560)}>
-      <div style={{ background: "#fff", padding: "20px 40px 10px", boxShadow: shadow, transform: "rotate(-2deg)" }}>
-        <Odometer
-          from={0}
-          to={26}
-          at={0.15}
-          dur={1.1}
-          digits={2}
-          size={300}
-          font={F.heavy}
-          color="#111"
-          cell={(_, i) => (i === 1 ? { background: "#e11d2e", color: "#fff" } : {})}
-        />
-        <div style={big(110, "#111", F.anton, { marginTop: 10 })}>HURUF</div>
-      </div>
-    </Pop>
-  </AbsoluteFill>
-);
+// 2 — "semua dua puluh enam huruf." (angka dihentak masuk)
+const S2: React.FC = () => {
+  const shake = useImpact([0, 1.25], 30);
+  return (
+    <AbsoluteFill style={{ transform: `translate(${shake.x}px, ${shake.y}px) rotate(${shake.rot}deg) scale(1.04)` }}>
+      <Swirl />
+      <Handwrite text="semua huruf!" at={0.1} dur={0.7} size={140} color="#ffd21f" style={{ left: 170, top: 380, transform: "rotate(-6deg)", textShadow: "0 6px 10px rgba(0,0,0,.35)" }} />
+      <Stamp at={0} rotate={-2} style={centerX(600)}>
+        <div style={{ background: "#fff", padding: "20px 40px 10px", boxShadow: shadow }}>
+          <Odometer
+            from={0}
+            to={26}
+            at={0.1}
+            dur={1.1}
+            digits={2}
+            size={300}
+            font={F.heavy}
+            color="#111"
+            cell={(_, i) => (i === 1 ? { background: "#e11d2e", color: "#fff" } : {})}
+          />
+          <div style={big(110, "#111", F.anton, { marginTop: 10 })}>HURUF</div>
+        </div>
+      </Stamp>
+      <Flash at={0} dur={0.18} strength={0.6} />
+      <Flash at={1.25} dur={0.14} strength={0.5} color="#ffd21f" />
+    </AbsoluteFill>
+  );
+};
 
 // 3 — "Tapi bila suruh baca..."
 const S3: React.FC = () => {

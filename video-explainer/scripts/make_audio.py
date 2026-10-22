@@ -96,7 +96,32 @@ def shine():
     return out
 
 
-SFX = {"pop": pop, "tick": tick, "ding": ding, "thud": thud, "glitch": glitch, "swing": swing, "shine": shine}
+def boom():
+    t = t_axis(1.2)
+    f = 90 * np.exp(-t * 6) + 38
+    sub = np.sin(2 * np.pi * np.cumsum(f) / SR) * env(len(t), 0.002, 0.45)
+    crack = lowpass(rng.standard_normal(len(t)), 0.5) * env(len(t), 0.001, 0.05)
+    return 1.0 * sub + 0.55 * crack
+
+
+def hit():
+    t = t_axis(0.5)
+    f = 160 * np.exp(-t * 14) + 50
+    body = np.sin(2 * np.pi * np.cumsum(f) / SR) * env(len(t), 0.001, 0.16)
+    snap = lowpass(rng.standard_normal(len(t)), 0.6) * env(len(t), 0.001, 0.03)
+    return 0.9 * body + 0.5 * snap
+
+
+def rattle():
+    out = np.zeros(int(1.1 * SR))
+    for k in range(16):
+        s = int(k * (2 / 30) * SR)
+        c = t_axis(0.02)
+        out[s : s + len(c)] += 0.3 * np.sin(2 * np.pi * (1800 + 60 * k) * c) * env(len(c), 0.001, 0.005)
+    return out
+
+
+SFX = {"boom": boom, "hit": hit, "rattle": rattle, "pop": pop, "tick": tick, "ding": ding, "thud": thud, "glitch": glitch, "swing": swing, "shine": shine}
 
 
 def place(buf, clip, at, gain=1.0):

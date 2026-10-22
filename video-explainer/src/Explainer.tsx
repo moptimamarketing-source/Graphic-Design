@@ -1,7 +1,7 @@
 import React from "react";
 import { AbsoluteFill, Audio, interpolate, Sequence, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
 import { F } from "./fonts";
-import { FilmGrain } from "./lib";
+import { Chip, FilmGrain } from "./lib";
 import { SCENES } from "./scenes";
 import timing from "./timing.json";
 
@@ -49,6 +49,30 @@ const Captions: React.FC = () => {
   );
 };
 
+/** Tajuk hook di atas skrin untuk 0–4.5s (penonton tanpa bunyi pun faham). */
+const HookTitle: React.FC = () => {
+  const f = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const t = f / fps;
+  if (t >= timing.scenes[2].start) return null;
+  const wiggle = Math.sin(t * 9) * 1.2;
+  const pulse = 1 + 0.04 * Math.max(0, Math.sin(t * Math.PI * 2.5));
+  return (
+    <div style={{ position: "absolute", left: 0, right: 0, top: 96, display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }}>
+      <div style={{ transform: `rotate(${-2 + wiggle * 0.3}deg)` }}>
+        <Chip size={64} font={F.anton} bg="#111" color="#fff">
+          KENAL 26 HURUF...
+        </Chip>
+      </div>
+      <div style={{ transform: `rotate(${1.5 + wiggle * 0.3}deg) scale(${pulse})` }}>
+        <Chip size={64} font={F.heavy} bg="#ffd21f" color="#e11d2e">
+          TAPI TAK BOLEH BACA?
+        </Chip>
+      </div>
+    </div>
+  );
+};
+
 export const Explainer: React.FC = () => {
   const { fps } = useVideoConfig();
   return (
@@ -66,6 +90,7 @@ export const Explainer: React.FC = () => {
         );
       })}
       <FilmGrain />
+      <HookTitle />
       <Captions />
       <Audio src={staticFile("vo.mp3")} />
       <Audio src={staticFile("sfx.wav")} volume={0.55} />

@@ -777,3 +777,66 @@ export const big = (size: number, color: string, font = F.anton, extra: React.CS
 });
 
 export const centerX = (top: number): React.CSSProperties => ({ left: 0, right: 0, top, display: "flex", justifyContent: "center" });
+
+/* ------------------------------------------------------------------ */
+/* Kesan hentakan (hook)                                               */
+/* ------------------------------------------------------------------ */
+
+/** Gegaran skrin yang meluruh selepas setiap masa hentakan. */
+export const useImpact = (times: number[], amount = 34, decay = 0.35) => {
+  const t = useT();
+  const f = useCurrentFrame();
+  let k = 0;
+  for (const at of times) {
+    if (t >= at && t - at < decay) k = Math.max(k, 1 - (t - at) / decay);
+  }
+  return {
+    x: (random(`ix${f}`) - 0.5) * amount * k,
+    y: (random(`iy${f}`) - 0.5) * amount * k,
+    rot: (random(`ir${f}`) - 0.5) * 3 * k,
+  };
+};
+
+/** Kilat putih sekejap. */
+export const Flash: React.FC<{ at: number; dur?: number; strength?: number; color?: string }> = ({
+  at,
+  dur = 0.25,
+  strength = 0.9,
+  color = "#fff",
+}) => {
+  const t = useT();
+  if (t < at || t > at + dur) return null;
+  return <div style={{ ...fill, background: color, opacity: strength * (1 - (t - at) / dur) }} />;
+};
+
+/** Jubin huruf meletup keluar dari tengah. */
+export const TileBurst: React.FC<{ at: number; cx?: number; cy?: number }> = ({ at, cx = 480, cy = 820 }) => {
+  const t = useT();
+  const tt = t - at;
+  if (tt < 0 || tt > 1.4) return null;
+  const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+  return (
+    <>
+      {letters.map((l, i) => {
+        const a = (i / letters.length) * Math.PI * 2 + random(`ba${i}`) * 0.4;
+        const dist = (520 + random(`bd${i}`) * 420) * (1 - Math.exp(-tt * 6));
+        const fall = 380 * tt * tt;
+        const rot = (random(`br${i}`) - 0.5) * 720 * tt;
+        return (
+          <div
+            key={l}
+            style={{
+              position: "absolute",
+              left: cx + Math.cos(a) * dist,
+              top: cy + Math.sin(a) * dist * 1.2 + fall,
+              transform: `rotate(${rot}deg) scale(${0.6 + 0.6 * Math.min(1, tt * 5)})`,
+              opacity: 1 - Math.max(0, (tt - 1) / 0.4),
+            }}
+          >
+            <Tile letter={l} size={100} />
+          </div>
+        );
+      })}
+    </>
+  );
+};
