@@ -340,7 +340,7 @@ const TurnRow: React.FC<{ at: number; top: number; size: number; speed?: number 
   const active = t < at ? -1 : Math.floor((t - at) / speed) % 8;
   const local = t < at ? 0 : ((t - at) % speed) / speed;
   return (
-    <div style={{ position: "absolute", left: 0, right: 0, top, display: "flex", justifyContent: "center", gap: size * 0.12, flexWrap: "wrap", padding: "0 60px" }}>
+    <div style={{ position: "absolute", left: 0, right: 0, top, display: "flex", justifyContent: "center", gap: size * 0.12, padding: "0 20px" }}>
       {KID_COLORS.map((c, i) => (
         <Kid key={i} color={c} size={size} active={i === active ? Math.sin(Math.PI * Math.min(1, local * 1.4)) : 0} />
       ))}
