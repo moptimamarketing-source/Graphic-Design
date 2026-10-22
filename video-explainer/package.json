@@ -4,12 +4,13 @@
   "version": "1.0.0",
   "scripts": {
     "studio": "remotion studio",
+    "textures": "python3 scripts/make_textures.py",
     "sfx": "python3 scripts/make_audio.py",
-    "render": "remotion render Explainer out/final.mp4"
+    "render": "remotion render Explainer out/final.mp4 --crf=18"
   },
   "dependencies": {
     "@remotion/cli": "4.0.537",
-    "@remotion/google-fonts": "4.0.537",
+    "@remotion/fonts": "4.0.537",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "remotion": "4.0.537"

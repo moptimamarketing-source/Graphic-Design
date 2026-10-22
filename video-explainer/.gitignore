@@ -1,2 +1,6 @@
 node_modules/
 out/
+# dijana oleh scripts/
+public/tex/
+public/sfx.wav
+public/music.wav
